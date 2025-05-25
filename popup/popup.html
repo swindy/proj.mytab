@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MyTab 设置</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="popup-container">
+    <h1>MyTab 设置</h1>
+    
+    <div class="section">
+      <h2>书签管理</h2>
+      <div class="bookmark-list" id="bookmark-list">
+        <!-- 书签列表将通过JS动态生成 -->
+      </div>
+      <button id="add-bookmark" class="btn">添加书签</button>
+    </div>
+    
+    <div class="section">
+      <h2>搜索引擎</h2>
+      <div class="search-engine-options">
+        <label>
+          <input type="radio" name="search-engine" value="baidu" checked>
+          百度
+        </label>
+        <label>
+          <input type="radio" name="search-engine" value="google">
+          谷歌
+        </label>
+        <label>
+          <input type="radio" name="search-engine" value="bing">
+          必应
+        </label>
+      </div>
+    </div>
+    
+    <div class="section">
+      <h2>主题设置</h2>
+      <div class="theme-selector">
+        <button class="theme-option" data-theme="light">浅色</button>
+        <button class="theme-option" data-theme="dark">深色</button>
+        <button class="theme-option" data-theme="auto">自动</button>
+      </div>
+    </div>
+    
+    <div class="action-buttons">
+      <button id="save-settings" class="btn primary">保存设置</button>
+    </div>
+  </div>
+  
+  <!-- 添加书签对话框 -->
+  <div id="add-bookmark-dialog" class="dialog">
+    <div class="dialog-content">
+      <h2>添加新书签</h2>
+      <form id="add-bookmark-form">
+        <div class="form-group">
+          <label for="bookmark-title">名称</label>
+          <input type="text" id="bookmark-title" required>
+        </div>
+        <div class="form-group">
+          <label for="bookmark-url">URL</label>
+          <input type="url" id="bookmark-url" required>
+        </div>
+        <div class="dialog-buttons">
+          <button type="button" id="cancel-add-bookmark" class="btn">取消</button>
+          <button type="submit" class="btn primary">添加</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  
+  <script src="popup.js"></script>
+</body>
+</html> 

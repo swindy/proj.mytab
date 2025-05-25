@@ -1,0 +1,936 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Microsoft YaHei', 'PingFang SC', sans-serif;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: #333;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  margin: 0;
+  padding: 0;
+  position: relative;
+}
+
+/* 动漫壁纸背景 */
+.anime-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  z-index: -2;
+  transition: opacity 2s ease-in-out;
+}
+
+.anime-background.fade-out {
+  opacity: 0;
+}
+
+/* 背景遮罩层 */
+.background-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    135deg, 
+    rgba(102, 126, 234, 0.2) 0%, 
+    rgba(118, 75, 162, 0.2) 50%,
+    rgba(255, 255, 255, 0.1) 100%
+  );
+  z-index: -1;
+  backdrop-filter: blur(0.5px);
+  
+  /* 添加一些动态效果 */
+  animation: overlayShift 20s ease-in-out infinite;
+}
+
+@keyframes overlayShift {
+  0%, 100% {
+    background: linear-gradient(
+      135deg, 
+      rgba(102, 126, 234, 0.2) 0%, 
+      rgba(118, 75, 162, 0.2) 50%,
+      rgba(255, 255, 255, 0.1) 100%
+    );
+  }
+  50% {
+    background: linear-gradient(
+      135deg, 
+      rgba(118, 75, 162, 0.2) 0%, 
+      rgba(102, 126, 234, 0.2) 50%,
+      rgba(255, 255, 255, 0.15) 100%
+    );
+  }
+}
+
+/* 侧边栏样式 */
+.sidebar {
+  width: 250px;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border-right: 1px solid rgba(255, 255, 255, 0.2);
+  display: flex;
+  flex-direction: column;
+  transition: all 0.3s ease;
+  z-index: 1000;
+  position: relative;
+}
+
+.sidebar.collapsed {
+  width: 60px;
+  overflow: hidden;
+}
+
+.sidebar.collapsed .sidebar-header h3,
+.sidebar.collapsed .workspace-item span,
+.sidebar.collapsed .add-workspace-btn span {
+  opacity: 0;
+  visibility: hidden;
+  width: 0;
+}
+
+.sidebar.collapsed .sidebar-toggle span {
+  transform: rotate(180deg);
+}
+
+.sidebar.collapsed .workspace-item {
+  justify-content: center;
+  padding: 12px 8px;
+}
+
+.sidebar.collapsed .add-workspace-btn {
+  padding: 10px 8px;
+  text-align: center;
+  font-size: 1.2rem;
+}
+
+.sidebar.collapsed .add-workspace-btn::before {
+  content: '+';
+}
+
+.sidebar-header {
+  padding: 20px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.sidebar-header h3 {
+  font-size: 1.2rem;
+  font-weight: 500;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  white-space: nowrap;
+}
+
+.sidebar-toggle {
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 5px;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+  min-width: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sidebar-toggle:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.sidebar-toggle span {
+  transition: transform 0.3s ease;
+  display: inline-block;
+}
+
+.workspace-list {
+  flex: 1;
+  padding: 10px;
+  overflow-y: auto;
+}
+
+.workspace-item {
+  display: flex;
+  align-items: center;
+  padding: 12px 16px;
+  margin: 4px 0;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.workspace-item span {
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.workspace-item:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.workspace-item.active {
+  background-color: #4285f4;
+  color: white;
+}
+
+.workspace-icon {
+  font-size: 1.2rem;
+  margin-right: 12px;
+  width: 24px;
+  text-align: center;
+}
+
+.sidebar-footer {
+  padding: 20px;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.add-workspace-btn {
+  width: 100%;
+  padding: 10px;
+  background: #4285f4;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background-color 0.2s;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.add-workspace-btn span {
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.add-workspace-btn:hover {
+  background: #3367d6;
+}
+
+/* 主内容区域 */
+.main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  transition: margin-left 0.3s ease;
+}
+
+.container {
+  flex: 1;
+  max-width: none;
+  margin: 0;
+  padding: 2rem;
+  padding-bottom: 120px; /* 为底部Dock留出空间 */
+  overflow-y: auto;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  padding: 20px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+header h1 {
+  font-size: 2rem;
+  color: white;
+  font-weight: 300;
+}
+
+.clock-container {
+  text-align: center;
+  margin-bottom: 2rem;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  padding: 30px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+#clock {
+  font-size: 3.5rem;
+  font-weight: 300;
+  margin-bottom: 0.5rem;
+  color: white;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+#date {
+  font-size: 1.1rem;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.quick-links {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border-radius: 12px;
+  padding: 1.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  margin-bottom: 2rem;
+}
+
+
+
+/* 添加书签按钮样式 - iOS风格，与书签图标一致 */
+.add-bookmark-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1rem;
+  border-radius: 16px;
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  text-decoration: none;
+  color: white;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  opacity: 0;
+  transform: translateY(20px) scale(0.9);
+  animation: bookmarkFadeIn 0.6s ease-out forwards;
+}
+
+.add-bookmark-item::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.02));
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.add-bookmark-item:hover::before {
+  opacity: 1;
+}
+
+.add-bookmark-item:hover {
+  background: rgba(255, 255, 255, 0.1);
+  transform: translateY(-8px) scale(1.05);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+}
+
+.add-bookmark-item:active {
+  transform: translateY(-6px) scale(1.02);
+}
+
+.add-bookmark-item:hover .add-bookmark-icon {
+  transform: scale(1.1);
+  box-shadow: 
+    0 8px 20px rgba(0, 0, 0, 0.25),
+    0 4px 8px rgba(0, 0, 0, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+/* 添加按钮图标容器 */
+.add-bookmark-icon {
+  width: 64px;
+  height: 64px;
+  margin-bottom: 0.8rem;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
+  box-shadow: 
+    0 4px 12px rgba(0, 0, 0, 0.15),
+    0 2px 4px rgba(0, 0, 0, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  font-size: 2rem;
+  color: white;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.add-bookmark-icon::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 50%;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0.1) 100%);
+  border-radius: 16px 16px 0 0;
+}
+
+.add-bookmark-title {
+  font-size: 0.85rem;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 100%;
+  font-weight: 500;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  position: relative;
+  z-index: 1;
+}
+
+.bookmarks-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 1.5rem;
+  padding: 1rem 0;
+  justify-items: center;
+}
+
+.bookmark-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1rem;
+  border-radius: 16px;
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  text-decoration: none;
+  color: white;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  position: relative;
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(20px) scale(0.9);
+  animation: bookmarkFadeIn 0.6s ease-out forwards;
+}
+
+/* 为每个书签添加延迟动画 */
+.bookmark-item:nth-child(1) { animation-delay: 0.1s; }
+.bookmark-item:nth-child(2) { animation-delay: 0.2s; }
+.bookmark-item:nth-child(3) { animation-delay: 0.3s; }
+.bookmark-item:nth-child(4) { animation-delay: 0.4s; }
+.bookmark-item:nth-child(5) { animation-delay: 0.5s; }
+.bookmark-item:nth-child(6) { animation-delay: 0.6s; }
+.bookmark-item:nth-child(7) { animation-delay: 0.7s; }
+.bookmark-item:nth-child(8) { animation-delay: 0.8s; }
+.bookmark-item:nth-child(9) { animation-delay: 0.9s; }
+.bookmark-item:nth-child(10) { animation-delay: 1.0s; }
+
+@keyframes bookmarkFadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(20px) scale(0.9);
+  }
+  60% {
+    transform: translateY(-5px) scale(1.02);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.bookmark-item::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.02));
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.bookmark-item:hover::before {
+  opacity: 1;
+}
+
+.bookmark-item:hover {
+  background: rgba(255, 255, 255, 0.1);
+  transform: translateY(-8px) scale(1.05);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+}
+
+.bookmark-item:active {
+  transform: translateY(-6px) scale(1.02);
+}
+
+/* iOS风格图标容器 */
+.bookmark-icon {
+  width: 64px;
+  height: 64px;
+  margin-bottom: 0.8rem;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  box-shadow: 
+    0 4px 12px rgba(0, 0, 0, 0.15),
+    0 2px 4px rgba(0, 0, 0, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.bookmark-icon::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 50%;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0.1) 100%);
+  border-radius: 16px 16px 0 0;
+}
+
+.bookmark-item:hover .bookmark-icon {
+  transform: scale(1.1);
+  box-shadow: 
+    0 8px 20px rgba(0, 0, 0, 0.25),
+    0 4px 8px rgba(0, 0, 0, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+.bookmark-icon img {
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  position: relative;
+  z-index: 1;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.2));
+}
+
+/* 首字母图标样式 */
+.bookmark-icon.letter-icon {
+  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+  color: white;
+  font-size: 1.8rem;
+  font-weight: 700;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  letter-spacing: -0.5px;
+}
+
+.bookmark-icon.letter-icon::before {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0.1) 100%);
+}
+
+.bookmark-title {
+  font-size: 0.85rem;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 100%;
+  font-weight: 500;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  position: relative;
+  z-index: 1;
+}
+
+.search-container {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+}
+
+#search-form {
+  display: flex;
+  max-width: 400px;
+  width: 100%;
+}
+
+#search-input {
+  flex: 1;
+  padding: 0.8rem 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 25px 0 0 25px;
+  font-size: 1rem;
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  backdrop-filter: blur(10px);
+}
+
+#search-input::placeholder {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+#search-form button {
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-left: none;
+  padding: 0 1.5rem;
+  border-radius: 0 25px 25px 0;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.2s;
+}
+
+#search-form button:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+/* 底边栏样式 - macOS Dock风格 */
+.bottom-bar {
+  position: fixed;
+  bottom: 20px;
+  left: 250px;
+  right: 0;
+  height: 70px;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 20px;
+  transition: all 0.3s ease;
+  z-index: 999;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  animation: breathe 4s ease-in-out infinite;
+  margin: 0 20px;
+}
+
+/* 当侧边栏收缩时调整底边栏位置 */
+.sidebar.collapsed ~ .bottom-bar {
+  left: 60px;
+}
+
+/* 呼吸灯动画 */
+@keyframes breathe {
+  0%, 100% {
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  }
+  50% {
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15), 0 0 20px rgba(255, 255, 255, 0.1);
+  }
+}
+
+.bottom-bar:hover {
+  background: rgba(255, 255, 255, 0.15);
+  transform: translateY(-5px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+}
+
+/* 添加磁性吸附效果 */
+.bottom-bar:hover .fixed-link:not(:hover) {
+  transform: scale(0.9);
+  opacity: 0.7;
+}
+
+.bottom-bar:hover .settings-btn:not(:hover) {
+  transform: scale(0.9);
+  opacity: 0.7;
+}
+
+/* 悬浮标签效果 */
+.fixed-link::after,
+.settings-btn::after {
+  content: attr(title);
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-10px);
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  white-space: nowrap;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+  pointer-events: none;
+  z-index: 1001;
+}
+
+.fixed-link:hover::after,
+.settings-btn:hover::after {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(-15px);
+}
+
+.fixed-links {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.fixed-link {
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  background: rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.fixed-link::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.05));
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.fixed-link:hover::before {
+  opacity: 1;
+}
+
+.fixed-link:hover {
+  transform: translateY(-8px) scale(1.2);
+  background: rgba(255, 255, 255, 0.3);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+}
+
+.fixed-link:active {
+  transform: translateY(-6px) scale(1.15);
+}
+
+.fixed-link img {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+  position: relative;
+  z-index: 1;
+}
+
+.fixed-link:hover img {
+  width: 32px;
+  height: 32px;
+}
+
+/* Emoji备用图标样式 */
+.fixed-link:not(:has(img)) {
+  font-size: 1.8rem;
+  color: white;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.fixed-link:hover:not(:has(img)) {
+  font-size: 2rem;
+}
+
+.bottom-bar-controls {
+  display: flex;
+  gap: 8px;
+  margin-left: 15px;
+  padding-left: 15px;
+  border-left: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.bg-switch-btn,
+.settings-btn {
+  width: 50px;
+  height: 50px;
+  background: rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  font-size: 1.4rem;
+  cursor: pointer;
+  border-radius: 12px;
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.bg-switch-btn::before,
+.settings-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.05));
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.bg-switch-btn:hover::before,
+.settings-btn:hover::before {
+  opacity: 1;
+}
+
+.bg-switch-btn:hover,
+.settings-btn:hover {
+  transform: translateY(-8px) scale(1.2);
+  background: rgba(255, 255, 255, 0.3);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+}
+
+.bg-switch-btn:active,
+.settings-btn:active {
+  transform: translateY(-6px) scale(1.15);
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+  .bottom-bar {
+    bottom: 10px;
+    padding: 8px 15px;
+    height: 60px;
+  }
+  
+  .fixed-link,
+  .settings-btn {
+    width: 45px;
+    height: 45px;
+  }
+  
+  .fixed-link img {
+    width: 24px;
+    height: 24px;
+  }
+  
+  .fixed-link:hover img {
+    width: 28px;
+    height: 28px;
+  }
+}
+
+/* 模态框样式 */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+}
+
+.modal.active {
+  display: flex;
+}
+
+.modal-content {
+  background: white;
+  padding: 30px;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 400px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.modal-content h3 {
+  margin-bottom: 20px;
+  font-size: 1.3rem;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+}
+
+.form-group input,
+.form-group textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-family: inherit;
+  resize: vertical;
+}
+
+.form-group textarea {
+  min-height: 80px;
+}
+
+.icon-selector {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.icon-option {
+  padding: 10px;
+  text-align: center;
+  border: 2px solid #ddd;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1.2rem;
+  transition: all 0.2s;
+}
+
+.icon-option:hover {
+  border-color: #4285f4;
+}
+
+.icon-option.selected {
+  border-color: #4285f4;
+  background: rgba(66, 133, 244, 0.1);
+}
+
+.modal-buttons {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  margin-top: 20px;
+}
+
+.modal-buttons button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.2s;
+}
+
+.modal-buttons button[type="submit"] {
+  background: #4285f4;
+  color: white;
+}
+
+.modal-buttons button[type="submit"]:hover {
+  background: #3367d6;
+}
+
+.modal-buttons button[type="button"] {
+  background: #f0f2f5;
+  color: #333;
+}
+
+.modal-buttons button[type="button"]:hover {
+  background: #e0e2e5;
+} 

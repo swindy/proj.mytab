@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>我的新标签页</title>
+  <link rel="stylesheet" href="newtab.css">
+</head>
+<body>
+  <!-- 动漫背景 -->
+  <div class="anime-background" id="anime-bg-1"></div>
+  <div class="anime-background" id="anime-bg-2" style="opacity: 0;"></div>
+  <div class="background-overlay"></div>
+  
+  <!-- 侧边栏 -->
+  <div class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <h3>工作区</h3>
+      <button class="sidebar-toggle" id="sidebar-toggle">
+        <span>◀</span>
+      </button>
+    </div>
+    
+    <div class="workspace-list">
+      <div class="workspace-item active" data-workspace="default">
+        <div class="workspace-icon">🏠</div>
+        <span>默认</span>
+      </div>
+      <div class="workspace-item" data-workspace="work">
+        <div class="workspace-icon">💼</div>
+        <span>工作</span>
+      </div>
+      <div class="workspace-item" data-workspace="study">
+        <div class="workspace-icon">📚</div>
+        <span>学习</span>
+      </div>
+      <div class="workspace-item" data-workspace="entertainment">
+        <div class="workspace-icon">🎮</div>
+        <span>娱乐</span>
+      </div>
+    </div>
+    
+    <div class="sidebar-footer">
+      <button class="add-workspace-btn" id="add-workspace">
+        <span>+</span> 添加工作区
+      </button>
+    </div>
+  </div>
+
+  <!-- 主内容区域 -->
+  <div class="main-content" id="main-content">
+    <div class="container">
+      <header>
+        <h1 id="workspace-title">我的新标签页</h1>
+        <div class="search-container">
+          <form id="search-form">
+            <input type="text" id="search-input" placeholder="搜索...">
+            <button type="submit">搜索</button>
+          </form>
+        </div>
+      </header>
+      
+      <div class="clock-container">
+        <div id="clock"></div>
+        <div id="date"></div>
+      </div>
+      
+      <div class="quick-links">
+        <div id="bookmarks" class="bookmarks-container">
+          <!-- 添加按钮将通过JavaScript动态添加到这里 -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 底边栏 - macOS Dock风格 -->
+  <div class="bottom-bar" id="bottom-bar">
+    <div class="fixed-links">
+      <a href="https://www.baidu.com" class="fixed-link" title="百度" data-emoji="🔍">
+        <img src="https://www.baidu.com/favicon.ico" alt="百度">
+      </a>
+      <a href="https://weibo.com" class="fixed-link" title="微博" data-emoji="📱">
+        <img src="https://weibo.com/favicon.ico" alt="微博">
+      </a>
+      <a href="https://www.zhihu.com" class="fixed-link" title="知乎" data-emoji="💭">
+        <img src="https://static.zhihu.com/heifetz/favicon.ico" alt="知乎">
+      </a>
+      <a href="https://www.bilibili.com" class="fixed-link" title="Bilibili" data-emoji="📺">
+        <img src="https://www.bilibili.com/favicon.ico" alt="Bilibili">
+      </a>
+      <a href="https://github.com" class="fixed-link" title="GitHub" data-emoji="💻">
+        <img src="https://github.com/favicon.ico" alt="GitHub">
+      </a>
+      <a href="https://www.taobao.com" class="fixed-link" title="淘宝" data-emoji="🛒">
+        <img src="https://www.taobao.com/favicon.ico" alt="淘宝">
+      </a>
+      <a href="https://music.163.com" class="fixed-link" title="网易云音乐" data-emoji="🎵">
+        <img src="https://music.163.com/favicon.ico" alt="网易云音乐">
+      </a>
+      <a href="https://mail.qq.com" class="fixed-link" title="QQ邮箱" data-emoji="📧">
+        <img src="https://mail.qq.com/favicon.ico" alt="QQ邮箱">
+      </a>
+    </div>
+    
+    <div class="bottom-bar-controls">
+      <button class="bg-switch-btn" id="bg-switch-btn" title="切换背景">
+        🎨
+      </button>
+      <button class="settings-btn" id="settings-btn" title="设置">
+        ⚙️
+      </button>
+    </div>
+  </div>
+
+  <!-- 添加工作区对话框 -->
+  <div class="modal" id="add-workspace-modal">
+    <div class="modal-content">
+      <h3>添加新工作区</h3>
+      <form id="add-workspace-form">
+        <div class="form-group">
+          <label for="workspace-name">工作区名称</label>
+          <input type="text" id="workspace-name" required>
+        </div>
+        <div class="form-group">
+          <label for="workspace-icon">选择图标</label>
+          <div class="icon-selector">
+            <span class="icon-option" data-icon="🏠">🏠</span>
+            <span class="icon-option" data-icon="💼">💼</span>
+            <span class="icon-option" data-icon="📚">📚</span>
+            <span class="icon-option" data-icon="🎮">🎮</span>
+            <span class="icon-option" data-icon="🎨">🎨</span>
+            <span class="icon-option" data-icon="🔧">🔧</span>
+            <span class="icon-option" data-icon="📊">📊</span>
+            <span class="icon-option" data-icon="🌟">🌟</span>
+          </div>
+        </div>
+        <div class="modal-buttons">
+          <button type="button" id="cancel-workspace">取消</button>
+          <button type="submit">添加</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- 添加书签对话框 -->
+  <div class="modal" id="add-bookmark-modal">
+    <div class="modal-content">
+      <h3>添加新链接</h3>
+      <form id="add-bookmark-form">
+        <div class="form-group">
+          <label for="bookmark-title">链接名称</label>
+          <input type="text" id="bookmark-title" placeholder="请输入链接名称" required>
+        </div>
+        <div class="form-group">
+          <label for="bookmark-url">链接地址</label>
+          <input type="url" id="bookmark-url" placeholder="https://example.com" required>
+        </div>
+        <div class="form-group">
+          <label for="bookmark-description">描述（可选）</label>
+          <textarea id="bookmark-description" placeholder="请输入链接描述" rows="3"></textarea>
+        </div>
+        <div class="modal-buttons">
+          <button type="button" id="cancel-bookmark">取消</button>
+          <button type="submit">添加</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="newtab.js"></script>
+</body>
+</html> 

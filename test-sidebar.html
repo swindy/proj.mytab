@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>侧边栏测试</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      display: flex;
+      height: 100vh;
+    }
+    
+    .sidebar {
+      width: 250px;
+      background: #f0f0f0;
+      border-right: 1px solid #ccc;
+      transition: width 0.3s ease;
+      overflow: hidden;
+    }
+    
+    .sidebar.collapsed {
+      width: 60px;
+    }
+    
+    .sidebar-header {
+      padding: 20px;
+      border-bottom: 1px solid #ccc;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .sidebar-toggle {
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 1.2rem;
+    }
+    
+    .sidebar.collapsed .sidebar-header h3 {
+      opacity: 0;
+      visibility: hidden;
+    }
+    
+    .main-content {
+      flex: 1;
+      padding: 20px;
+      background: #fff;
+    }
+  </style>
+</head>
+<body>
+  <div class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <h3>工作区</h3>
+      <button class="sidebar-toggle" id="sidebar-toggle">
+        <span>◀</span>
+      </button>
+    </div>
+    <div style="padding: 20px;">
+      <p>侧边栏内容</p>
+    </div>
+  </div>
+  
+  <div class="main-content">
+    <h1>主内容区域</h1>
+    <p>点击侧边栏的切换按钮测试收缩功能</p>
+  </div>
+  
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const sidebarToggle = document.getElementById('sidebar-toggle');
+      const sidebar = document.getElementById('sidebar');
+      
+      sidebarToggle.addEventListener('click', () => {
+        console.log('按钮被点击');
+        sidebar.classList.toggle('collapsed');
+        console.log('collapsed状态:', sidebar.classList.contains('collapsed'));
+        
+        const toggleSpan = sidebarToggle.querySelector('span');
+        toggleSpan.textContent = sidebar.classList.contains('collapsed') ? '▶' : '◀';
+      });
+    });
+  </script>
+</body>
+</html> 
