@@ -1,0 +1,36 @@
+{
+  "name": "mytab-extension",
+  "version": "1.0.0",
+  "description": "一个使用TypeScript开发的自定义新标签页浏览器扩展",
+  "main": "dist/background/background.js",
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc --watch",
+    "clean": "rimraf dist",
+    "dev": "npm run clean && npm run copy-assets && npm run watch",
+    "build:prod": "npm run clean && npm run copy-assets && npm run build",
+    "copy-assets": "node build.js"
+  },
+  "keywords": [
+    "browser-extension",
+    "new-tab",
+    "typescript",
+    "chrome-extension",
+    "edge-extension"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/chrome": "^0.0.246",
+    "rimraf": "^5.0.10",
+    "typescript": "^5.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/mytab-extension.git"
+  },
+  "bugs": {
+    "url": "https://github.com/yourusername/mytab-extension/issues"
+  },
+  "homepage": "https://github.com/yourusername/mytab-extension#readme"
+}
