@@ -86,74 +86,18 @@ body {
   position: relative;
 }
 
-.sidebar.collapsed {
-  width: 60px;
-  overflow: hidden;
-}
-
-.sidebar.collapsed .sidebar-header h3,
-.sidebar.collapsed .workspace-item span,
-.sidebar.collapsed .add-workspace-btn span {
-  opacity: 0;
-  visibility: hidden;
-  width: 0;
-}
-
-.sidebar.collapsed .sidebar-toggle span {
-  transform: rotate(180deg);
-}
-
-.sidebar.collapsed .workspace-item {
-  justify-content: center;
-  padding: 12px 8px;
-}
-
-.sidebar.collapsed .add-workspace-btn {
-  padding: 10px 8px;
-  text-align: center;
-  font-size: 1.2rem;
-}
-
-.sidebar.collapsed .add-workspace-btn::before {
-  content: '+';
-}
-
 .sidebar-header {
   padding: 20px;
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
 }
 
 .sidebar-header h3 {
   font-size: 1.2rem;
   font-weight: 500;
-  transition: opacity 0.3s ease, visibility 0.3s ease;
   white-space: nowrap;
-}
-
-.sidebar-toggle {
-  background: none;
-  border: none;
-  font-size: 1.2rem;
-  cursor: pointer;
-  padding: 5px;
-  border-radius: 4px;
-  transition: background-color 0.2s;
-  min-width: 30px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.sidebar-toggle:hover {
-  background-color: rgba(0, 0, 0, 0.1);
-}
-
-.sidebar-toggle span {
-  transition: transform 0.3s ease;
-  display: inline-block;
 }
 
 .workspace-list {
@@ -171,10 +115,6 @@ body {
   cursor: pointer;
   transition: all 0.2s;
   white-space: nowrap;
-}
-
-.workspace-item span {
-  transition: opacity 0.3s ease, visibility 0.3s ease;
 }
 
 .workspace-item:hover {
@@ -600,11 +540,6 @@ header h1 {
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
   animation: breathe 4s ease-in-out infinite;
   margin: 0 20px;
-}
-
-/* 当侧边栏收缩时调整底边栏位置 */
-.sidebar.collapsed ~ .bottom-bar {
-  left: 60px;
 }
 
 /* 呼吸灯动画 */

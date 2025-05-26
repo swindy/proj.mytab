@@ -263,9 +263,16 @@ function updateWorkspaceList(): void {
     workspaceItem.appendChild(icon);
     workspaceItem.appendChild(name);
     
+    // 左键点击切换工作区
     workspaceItem.addEventListener('click', (): void => {
       console.log('点击工作区:', workspace.id);
       switchWorkspace(workspace.id);
+    });
+    
+    // 右键菜单功能
+    workspaceItem.addEventListener('contextmenu', (e: MouseEvent): void => {
+      e.preventDefault();
+      showWorkspaceContextMenu(e, workspace, workspaceItem);
     });
     
     workspaceList.appendChild(workspaceItem);
@@ -291,6 +298,161 @@ async function switchWorkspace(workspaceId: string): Promise<void> {
   // 更新UI
   updateWorkspaceList();
   await initBookmarks();
+}
+
+// 显示工作区右键菜单
+function showWorkspaceContextMenu(e: MouseEvent, workspace: Workspace, workspaceElement: HTMLElement): void {
+  // 移除已存在的右键菜单
+  const existingMenu = document.querySelector('.workspace-context-menu');
+  if (existingMenu) {
+    existingMenu.remove();
+  }
+  
+  // 创建右键菜单
+  const contextMenu = document.createElement('div');
+  contextMenu.className = 'workspace-context-menu';
+  contextMenu.style.position = 'fixed';
+  contextMenu.style.left = `${e.clientX}px`;
+  contextMenu.style.top = `${e.clientY}px`;
+  contextMenu.style.background = 'white';
+  contextMenu.style.border = '1px solid #ddd';
+  contextMenu.style.borderRadius = '6px';
+  contextMenu.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.15)';
+  contextMenu.style.zIndex = '10000';
+  contextMenu.style.minWidth = '120px';
+  contextMenu.style.overflow = 'hidden';
+  
+  // 修改选项
+  const editOption = document.createElement('div');
+  editOption.className = 'context-menu-item';
+  editOption.textContent = '修改';
+  editOption.style.padding = '8px 12px';
+  editOption.style.cursor = 'pointer';
+  editOption.style.fontSize = '14px';
+  editOption.style.borderBottom = '1px solid #eee';
+  editOption.addEventListener('mouseenter', (): void => {
+    editOption.style.background = '#f5f5f5';
+  });
+  editOption.addEventListener('mouseleave', (): void => {
+    editOption.style.background = 'white';
+  });
+  editOption.addEventListener('click', (): void => {
+    editWorkspace(workspace);
+    contextMenu.remove();
+  });
+  
+  // 删除选项（默认工作区不能删除）
+  if (workspace.id !== 'default') {
+    const deleteOption = document.createElement('div');
+    deleteOption.className = 'context-menu-item';
+    deleteOption.textContent = '删除';
+    deleteOption.style.padding = '8px 12px';
+    deleteOption.style.cursor = 'pointer';
+    deleteOption.style.fontSize = '14px';
+    deleteOption.style.color = '#dc3545';
+    deleteOption.addEventListener('mouseenter', (): void => {
+      deleteOption.style.background = '#f5f5f5';
+    });
+    deleteOption.addEventListener('mouseleave', (): void => {
+      deleteOption.style.background = 'white';
+    });
+    deleteOption.addEventListener('click', (): void => {
+      deleteWorkspace(workspace);
+      contextMenu.remove();
+    });
+    
+    contextMenu.appendChild(editOption);
+    contextMenu.appendChild(deleteOption);
+  } else {
+    // 默认工作区只显示修改选项
+    contextMenu.appendChild(editOption);
+  }
+  
+  document.body.appendChild(contextMenu);
+  
+  // 点击其他地方关闭菜单
+  const closeMenu = (event: MouseEvent): void => {
+    if (!contextMenu.contains(event.target as Node)) {
+      contextMenu.remove();
+      document.removeEventListener('click', closeMenu);
+    }
+  };
+  
+  // 延迟添加点击事件，避免立即触发
+  setTimeout(() => {
+    document.addEventListener('click', closeMenu);
+  }, 0);
+}
+
+// 编辑工作区
+function editWorkspace(workspace: Workspace): void {
+  const addWorkspaceModal = getElement('add-workspace-modal');
+  const workspaceNameInput = getElement<HTMLInputElement>('workspace-name');
+  
+  if (!addWorkspaceModal || !workspaceNameInput) {
+    console.error('工作区编辑元素未找到');
+    return;
+  }
+  
+  // 填充当前工作区数据
+  workspaceNameInput.value = workspace.name;
+  
+  // 选择当前图标
+  const iconOptions = document.querySelectorAll('.icon-option');
+  iconOptions.forEach((option: Element): void => {
+    option.classList.remove('selected');
+    const iconOption = option as HTMLElement;
+    if (iconOption.dataset['icon'] === workspace.icon) {
+      option.classList.add('selected');
+    }
+  });
+  
+  // 标记为编辑模式
+  addWorkspaceModal.setAttribute('data-edit-mode', 'true');
+  addWorkspaceModal.setAttribute('data-edit-workspace', JSON.stringify(workspace));
+  
+  // 更改标题
+  const modalTitle = addWorkspaceModal.querySelector('h3');
+  if (modalTitle) {
+    modalTitle.textContent = '修改工作区';
+  }
+  
+  // 显示模态框
+  addWorkspaceModal.classList.add('active');
+}
+
+// 删除工作区
+function deleteWorkspace(workspace: Workspace): void {
+  if (workspace.id === 'default') {
+    alert('默认工作区不能删除');
+    return;
+  }
+  
+  if (!confirm(`确定要删除工作区"${workspace.name}"吗？\n删除后该工作区的所有书签也会被删除。`)) {
+    return;
+  }
+  
+  // 如果删除的是当前工作区，切换到默认工作区
+  if (workspace.id === currentWorkspace) {
+    currentWorkspace = 'default';
+  }
+  
+  // 从工作区列表中删除
+  delete workspaces[workspace.id];
+  
+  // 保存到存储
+  if (typeof chrome !== 'undefined' && chrome.storage) {
+    chrome.storage.sync.set({ workspaces, currentWorkspace }, (): void => {
+      console.log('工作区已删除:', workspace.name);
+      updateWorkspaceList();
+      initBookmarks();
+    });
+  } else {
+    // 本地测试环境
+    console.log('工作区已删除:', workspace.name);
+    updateWorkspaceList();
+    initBookmarks();
+  }
 }
 
 // 修改initBookmarks函数为异步版本，使用智能图标获取
@@ -782,6 +944,14 @@ function initModals(): void {
       addWorkspaceModal.classList.remove('active');
       addWorkspaceForm.reset();
       clearIconSelection();
+      // 清除编辑模式标记
+      addWorkspaceModal.removeAttribute('data-edit-mode');
+      addWorkspaceModal.removeAttribute('data-edit-workspace');
+      // 恢复标题
+      const modalTitle = addWorkspaceModal.querySelector('h3');
+      if (modalTitle) {
+        modalTitle.textContent = '添加新工作区';
+      }
     });
   }
   
@@ -792,6 +962,14 @@ function initModals(): void {
         addWorkspaceModal.classList.remove('active');
         addWorkspaceForm.reset();
         clearIconSelection();
+        // 清除编辑模式标记
+        addWorkspaceModal.removeAttribute('data-edit-mode');
+        addWorkspaceModal.removeAttribute('data-edit-workspace');
+        // 恢复标题
+        const modalTitle = addWorkspaceModal.querySelector('h3');
+        if (modalTitle) {
+          modalTitle.textContent = '添加新工作区';
+        }
       }
     });
   }
@@ -813,7 +991,7 @@ function initModals(): void {
       const workspaceNameInput = getElement<HTMLInputElement>('workspace-name');
       const selectedIcon = document.querySelector('.icon-option.selected') as HTMLElement;
       
-      if (!workspaceNameInput || !selectedIcon) {
+      if (!workspaceNameInput || !selectedIcon || !addWorkspaceModal) {
         alert('请填写工作区名称并选择图标');
         return;
       }
@@ -825,37 +1003,79 @@ function initModals(): void {
         return;
       }
       
-      const workspaceId = 'workspace_' + Date.now();
       const workspaceIcon = selectedIcon.dataset['icon'] || '📁';
       
-      // 添加新工作区
-      workspaces[workspaceId] = {
-        id: workspaceId,
-        name: workspaceName,
-        icon: workspaceIcon,
-        bookmarks: []
-      };
+      // 检查是否为编辑模式
+      const isEditMode = addWorkspaceModal.getAttribute('data-edit-mode') === 'true';
+      const editWorkspaceData = addWorkspaceModal.getAttribute('data-edit-workspace');
+      
+      if (isEditMode && editWorkspaceData) {
+        // 编辑模式：更新现有工作区
+        try {
+          const originalWorkspace: Workspace = JSON.parse(editWorkspaceData);
+          
+          if (workspaces[originalWorkspace.id]) {
+            // 更新工作区数据
+            const workspace = workspaces[originalWorkspace.id];
+            if (workspace) {
+              workspace.name = workspaceName;
+              workspace.icon = workspaceIcon;
+            }
+            
+            console.log('工作区已更新:', workspaceName);
+          } else {
+            alert('找不到要编辑的工作区');
+            return;
+          }
+        } catch (error) {
+          console.error('解析编辑工作区数据失败:', error);
+          alert('编辑工作区数据错误');
+          return;
+        }
+      } else {
+        // 添加模式：创建新工作区
+        const workspaceId = 'workspace_' + Date.now();
+        
+        workspaces[workspaceId] = {
+          id: workspaceId,
+          name: workspaceName,
+          icon: workspaceIcon,
+          bookmarks: []
+        };
+        
+        console.log('新工作区已添加:', workspaceName);
+      }
       
       // 保存到存储
       if (typeof chrome !== 'undefined' && chrome.storage) {
         chrome.storage.sync.set({ workspaces }, (): void => {
           updateWorkspaceList();
-          if (addWorkspaceModal) {
-            addWorkspaceModal.classList.remove('active');
-          }
+          addWorkspaceModal.classList.remove('active');
           addWorkspaceForm.reset();
           clearIconSelection();
-          console.log('新工作区已添加:', workspaceName);
+          // 清除编辑模式标记
+          addWorkspaceModal.removeAttribute('data-edit-mode');
+          addWorkspaceModal.removeAttribute('data-edit-workspace');
+          // 恢复标题
+          const modalTitle = addWorkspaceModal.querySelector('h3');
+          if (modalTitle) {
+            modalTitle.textContent = '添加新工作区';
+          }
         });
       } else {
         // 本地测试环境
         updateWorkspaceList();
-        if (addWorkspaceModal) {
-          addWorkspaceModal.classList.remove('active');
-        }
+        addWorkspaceModal.classList.remove('active');
         addWorkspaceForm.reset();
         clearIconSelection();
-        console.log('新工作区已添加:', workspaceName);
+        // 清除编辑模式标记
+        addWorkspaceModal.removeAttribute('data-edit-mode');
+        addWorkspaceModal.removeAttribute('data-edit-workspace');
+        // 恢复标题
+        const modalTitle = addWorkspaceModal.querySelector('h3');
+        if (modalTitle) {
+          modalTitle.textContent = '添加新工作区';
+        }
       }
     });
   }
