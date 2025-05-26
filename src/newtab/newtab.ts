@@ -74,7 +74,7 @@ const animeBackgrounds: AnimeBackground[] = [
   { url: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1920&h=1080&fit=crop', name: '雪山景色' }
 ];
 
-document.addEventListener('DOMContentLoaded', (): void => {
+document.addEventListener('DOMContentLoaded', async (): Promise<void> => {
   console.log('页面加载完成，开始初始化...');
   
   try {
@@ -95,9 +95,9 @@ document.addEventListener('DOMContentLoaded', (): void => {
     initModals();
     console.log('模态框初始化完成');
     
-    // 初始化底边栏图标错误处理
+    // 初始化底边栏图标（异步）
     initBottomBarIcons();
-    console.log('底边栏图标初始化完成');
+    console.log('底边栏图标初始化开始');
     
     // 初始化工作区（这会触发书签初始化）
     initWorkspaces();
@@ -203,9 +203,9 @@ function initWorkspaces(): void {
 }
 
 // 完成工作区初始化
-function completeWorkspaceInit(): void {
+async function completeWorkspaceInit(): Promise<void> {
   updateWorkspaceList();
-  initBookmarks();
+  await initBookmarks();
 }
 
 // 获取默认工作区
@@ -275,7 +275,7 @@ function updateWorkspaceList(): void {
 }
 
 // 切换工作区
-function switchWorkspace(workspaceId: string): void {
+async function switchWorkspace(workspaceId: string): Promise<void> {
   if (!workspaces[workspaceId]) {
     console.error('工作区不存在:', workspaceId);
     return;
@@ -290,11 +290,11 @@ function switchWorkspace(workspaceId: string): void {
   
   // 更新UI
   updateWorkspaceList();
-  initBookmarks();
+  await initBookmarks();
 }
 
-// 初始化书签
-function initBookmarks(): void {
+// 修改initBookmarks函数为异步版本，使用智能图标获取
+async function initBookmarks(): Promise<void> {
   const bookmarksContainer = getElement('bookmarks');
   if (!bookmarksContainer) {
     console.error('书签容器元素未找到');
@@ -320,21 +320,22 @@ function initBookmarks(): void {
   if (currentWorkspaceData.bookmarks && currentWorkspaceData.bookmarks.length > 0) {
     const bookmarks = currentWorkspaceData.bookmarks;
     
-    // 渲染书签
-    bookmarks.forEach((bookmark: Bookmark): void => {
-      const bookmarkElement = createBookmarkElement(bookmark);
-      bookmarksContainer.appendChild(bookmarkElement);
-    });
+    // 渲染书签 - 立即显示，异步获取图标
+    for (const bookmark of bookmarks) {
+      createBookmarkElementWithLogo(bookmark).then((bookmarkElement) => {
+        bookmarksContainer.appendChild(bookmarkElement);
+      });
+    }
   } else {
     // 如果当前工作区没有书签，显示默认书签（仅限默认工作区）
     if (currentWorkspace === 'default') {
       const defaultBookmarks: Bookmark[] = [
-        { title: '百度', url: 'https://www.baidu.com', icon: 'https://www.baidu.com/favicon.ico' },
-        { title: '微博', url: 'https://weibo.com', icon: 'https://weibo.com/favicon.ico' },
-        { title: '知乎', url: 'https://www.zhihu.com', icon: 'https://static.zhihu.com/heifetz/favicon.ico' },
-        { title: 'Bilibili', url: 'https://www.bilibili.com', icon: 'https://www.bilibili.com/favicon.ico' },
-        { title: '腾讯视频', url: 'https://v.qq.com', icon: 'https://v.qq.com/favicon.ico' },
-        { title: '淘宝', url: 'https://www.taobao.com', icon: 'https://www.taobao.com/favicon.ico' }
+        { title: '百度', url: 'https://www.baidu.com' },
+        { title: '微博', url: 'https://weibo.com' },
+        { title: '知乎', url: 'https://www.zhihu.com' },
+        { title: 'Bilibili', url: 'https://www.bilibili.com' },
+        { title: '腾讯视频', url: 'https://v.qq.com' },
+        { title: '淘宝', url: 'https://www.taobao.com' }
       ];
       
       // 保存默认书签到当前工作区
@@ -347,11 +348,12 @@ function initBookmarks(): void {
           chrome.storage.sync.set({ workspaces });
         }
         
-        // 渲染书签
-        defaultBookmarks.forEach((bookmark: Bookmark): void => {
-          const bookmarkElement = createBookmarkElement(bookmark);
-          bookmarksContainer.appendChild(bookmarkElement);
-        });
+        // 渲染书签 - 立即显示，异步获取图标
+        for (const bookmark of defaultBookmarks) {
+          createBookmarkElementWithLogo(bookmark).then((bookmarkElement) => {
+            bookmarksContainer.appendChild(bookmarkElement);
+          });
+        }
       }
     }
   }
@@ -367,7 +369,298 @@ function initBookmarks(): void {
   bookmarksContainer.appendChild(addButton);
 }
 
-// 创建书签元素
+// 显示书签右键菜单
+function showBookmarkContextMenu(e: MouseEvent, bookmark: Bookmark, bookmarkElement: HTMLElement): void {
+  // 移除已存在的右键菜单
+  const existingMenu = document.querySelector('.bookmark-context-menu');
+  if (existingMenu) {
+    existingMenu.remove();
+  }
+  
+  // 创建右键菜单
+  const contextMenu = document.createElement('div');
+  contextMenu.className = 'bookmark-context-menu';
+  contextMenu.style.position = 'fixed';
+  contextMenu.style.left = `${e.clientX}px`;
+  contextMenu.style.top = `${e.clientY}px`;
+  contextMenu.style.background = 'white';
+  contextMenu.style.border = '1px solid #ddd';
+  contextMenu.style.borderRadius = '6px';
+  contextMenu.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.15)';
+  contextMenu.style.zIndex = '10000';
+  contextMenu.style.minWidth = '120px';
+  contextMenu.style.overflow = 'hidden';
+  
+  // 修改选项
+  const editOption = document.createElement('div');
+  editOption.className = 'context-menu-item';
+  editOption.textContent = '修改';
+  editOption.style.padding = '8px 12px';
+  editOption.style.cursor = 'pointer';
+  editOption.style.fontSize = '14px';
+  editOption.style.borderBottom = '1px solid #eee';
+  editOption.addEventListener('mouseenter', (): void => {
+    editOption.style.background = '#f5f5f5';
+  });
+  editOption.addEventListener('mouseleave', (): void => {
+    editOption.style.background = 'white';
+  });
+  editOption.addEventListener('click', (): void => {
+    editBookmark(bookmark);
+    contextMenu.remove();
+  });
+  
+  // 删除选项
+  const deleteOption = document.createElement('div');
+  deleteOption.className = 'context-menu-item';
+  deleteOption.textContent = '删除';
+  deleteOption.style.padding = '8px 12px';
+  deleteOption.style.cursor = 'pointer';
+  deleteOption.style.fontSize = '14px';
+  deleteOption.style.color = '#dc3545';
+  deleteOption.addEventListener('mouseenter', (): void => {
+    deleteOption.style.background = '#f5f5f5';
+  });
+  deleteOption.addEventListener('mouseleave', (): void => {
+    deleteOption.style.background = 'white';
+  });
+  deleteOption.addEventListener('click', (): void => {
+    deleteBookmark(bookmark, bookmarkElement);
+    contextMenu.remove();
+  });
+  
+  contextMenu.appendChild(editOption);
+  contextMenu.appendChild(deleteOption);
+  document.body.appendChild(contextMenu);
+  
+  // 点击其他地方关闭菜单
+  const closeMenu = (event: MouseEvent): void => {
+    if (!contextMenu.contains(event.target as Node)) {
+      contextMenu.remove();
+      document.removeEventListener('click', closeMenu);
+    }
+  };
+  
+  // 延迟添加点击事件，避免立即触发
+  setTimeout(() => {
+    document.addEventListener('click', closeMenu);
+  }, 0);
+}
+
+// 编辑书签
+function editBookmark(bookmark: Bookmark): void {
+  const addBookmarkModal = getElement('add-bookmark-modal');
+  const titleInput = getElement<HTMLInputElement>('bookmark-title');
+  const urlInput = getElement<HTMLInputElement>('bookmark-url');
+  const descriptionInput = getElement<HTMLTextAreaElement>('bookmark-description');
+  
+  if (!addBookmarkModal || !titleInput || !urlInput) {
+    console.error('书签编辑元素未找到');
+    return;
+  }
+  
+  // 填充当前书签数据
+  titleInput.value = bookmark.title;
+  urlInput.value = bookmark.url;
+  if (descriptionInput && bookmark.description) {
+    descriptionInput.value = bookmark.description;
+  }
+  
+  // 标记为编辑模式
+  addBookmarkModal.setAttribute('data-edit-mode', 'true');
+  addBookmarkModal.setAttribute('data-edit-bookmark', JSON.stringify(bookmark));
+  
+  // 显示模态框
+  addBookmarkModal.classList.add('active');
+}
+
+// 删除书签
+function deleteBookmark(bookmark: Bookmark, bookmarkElement: HTMLElement): void {
+  if (!confirm(`确定要删除书签"${bookmark.title}"吗？`)) {
+    return;
+  }
+  
+  // 从当前工作区中删除书签
+  const currentWorkspaceData = workspaces[currentWorkspace];
+  if (currentWorkspaceData && currentWorkspaceData.bookmarks) {
+    const bookmarkIndex = currentWorkspaceData.bookmarks.findIndex(
+      (b: Bookmark) => b.title === bookmark.title && b.url === bookmark.url
+    );
+    
+    if (bookmarkIndex !== -1) {
+      currentWorkspaceData.bookmarks.splice(bookmarkIndex, 1);
+      
+      // 保存到存储
+      if (typeof chrome !== 'undefined' && chrome.storage) {
+        chrome.storage.sync.set({ workspaces }, (): void => {
+          console.log('书签已删除:', bookmark.title);
+        });
+      }
+      
+      // 从DOM中移除元素
+      bookmarkElement.remove();
+    }
+  }
+}
+
+// 简化的图标获取函数 - 只使用favicon
+async function getWebsiteFavicon(url: string): Promise<string> {
+  const domain = new URL(url).hostname;
+  
+  // 定义favicon路径，按优先级排序
+  const faviconPaths = [
+    // 高分辨率favicon
+    `https://${domain}/favicon-32x32.png`,
+    `https://${domain}/favicon-96x96.png`,
+    `https://${domain}/favicon-192x192.png`,
+    
+    // Apple touch icon (通常质量较好)
+    `https://${domain}/apple-touch-icon.png`,
+    `https://${domain}/apple-touch-icon-180x180.png`,
+    
+    // Google favicon服务 (备用)
+    `https://www.google.com/s2/favicons?domain=${domain}&sz=32`,
+    
+    // 标准favicon (最后备用)
+    `https://${domain}/favicon.ico`
+  ];
+  
+  // 尝试加载每个路径
+  for (const faviconPath of faviconPaths) {
+    try {
+      const isValid = await checkImageExists(faviconPath);
+      if (isValid) {
+        return faviconPath;
+      }
+    } catch (error) {
+      // 继续尝试下一个路径
+      continue;
+    }
+  }
+  
+  // 如果所有路径都失败，返回空字符串，将使用文字
+  return '';
+}
+
+// 检查图片是否存在且可加载
+function checkImageExists(url: string): Promise<boolean> {
+  return new Promise((resolve) => {
+    const img = new Image();
+    img.onload = () => {
+      // 检查图片尺寸，过小的图片可能是占位符
+      if (img.width >= 16 && img.height >= 16) {
+        resolve(true);
+      } else {
+        resolve(false);
+      }
+    };
+    img.onerror = () => resolve(false);
+    img.src = url;
+    
+    // 设置超时，避免长时间等待
+    setTimeout(() => resolve(false), 3000);
+  });
+}
+
+// 创建书签元素 - 优化版本，先显示文字，异步获取favicon
+async function createBookmarkElementWithLogo(bookmark: Bookmark): Promise<HTMLElement> {
+  const bookmarkItem = document.createElement('a');
+  bookmarkItem.href = bookmark.url;
+  bookmarkItem.className = 'bookmark-item';
+  
+  // 如果有描述，添加到title属性中
+  if (bookmark.description) {
+    bookmarkItem.title = `${bookmark.title}\n${bookmark.description}`;
+  } else {
+    bookmarkItem.title = bookmark.title;
+  }
+  
+  const iconContainer = document.createElement('div');
+  iconContainer.className = 'bookmark-icon';
+  
+  // 先显示文字版本
+  function showTextIcon(): void {
+    iconContainer.innerHTML = '';
+    iconContainer.style.background = '#6c757d';
+    iconContainer.style.color = 'white';
+    iconContainer.style.display = 'flex';
+    iconContainer.style.alignItems = 'center';
+    iconContainer.style.justifyContent = 'center';
+    iconContainer.style.fontSize = '1.2rem';
+    iconContainer.style.fontWeight = 'bold';
+    iconContainer.textContent = bookmark.title.charAt(0).toUpperCase();
+  }
+  
+  // 显示图标版本
+  function showImageIcon(iconUrl: string): void {
+    const iconImg = document.createElement('img');
+    iconImg.src = iconUrl;
+    iconImg.alt = bookmark.title;
+    iconImg.style.width = '100%';
+    iconImg.style.height = '100%';
+    iconImg.style.objectFit = 'cover';
+    iconImg.onerror = (): void => {
+      // 图标加载失败时，回退到文字
+      showTextIcon();
+    };
+    
+    // 清除文字样式，显示图片
+    iconContainer.innerHTML = '';
+    iconContainer.style.background = '';
+    iconContainer.style.color = '';
+    iconContainer.style.fontSize = '';
+    iconContainer.style.fontWeight = '';
+    iconContainer.appendChild(iconImg);
+  }
+  
+  // 立即显示文字版本
+  showTextIcon();
+  
+  const titleElement = document.createElement('div');
+  titleElement.className = 'bookmark-title';
+  titleElement.textContent = bookmark.title;
+  
+  bookmarkItem.appendChild(iconContainer);
+  bookmarkItem.appendChild(titleElement);
+  
+  // 添加右键菜单事件
+  bookmarkItem.addEventListener('contextmenu', (e: MouseEvent): void => {
+    e.preventDefault();
+    showBookmarkContextMenu(e, bookmark, bookmarkItem);
+  });
+  
+  // 异步获取favicon并替换
+  (async (): Promise<void> => {
+    try {
+      let iconUrl = '';
+      
+      // 如果已有图标URL，先验证是否有效
+      if (bookmark.icon) {
+        const isValid = await checkImageExists(bookmark.icon);
+        if (isValid) {
+          iconUrl = bookmark.icon;
+        }
+      }
+      
+      // 如果没有有效图标，尝试获取favicon
+      if (!iconUrl) {
+        iconUrl = await getWebsiteFavicon(bookmark.url);
+      }
+      
+      // 如果获取到有效图标，替换文字版本
+      if (iconUrl) {
+        showImageIcon(iconUrl);
+      }
+    } catch (error) {
+      console.warn('获取书签图标失败:', bookmark.title, error);
+      // 保持文字版本
+    }
+  })();
+  
+  return bookmarkItem;
+}
+
+// 修改原有的createBookmarkElement函数，简化为只使用favicon或文字
 function createBookmarkElement(bookmark: Bookmark): HTMLElement {
   const bookmarkItem = document.createElement('a');
   bookmarkItem.href = bookmark.url;
@@ -383,21 +676,33 @@ function createBookmarkElement(bookmark: Bookmark): HTMLElement {
   const iconContainer = document.createElement('div');
   iconContainer.className = 'bookmark-icon';
   
-  // 如果有图标URL，使用图片；否则使用渐变背景
+  // 如果有图标URL，使用图片；否则使用文字
   if (bookmark.icon) {
     const iconImg = document.createElement('img');
     iconImg.src = bookmark.icon;
     iconImg.alt = bookmark.title;
     iconImg.onerror = (): void => {
-      // 图标加载失败时，使用渐变背景
+      // 图标加载失败时，使用文字
       iconContainer.innerHTML = '';
-      iconContainer.style.background = getIconGradient(bookmark.url, bookmark.title);
+      iconContainer.style.background = '#6c757d';
+      iconContainer.style.color = 'white';
+      iconContainer.style.display = 'flex';
+      iconContainer.style.alignItems = 'center';
+      iconContainer.style.justifyContent = 'center';
+      iconContainer.style.fontSize = '1.2rem';
+      iconContainer.style.fontWeight = 'bold';
       iconContainer.textContent = bookmark.title.charAt(0).toUpperCase();
     };
     iconContainer.appendChild(iconImg);
   } else {
-    // 使用渐变背景
-    iconContainer.style.background = getIconGradient(bookmark.url, bookmark.title);
+    // 使用文字
+    iconContainer.style.background = '#6c757d';
+    iconContainer.style.color = 'white';
+    iconContainer.style.display = 'flex';
+    iconContainer.style.alignItems = 'center';
+    iconContainer.style.justifyContent = 'center';
+    iconContainer.style.fontSize = '1.2rem';
+    iconContainer.style.fontWeight = 'bold';
     iconContainer.textContent = bookmark.title.charAt(0).toUpperCase();
   }
   
@@ -408,35 +713,13 @@ function createBookmarkElement(bookmark: Bookmark): HTMLElement {
   bookmarkItem.appendChild(iconContainer);
   bookmarkItem.appendChild(titleElement);
   
-  return bookmarkItem;
-}
-
-// 获取网站类型对应的渐变色
-function getIconGradient(url: string, title: string): string {
-  const domain = url.toLowerCase();
-  const titleLower = title.toLowerCase();
+  // 添加右键菜单事件
+  bookmarkItem.addEventListener('contextmenu', (e: MouseEvent): void => {
+    e.preventDefault();
+    showBookmarkContextMenu(e, bookmark, bookmarkItem);
+  });
   
-  // 根据网站类型返回不同的渐变色
-  if (domain.includes('baidu') || domain.includes('google') || domain.includes('bing')) {
-    return 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'; // 搜索 - 紫蓝
-  } else if (domain.includes('weibo') || domain.includes('twitter') || domain.includes('facebook')) {
-    return 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)'; // 社交 - 粉红
-  } else if (domain.includes('zhihu') || domain.includes('stackoverflow')) {
-    return 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)'; // 问答 - 蓝青
-  } else if (domain.includes('bilibili') || domain.includes('youtube') || domain.includes('netflix')) {
-    return 'linear-gradient(135deg, #fa709a 0%, #fee140 100%)'; // 视频 - 粉黄
-  } else if (domain.includes('github') || domain.includes('gitlab') || domain.includes('coding')) {
-    return 'linear-gradient(135deg, #a8edea 0%, #fed6e3 100%)'; // 代码 - 青粉
-  } else if (domain.includes('taobao') || domain.includes('tmall') || domain.includes('jd')) {
-    return 'linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%)'; // 购物 - 橙黄
-  } else if (domain.includes('music') || domain.includes('spotify') || titleLower.includes('音乐')) {
-    return 'linear-gradient(135deg, #a18cd1 0%, #fbc2eb 100%)'; // 音乐 - 紫粉
-  } else if (domain.includes('mail') || domain.includes('gmail') || titleLower.includes('邮箱')) {
-    return 'linear-gradient(135deg, #fad0c4 0%, #ffd1ff 100%)'; // 邮件 - 粉紫
-  } else {
-    // 默认渐变色
-    return 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
-  }
+  return bookmarkItem;
 }
 
 // 创建添加书签按钮
@@ -582,6 +865,9 @@ function initModals(): void {
     cancelBookmarkBtn.addEventListener('click', (): void => {
       addBookmarkModal.classList.remove('active');
       addBookmarkForm.reset();
+      // 清除编辑模式标记
+      addBookmarkModal.removeAttribute('data-edit-mode');
+      addBookmarkModal.removeAttribute('data-edit-bookmark');
     });
   }
   
@@ -591,6 +877,9 @@ function initModals(): void {
       if (e.target === addBookmarkModal) {
         addBookmarkModal.classList.remove('active');
         addBookmarkForm.reset();
+        // 清除编辑模式标记
+        addBookmarkModal.removeAttribute('data-edit-mode');
+        addBookmarkModal.removeAttribute('data-edit-bookmark');
       }
     });
   }
@@ -604,7 +893,7 @@ function initModals(): void {
       const urlInput = getElement<HTMLInputElement>('bookmark-url');
       const descriptionInput = getElement<HTMLTextAreaElement>('bookmark-description');
       
-      if (!titleInput || !urlInput) {
+      if (!titleInput || !urlInput || !addBookmarkModal) {
         alert('请填写完整的书签信息');
         return;
       }
@@ -618,9 +907,44 @@ function initModals(): void {
         return;
       }
       
-      // 添加书签到当前工作区
+      // 检查是否为编辑模式
+      const isEditMode = addBookmarkModal.getAttribute('data-edit-mode') === 'true';
+      const editBookmarkData = addBookmarkModal.getAttribute('data-edit-bookmark');
+      
       const currentWorkspaceData = workspaces[currentWorkspace];
-      if (currentWorkspaceData) {
+      if (!currentWorkspaceData) {
+        alert('当前工作区不存在');
+        return;
+      }
+      
+      if (isEditMode && editBookmarkData) {
+        // 编辑模式：更新现有书签
+        try {
+          const originalBookmark: Bookmark = JSON.parse(editBookmarkData);
+          const bookmarkIndex = currentWorkspaceData.bookmarks.findIndex(
+            (b: Bookmark) => b.title === originalBookmark.title && b.url === originalBookmark.url
+          );
+          
+          if (bookmarkIndex !== -1) {
+            // 更新书签数据
+            currentWorkspaceData.bookmarks[bookmarkIndex] = {
+              title,
+              url,
+              ...(description && { description })
+            };
+            
+            console.log('书签已更新:', title);
+          } else {
+            alert('找不到要编辑的书签');
+            return;
+          }
+        } catch (error) {
+          console.error('解析编辑书签数据失败:', error);
+          alert('编辑书签数据错误');
+          return;
+        }
+      } else {
+        // 添加模式：创建新书签
         const newBookmark: Bookmark = {
           title,
           url,
@@ -628,26 +952,29 @@ function initModals(): void {
         };
         
         currentWorkspaceData.bookmarks.push(newBookmark);
-        
-        // 保存到存储
-        if (typeof chrome !== 'undefined' && chrome.storage) {
-          chrome.storage.sync.set({ workspaces }, (): void => {
-            initBookmarks();
-            if (addBookmarkModal) {
-              addBookmarkModal.classList.remove('active');
-            }
-            addBookmarkForm.reset();
-            console.log('新书签已添加:', title);
-          });
-        } else {
-          // 本地测试环境
-          initBookmarks();
-          if (addBookmarkModal) {
-            addBookmarkModal.classList.remove('active');
-          }
+        console.log('新书签已添加:', title);
+      }
+      
+      // 保存到存储
+      if (typeof chrome !== 'undefined' && chrome.storage) {
+        chrome.storage.sync.set({ workspaces }, async (): Promise<void> => {
+          await initBookmarks();
+          addBookmarkModal.classList.remove('active');
           addBookmarkForm.reset();
-          console.log('新书签已添加:', title);
-        }
+          // 清除编辑模式标记
+          addBookmarkModal.removeAttribute('data-edit-mode');
+          addBookmarkModal.removeAttribute('data-edit-bookmark');
+        });
+      } else {
+        // 本地测试环境
+        (async (): Promise<void> => {
+          await initBookmarks();
+          addBookmarkModal.classList.remove('active');
+          addBookmarkForm.reset();
+          // 清除编辑模式标记
+          addBookmarkModal.removeAttribute('data-edit-mode');
+          addBookmarkModal.removeAttribute('data-edit-bookmark');
+        })();
       }
     });
   }
@@ -665,8 +992,100 @@ function clearIconSelection(): void {
 
 // 初始化底边栏图标
 function initBottomBarIcons(): void {
-  // 底边栏图标相关功能实现
   console.log('底边栏图标初始化');
+  
+  // 定义底边栏快速链接
+  const quickLinks = [
+    { title: '百度', url: 'https://www.baidu.com', emoji: '🔍' },
+    { title: '微博', url: 'https://weibo.com', emoji: '📱' },
+    { title: '知乎', url: 'https://www.zhihu.com', emoji: '💭' },
+    { title: 'Bilibili', url: 'https://www.bilibili.com', emoji: '📺' },
+    { title: 'GitHub', url: 'https://github.com', emoji: '💻' },
+    { title: '淘宝', url: 'https://www.taobao.com', emoji: '🛒' },
+    { title: '网易云音乐', url: 'https://music.163.com', emoji: '🎵' },
+    { title: 'QQ邮箱', url: 'https://mail.qq.com', emoji: '📧' }
+  ];
+  
+  const fixedLinksContainer = document.querySelector('.fixed-links');
+  if (!fixedLinksContainer) {
+    console.error('固定链接容器未找到');
+    return;
+  }
+  
+  // 清空现有内容
+  fixedLinksContainer.innerHTML = '';
+  
+  // 为每个快速链接创建元素
+  for (const link of quickLinks) {
+    createQuickLinkElement(link).then((linkElement) => {
+      fixedLinksContainer.appendChild(linkElement);
+    });
+  }
+}
+
+// 创建快速链接元素 - 优化版本，先显示文字，异步获取favicon
+async function createQuickLinkElement(link: { title: string; url: string; emoji: string }): Promise<HTMLElement> {
+  const linkElement = document.createElement('a');
+  linkElement.href = link.url;
+  linkElement.className = 'fixed-link';
+  linkElement.title = link.title;
+  linkElement.setAttribute('data-emoji', link.emoji);
+  
+  // 先显示文字版本
+  function showTextIcon(): void {
+    linkElement.innerHTML = '';
+    linkElement.textContent = link.title.charAt(0).toUpperCase();
+    linkElement.style.fontSize = '1.8rem';
+    linkElement.style.color = 'white';
+    linkElement.style.textShadow = '0 2px 4px rgba(0, 0, 0, 0.3)';
+    linkElement.style.display = 'flex';
+    linkElement.style.alignItems = 'center';
+    linkElement.style.justifyContent = 'center';
+    linkElement.style.fontWeight = 'bold';
+  }
+  
+  // 显示图标版本
+  function showImageIcon(faviconUrl: string): void {
+    const img = document.createElement('img');
+    img.src = faviconUrl;
+    img.alt = link.title;
+    img.style.width = '100%';
+    img.style.height = '100%';
+    img.style.objectFit = 'cover';
+    
+    // 图片加载失败时回退到文字
+    img.onerror = (): void => {
+      showTextIcon();
+    };
+    
+    // 清除文字样式，显示图片
+    linkElement.innerHTML = '';
+    linkElement.style.fontSize = '';
+    linkElement.style.color = '';
+    linkElement.style.textShadow = '';
+    linkElement.style.fontWeight = '';
+    linkElement.appendChild(img);
+  }
+  
+  // 立即显示文字版本
+  showTextIcon();
+  
+  // 异步获取favicon并替换
+  (async (): Promise<void> => {
+    try {
+      const faviconUrl = await getWebsiteFavicon(link.url);
+      
+      // 如果获取到有效图标，替换文字版本
+      if (faviconUrl) {
+        showImageIcon(faviconUrl);
+      }
+    } catch (error) {
+      console.warn('获取快速链接图标失败:', link.title, error);
+      // 保持文字版本
+    }
+  })();
+  
+  return linkElement;
 }
 
 // 初始化动漫背景
