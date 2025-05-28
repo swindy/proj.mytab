@@ -1028,12 +1028,19 @@ function initModals() {
     const cancelSettingsBtn = getElement('cancel-settings');
     const saveSettingsBtn = getElement('save-settings');
     const resetSettingsBtn = getElement('reset-settings');
+    const closeSettingsBtn = getElement('close-settings');
     // 设置按钮点击事件
     if (settingsBtn && settingsModal) {
         settingsBtn.addEventListener('click', () => {
             console.log('点击设置按钮');
             loadSettingsData();
             settingsModal.classList.add('active');
+        });
+    }
+    // 关闭设置按钮
+    if (closeSettingsBtn && settingsModal) {
+        closeSettingsBtn.addEventListener('click', () => {
+            settingsModal.classList.remove('active');
         });
     }
     // 取消设置按钮

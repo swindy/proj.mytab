@@ -1215,6 +1215,7 @@ function initModals(): void {
   const cancelSettingsBtn = getElement('cancel-settings');
   const saveSettingsBtn = getElement('save-settings');
   const resetSettingsBtn = getElement('reset-settings');
+  const closeSettingsBtn = getElement('close-settings');
   
   // 设置按钮点击事件
   if (settingsBtn && settingsModal) {
@@ -1222,6 +1223,13 @@ function initModals(): void {
       console.log('点击设置按钮');
       loadSettingsData();
       settingsModal.classList.add('active');
+    });
+  }
+  
+  // 关闭设置按钮
+  if (closeSettingsBtn && settingsModal) {
+    closeSettingsBtn.addEventListener('click', (): void => {
+      settingsModal.classList.remove('active');
     });
   }
   
