@@ -149,6 +149,144 @@
     </div>
   </div>
 
+  <!-- 设置界面 -->
+  <div class="modal" id="settings-modal">
+    <div class="modal-content settings-modal-content">
+      <h3>设置</h3>
+      <div class="settings-tabs">
+        <button class="tab-btn active" data-tab="general">常规</button>
+        <button class="tab-btn" data-tab="appearance">外观</button>
+        <button class="tab-btn" data-tab="search">搜索</button>
+        <button class="tab-btn" data-tab="about">关于</button>
+      </div>
+      
+      <div class="settings-content">
+        <!-- 常规设置 -->
+        <div class="tab-content active" id="general-tab">
+          <div class="form-group">
+            <label>
+              <input type="checkbox" id="auto-change-background"> 
+              自动切换背景
+            </label>
+            <small>每30秒自动切换背景图片</small>
+          </div>
+          
+          <div class="form-group">
+            <label for="background-interval">背景切换间隔（秒）</label>
+            <input type="number" id="background-interval" min="10" max="300" value="30">
+          </div>
+          
+          <div class="form-group">
+            <label>
+              <input type="checkbox" id="show-clock"> 
+              显示时钟
+            </label>
+          </div>
+          
+          <div class="form-group">
+            <label>
+              <input type="checkbox" id="show-date"> 
+              显示日期
+            </label>
+          </div>
+        </div>
+        
+        <!-- 外观设置 -->
+        <div class="tab-content" id="appearance-tab">
+          <div class="form-group">
+            <label>主题模式</label>
+            <div class="theme-selector">
+              <button class="theme-option" data-theme="auto">
+                <span class="theme-icon">🌓</span>
+                <span>自动</span>
+              </button>
+              <button class="theme-option" data-theme="light">
+                <span class="theme-icon">☀️</span>
+                <span>浅色</span>
+              </button>
+              <button class="theme-option" data-theme="dark">
+                <span class="theme-icon">🌙</span>
+                <span>深色</span>
+              </button>
+            </div>
+          </div>
+        </div>
+        
+        <!-- 搜索设置 -->
+        <div class="tab-content" id="search-tab">
+          <div class="form-group">
+            <label>默认搜索引擎</label>
+            <div class="search-engine-options">
+              <label class="radio-option">
+                <input type="radio" name="search-engine" value="baidu" checked>
+                <span class="radio-label">
+                  <span class="engine-icon">🔍</span>
+                  百度
+                </span>
+              </label>
+              <label class="radio-option">
+                <input type="radio" name="search-engine" value="google">
+                <span class="radio-label">
+                  <span class="engine-icon">🌐</span>
+                  Google
+                </span>
+              </label>
+              <label class="radio-option">
+                <input type="radio" name="search-engine" value="bing">
+                <span class="radio-label">
+                  <span class="engine-icon">🔎</span>
+                  Bing
+                </span>
+              </label>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label>
+              <input type="checkbox" id="search-suggestions"> 
+              显示搜索建议
+            </label>
+          </div>
+          
+          <div class="form-group">
+            <label>
+              <input type="checkbox" id="open-in-new-tab"> 
+              在新标签页中打开搜索结果
+            </label>
+          </div>
+        </div>
+        
+        <!-- 关于页面 -->
+        <div class="tab-content" id="about-tab">
+          <div class="about-info">
+            <div class="app-logo">📑</div>
+            <h4>MyTab 新标签页</h4>
+            <p class="version">版本 1.0.0</p>
+            <p class="description">
+              一个简洁美观的浏览器新标签页扩展，支持工作区管理、书签收藏、背景切换等功能。
+            </p>
+            
+            <div class="links">
+              <a href="#" class="link-btn">使用帮助</a>
+              <a href="#" class="link-btn">反馈建议</a>
+              <a href="#" class="link-btn">开源地址</a>
+            </div>
+            
+            <div class="copyright">
+              <p>© 2024 MyTab. All rights reserved.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="modal-buttons">
+        <button type="button" id="reset-settings">重置设置</button>
+        <button type="button" id="cancel-settings">取消</button>
+        <button type="button" id="save-settings">保存</button>
+      </div>
+    </div>
+  </div>
+
   <script type="module" src="newtab.js"></script>
 </body>
 </html> 

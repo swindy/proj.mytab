@@ -59,4 +59,18 @@ declare function createQuickLinkElement(link: {
     emoji: string;
 }): Promise<HTMLElement>;
 declare function initAnimeBackground(): void;
+interface AppSettings {
+    autoChangeBackground: boolean;
+    backgroundInterval: number;
+    showClock: boolean;
+    showDate: boolean;
+    theme: 'auto' | 'light' | 'dark';
+    searchEngine: SearchEngine;
+    searchSuggestions: boolean;
+    openInNewTab: boolean;
+}
+declare function loadSettingsData(): void;
+declare function saveSettingsData(): void;
+declare function resetSettingsData(): void;
+declare function applySettings(settings: Partial<AppSettings>): void;
 //# sourceMappingURL=newtab.d.ts.map

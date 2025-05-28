@@ -1021,6 +1021,84 @@ function initModals() {
             }
         });
     }
+    // 设置界面相关元素
+    const settingsBtn = getElement('settings-btn');
+    const settingsModal = getElement('settings-modal');
+    const cancelSettingsBtn = getElement('cancel-settings');
+    const saveSettingsBtn = getElement('save-settings');
+    const resetSettingsBtn = getElement('reset-settings');
+    // 设置按钮点击事件
+    if (settingsBtn && settingsModal) {
+        settingsBtn.addEventListener('click', () => {
+            console.log('点击设置按钮');
+            loadSettingsData();
+            settingsModal.classList.add('active');
+        });
+    }
+    // 取消设置按钮
+    if (cancelSettingsBtn && settingsModal) {
+        cancelSettingsBtn.addEventListener('click', () => {
+            settingsModal.classList.remove('active');
+        });
+    }
+    // 点击设置模态框外部关闭
+    if (settingsModal) {
+        settingsModal.addEventListener('click', (e) => {
+            if (e.target === settingsModal) {
+                settingsModal.classList.remove('active');
+            }
+        });
+    }
+    // 阻止模态框内容的点击事件冒泡
+    const settingsModalContent = settingsModal?.querySelector('.settings-modal-content');
+    if (settingsModalContent) {
+        settingsModalContent.addEventListener('click', (e) => {
+            e.stopPropagation();
+        });
+    }
+    // 标签页切换功能
+    const tabBtns = document.querySelectorAll('.tab-btn');
+    const tabContents = document.querySelectorAll('.tab-content');
+    tabBtns.forEach((btn) => {
+        btn.addEventListener('click', () => {
+            const tabBtn = btn;
+            const targetTab = tabBtn.dataset['tab'];
+            if (!targetTab)
+                return;
+            // 移除所有活动状态
+            tabBtns.forEach((b) => b.classList.remove('active'));
+            tabContents.forEach((c) => c.classList.remove('active'));
+            // 激活当前标签
+            tabBtn.classList.add('active');
+            const targetContent = document.getElementById(`${targetTab}-tab`);
+            if (targetContent) {
+                targetContent.classList.add('active');
+            }
+        });
+    });
+    // 主题选择功能
+    const themeOptions = document.querySelectorAll('.theme-option');
+    themeOptions.forEach((option) => {
+        option.addEventListener('click', () => {
+            themeOptions.forEach((opt) => opt.classList.remove('active'));
+            option.classList.add('active');
+        });
+    });
+    // 保存设置按钮
+    if (saveSettingsBtn && settingsModal) {
+        saveSettingsBtn.addEventListener('click', () => {
+            saveSettingsData();
+            settingsModal.classList.remove('active');
+        });
+    }
+    // 重置设置按钮
+    if (resetSettingsBtn) {
+        resetSettingsBtn.addEventListener('click', () => {
+            if (confirm('确定要重置所有设置吗？这将恢复默认设置。')) {
+                resetSettingsData();
+            }
+        });
+    }
     console.log('模态框初始化完成');
 }
 // 清除图标选择
@@ -1219,5 +1297,157 @@ function initAnimeBackground() {
         }
     });
     console.log('动漫背景初始化完成，共', animeBackgrounds.length, '张背景图片');
+}
+// 加载设置数据
+function loadSettingsData() {
+    if (typeof chrome !== 'undefined' && chrome.storage) {
+        chrome.storage.sync.get([
+            'autoChangeBackground',
+            'backgroundInterval',
+            'showClock',
+            'showDate',
+            'theme',
+            'searchEngine',
+            'searchSuggestions',
+            'openInNewTab'
+        ], (data) => {
+            // 常规设置
+            const autoChangeCheckbox = getElement('auto-change-background');
+            if (autoChangeCheckbox) {
+                autoChangeCheckbox.checked = data.autoChangeBackground !== false;
+            }
+            const backgroundIntervalInput = getElement('background-interval');
+            if (backgroundIntervalInput) {
+                backgroundIntervalInput.value = String(data.backgroundInterval || 30);
+            }
+            const showClockCheckbox = getElement('show-clock');
+            if (showClockCheckbox) {
+                showClockCheckbox.checked = data.showClock !== false;
+            }
+            const showDateCheckbox = getElement('show-date');
+            if (showDateCheckbox) {
+                showDateCheckbox.checked = data.showDate !== false;
+            }
+            // 外观设置
+            const theme = data.theme || 'auto';
+            const themeOptions = document.querySelectorAll('.theme-option');
+            themeOptions.forEach((option) => {
+                const themeOption = option;
+                option.classList.remove('active');
+                if (themeOption.dataset['theme'] === theme) {
+                    option.classList.add('active');
+                }
+            });
+            // 搜索设置
+            const searchEngine = data.searchEngine || 'baidu';
+            const searchEngineRadios = document.querySelectorAll('input[name="search-engine"]');
+            searchEngineRadios.forEach((radio) => {
+                radio.checked = radio.value === searchEngine;
+            });
+            const searchSuggestionsCheckbox = getElement('search-suggestions');
+            if (searchSuggestionsCheckbox) {
+                searchSuggestionsCheckbox.checked = data.searchSuggestions !== false;
+            }
+            const openInNewTabCheckbox = getElement('open-in-new-tab');
+            if (openInNewTabCheckbox) {
+                openInNewTabCheckbox.checked = data.openInNewTab !== false;
+            }
+        });
+    }
+    else {
+        // 本地测试环境，使用默认值
+        console.log('本地测试环境，使用默认设置');
+    }
+}
+// 保存设置数据
+function saveSettingsData() {
+    // 收集所有设置数据
+    const autoChangeCheckbox = getElement('auto-change-background');
+    const backgroundIntervalInput = getElement('background-interval');
+    const showClockCheckbox = getElement('show-clock');
+    const showDateCheckbox = getElement('show-date');
+    const searchSuggestionsCheckbox = getElement('search-suggestions');
+    const openInNewTabCheckbox = getElement('open-in-new-tab');
+    // 获取选中的主题
+    const selectedTheme = document.querySelector('.theme-option.active');
+    const theme = selectedTheme?.dataset['theme'] || 'auto';
+    // 获取选中的搜索引擎
+    const selectedSearchEngine = document.querySelector('input[name="search-engine"]:checked');
+    const searchEngine = selectedSearchEngine?.value || 'baidu';
+    const settings = {
+        autoChangeBackground: autoChangeCheckbox?.checked !== false,
+        backgroundInterval: parseInt(backgroundIntervalInput?.value || '30'),
+        showClock: showClockCheckbox?.checked !== false,
+        showDate: showDateCheckbox?.checked !== false,
+        theme: theme,
+        searchEngine: searchEngine,
+        searchSuggestions: searchSuggestionsCheckbox?.checked !== false,
+        openInNewTab: openInNewTabCheckbox?.checked !== false
+    };
+    if (typeof chrome !== 'undefined' && chrome.storage) {
+        chrome.storage.sync.set(settings, () => {
+            console.log('设置已保存:', settings);
+            alert('设置已保存！');
+            // 应用一些立即生效的设置
+            applySettings(settings);
+        });
+    }
+    else {
+        // 本地测试环境
+        console.log('本地测试环境，设置已保存:', settings);
+        alert('设置已保存！');
+        applySettings(settings);
+    }
+}
+// 重置设置数据
+function resetSettingsData() {
+    const defaultSettings = {
+        autoChangeBackground: true,
+        backgroundInterval: 30,
+        showClock: true,
+        showDate: true,
+        theme: 'auto',
+        searchEngine: 'baidu',
+        searchSuggestions: true,
+        openInNewTab: true
+    };
+    if (typeof chrome !== 'undefined' && chrome.storage) {
+        chrome.storage.sync.set(defaultSettings, () => {
+            console.log('设置已重置为默认值');
+            alert('设置已重置为默认值！');
+            // 重新加载设置界面
+            loadSettingsData();
+            // 应用默认设置
+            applySettings(defaultSettings);
+        });
+    }
+    else {
+        // 本地测试环境
+        console.log('本地测试环境，设置已重置为默认值');
+        alert('设置已重置为默认值！');
+        loadSettingsData();
+        applySettings(defaultSettings);
+    }
+}
+// 应用设置（立即生效的设置）
+function applySettings(settings) {
+    // 应用时钟显示设置
+    const clockElement = getElement('clock');
+    const dateElement = getElement('date');
+    if (clockElement) {
+        clockElement.style.display = settings.showClock === false ? 'none' : 'block';
+    }
+    if (dateElement) {
+        dateElement.style.display = settings.showDate === false ? 'none' : 'block';
+    }
+    // 应用搜索引擎设置
+    if (settings.searchEngine) {
+        const searchInput = getElement('search-input');
+        if (searchInput) {
+            const config = searchEngines[settings.searchEngine];
+            searchInput.placeholder = config.placeholder;
+        }
+    }
+    console.log('设置已应用:', settings);
 }
 //# sourceMappingURL=newtab.js.map
