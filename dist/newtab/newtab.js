@@ -152,6 +152,7 @@ function initWorkspaces() {
 async function completeWorkspaceInit() {
     updateWorkspaceList();
     await initBookmarks();
+    updateConfigStats();
 }
 // 获取默认工作区
 function getDefaultWorkspaces() {
@@ -1099,6 +1100,30 @@ function initModals() {
             }
         });
     }
+    // 配置管理相关元素
+    const exportConfigBtn = getElement('export-config');
+    const importConfigBtn = getElement('import-config');
+    const importFileInput = getElement('import-file');
+    // 导出配置按钮
+    if (exportConfigBtn) {
+        exportConfigBtn.addEventListener('click', () => {
+            exportConfiguration();
+        });
+    }
+    // 导入配置按钮
+    if (importConfigBtn && importFileInput) {
+        importConfigBtn.addEventListener('click', () => {
+            importFileInput.click();
+        });
+        importFileInput.addEventListener('change', (e) => {
+            const target = e.target;
+            const file = target.files?.[0];
+            if (file) {
+                importConfiguration(file);
+                target.value = ''; // 清空文件选择
+            }
+        });
+    }
     console.log('模态框初始化完成');
 }
 // 清除图标选择
@@ -1352,11 +1377,14 @@ function loadSettingsData() {
             if (openInNewTabCheckbox) {
                 openInNewTabCheckbox.checked = data.openInNewTab !== false;
             }
+            // 更新配置统计信息
+            updateConfigStats();
         });
     }
     else {
         // 本地测试环境，使用默认值
         console.log('本地测试环境，使用默认设置');
+        updateConfigStats();
     }
 }
 // 保存设置数据
@@ -1449,5 +1477,201 @@ function applySettings(settings) {
         }
     }
     console.log('设置已应用:', settings);
+}
+// 导出配置
+function exportConfiguration() {
+    try {
+        // 收集当前配置数据
+        const configData = {
+            workspaces: workspaces,
+            currentWorkspace: currentWorkspace,
+            exportTime: new Date().toISOString(),
+            version: '1.0.0'
+        };
+        // 如果有Chrome存储，也导出设置
+        if (typeof chrome !== 'undefined' && chrome.storage) {
+            chrome.storage.sync.get([
+                'autoChangeBackground',
+                'backgroundInterval',
+                'showClock',
+                'showDate',
+                'theme',
+                'searchEngine',
+                'searchSuggestions',
+                'openInNewTab'
+            ], (settings) => {
+                configData.settings = settings;
+                downloadConfigFile(configData);
+            });
+        }
+        else {
+            downloadConfigFile(configData);
+        }
+    }
+    catch (error) {
+        console.error('导出配置失败:', error);
+        alert('导出配置失败，请重试。');
+    }
+}
+// 下载配置文件
+function downloadConfigFile(configData) {
+    const jsonString = JSON.stringify(configData, null, 2);
+    const blob = new Blob([jsonString], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `mytab-config-${new Date().toISOString().split('T')[0]}.json`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    console.log('配置已导出');
+    alert('配置导出成功！');
+}
+// 导入配置
+function importConfiguration(file) {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+        try {
+            const content = e.target?.result;
+            const configData = JSON.parse(content);
+            // 验证配置数据格式
+            if (!validateConfigData(configData)) {
+                alert('配置文件格式不正确，请选择有效的配置文件。');
+                return;
+            }
+            // 获取导入模式
+            const importMode = getSelectedImportMode();
+            // 确认导入
+            const confirmMessage = importMode === 'replace'
+                ? '确定要覆盖当前配置吗？这将删除所有现有的工作区和书签。'
+                : '确定要合并配置吗？重复的书签将被自动去除。';
+            if (!confirm(confirmMessage)) {
+                return;
+            }
+            // 执行导入
+            if (importMode === 'replace') {
+                replaceConfiguration(configData);
+            }
+            else {
+                mergeConfiguration(configData);
+            }
+        }
+        catch (error) {
+            console.error('导入配置失败:', error);
+            alert('配置文件解析失败，请检查文件格式。');
+        }
+    };
+    reader.readAsText(file);
+}
+// 验证配置数据格式
+function validateConfigData(data) {
+    return (data &&
+        typeof data === 'object' &&
+        data.workspaces &&
+        typeof data.workspaces === 'object' &&
+        typeof data.currentWorkspace === 'string' &&
+        typeof data.version === 'string');
+}
+// 获取选中的导入模式
+function getSelectedImportMode() {
+    const selectedMode = document.querySelector('input[name="import-mode"]:checked');
+    return selectedMode?.value || 'replace';
+}
+// 覆盖配置
+function replaceConfiguration(configData) {
+    // 直接替换工作区数据
+    workspaces = configData.workspaces;
+    currentWorkspace = configData.currentWorkspace;
+    // 确保当前工作区存在
+    if (!workspaces[currentWorkspace]) {
+        currentWorkspace = Object.keys(workspaces)[0] || 'default';
+    }
+    // 保存到存储
+    saveConfigurationToStorage(configData, () => {
+        // 更新UI
+        updateWorkspaceList();
+        initBookmarks();
+        updateConfigStats();
+        alert('配置导入成功！页面将刷新以应用新配置。');
+        setTimeout(() => {
+            window.location.reload();
+        }, 1000);
+    });
+}
+// 合并配置
+function mergeConfiguration(configData) {
+    // 合并工作区
+    Object.keys(configData.workspaces).forEach((workspaceId) => {
+        const importedWorkspace = configData.workspaces[workspaceId];
+        // 检查导入的工作区是否存在
+        if (!importedWorkspace) {
+            return;
+        }
+        if (workspaces[workspaceId]) {
+            // 工作区已存在，合并书签
+            const existingBookmarks = workspaces[workspaceId].bookmarks;
+            const importedBookmarks = importedWorkspace.bookmarks;
+            // 去重合并书签（基于URL）
+            const mergedBookmarks = [...existingBookmarks];
+            const existingUrls = new Set(existingBookmarks.map(b => b.url));
+            importedBookmarks.forEach((bookmark) => {
+                if (!existingUrls.has(bookmark.url)) {
+                    mergedBookmarks.push(bookmark);
+                }
+            });
+            workspaces[workspaceId].bookmarks = mergedBookmarks;
+        }
+        else {
+            // 工作区不存在，直接添加
+            workspaces[workspaceId] = { ...importedWorkspace };
+        }
+    });
+    // 保存到存储
+    saveConfigurationToStorage(configData, () => {
+        // 更新UI
+        updateWorkspaceList();
+        initBookmarks();
+        updateConfigStats();
+        alert('配置合并成功！');
+    });
+}
+// 保存配置到存储
+function saveConfigurationToStorage(configData, callback) {
+    if (typeof chrome !== 'undefined' && chrome.storage) {
+        const dataToSave = {
+            workspaces: workspaces,
+            currentWorkspace: currentWorkspace
+        };
+        // 如果有设置数据，也保存设置
+        if (configData.settings) {
+            Object.assign(dataToSave, configData.settings);
+        }
+        chrome.storage.sync.set(dataToSave, callback);
+    }
+    else {
+        // 本地测试环境
+        console.log('本地测试环境，配置已保存');
+        callback();
+    }
+}
+// 更新配置统计信息
+function updateConfigStats() {
+    const workspaceCountEl = getElement('workspace-count');
+    const bookmarkCountEl = getElement('bookmark-count');
+    const currentWorkspaceNameEl = getElement('current-workspace-name');
+    if (workspaceCountEl) {
+        workspaceCountEl.textContent = String(Object.keys(workspaces).length);
+    }
+    if (bookmarkCountEl) {
+        const totalBookmarks = Object.values(workspaces).reduce((total, workspace) => {
+            return total + (workspace.bookmarks?.length || 0);
+        }, 0);
+        bookmarkCountEl.textContent = String(totalBookmarks);
+    }
+    if (currentWorkspaceNameEl) {
+        const currentWorkspaceData = workspaces[currentWorkspace];
+        currentWorkspaceNameEl.textContent = currentWorkspaceData?.name || '未知';
+    }
 }
 //# sourceMappingURL=newtab.js.map

@@ -23,6 +23,13 @@ interface AnimeBackground {
     url: string;
     name?: string;
 }
+interface ConfigData {
+    workspaces: Workspaces;
+    currentWorkspace: string;
+    settings?: Partial<AppSettings>;
+    exportTime: string;
+    version: string;
+}
 declare let workspaces: Workspaces;
 declare let currentWorkspace: string;
 declare function getElement<T extends HTMLElement>(id: string): T | null;
@@ -73,4 +80,13 @@ declare function loadSettingsData(): void;
 declare function saveSettingsData(): void;
 declare function resetSettingsData(): void;
 declare function applySettings(settings: Partial<AppSettings>): void;
+declare function exportConfiguration(): void;
+declare function downloadConfigFile(configData: ConfigData): void;
+declare function importConfiguration(file: File): void;
+declare function validateConfigData(data: any): data is ConfigData;
+declare function getSelectedImportMode(): 'replace' | 'merge';
+declare function replaceConfiguration(configData: ConfigData): void;
+declare function mergeConfiguration(configData: ConfigData): void;
+declare function saveConfigurationToStorage(configData: ConfigData, callback: () => void): void;
+declare function updateConfigStats(): void;
 //# sourceMappingURL=newtab.d.ts.map

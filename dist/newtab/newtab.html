@@ -157,6 +157,7 @@
         <button class="tab-btn active" data-tab="general">常规</button>
         <button class="tab-btn" data-tab="appearance">外观</button>
         <button class="tab-btn" data-tab="search">搜索</button>
+        <button class="tab-btn" data-tab="config">配置</button>
         <button class="tab-btn" data-tab="about">关于</button>
       </div>
       
@@ -253,6 +254,73 @@
               <input type="checkbox" id="open-in-new-tab"> 
               在新标签页中打开搜索结果
             </label>
+          </div>
+        </div>
+        
+        <!-- 配置管理 -->
+        <div class="tab-content" id="config-tab">
+          <div class="config-section">
+            <h4>导出配置</h4>
+            <p class="config-description">导出当前的工作区和书签配置到文件</p>
+            <button type="button" id="export-config" class="config-btn export-btn">
+              <span class="btn-icon">📤</span>
+              导出配置
+            </button>
+          </div>
+          
+          <div class="config-section">
+            <h4>导入配置</h4>
+            <p class="config-description">从文件导入工作区和书签配置</p>
+            
+            <div class="import-options">
+              <label class="import-option">
+                <input type="radio" name="import-mode" value="replace" checked>
+                <span class="option-label">
+                  <span class="option-icon">🔄</span>
+                  <span class="option-text">
+                    <strong>覆盖当前配置</strong>
+                    <small>完全替换现有的工作区和书签</small>
+                  </span>
+                </span>
+              </label>
+              
+              <label class="import-option">
+                <input type="radio" name="import-mode" value="merge">
+                <span class="option-label">
+                  <span class="option-icon">🔗</span>
+                  <span class="option-text">
+                    <strong>合并配置</strong>
+                    <small>保留现有配置，合并新配置（自动去重）</small>
+                  </span>
+                </span>
+              </label>
+            </div>
+            
+            <div class="import-controls">
+              <input type="file" id="import-file" accept=".json" style="display: none;">
+              <button type="button" id="import-config" class="config-btn import-btn">
+                <span class="btn-icon">📥</span>
+                选择配置文件
+              </button>
+            </div>
+          </div>
+          
+          <div class="config-section">
+            <h4>配置信息</h4>
+            <div class="config-stats">
+              <div class="stat-item">
+                <span class="stat-label">工作区数量：</span>
+                <span class="stat-value" id="workspace-count">0</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-label">书签总数：</span>
+                <span class="stat-value" id="bookmark-count">0</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-label">当前工作区：</span>
+                <span class="stat-value" id="current-workspace-name">默认</span>
+              </div>
+            </div>
           </div>
         </div>
         
