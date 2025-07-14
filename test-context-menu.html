@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>书签右键菜单测试</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+        }
+
+        .test-info {
+            background: #f8f9fa;
+            border-left: 4px solid #007bff;
+            padding: 15px;
+            margin-bottom: 30px;
+            border-radius: 4px;
+        }
+
+        .bookmarks-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .bookmark-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            color: #333;
+            padding: 15px;
+            border-radius: 12px;
+            background: #f8f9fa;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .bookmark-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            background: #e9ecef;
+        }
+
+        .bookmark-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 8px;
+            margin-bottom: 8px;
+            overflow: hidden;
+        }
+
+        .bookmark-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .bookmark-title {
+            font-size: 12px;
+            text-align: center;
+            font-weight: 500;
+            line-height: 1.2;
+        }
+
+        .bookmark-context-menu {
+            position: fixed;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            z-index: 10000;
+            min-width: 120px;
+            overflow: hidden;
+        }
+
+        .context-menu-item {
+            padding: 8px 12px;
+            cursor: pointer;
+            font-size: 14px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .context-menu-item:last-child {
+            border-bottom: none;
+        }
+
+        .context-menu-item:hover {
+            background: #f5f5f5;
+        }
+
+        .context-menu-item.delete {
+            color: #dc3545;
+        }
+
+        .instructions {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 6px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+
+        .instructions h3 {
+            margin-top: 0;
+            color: #856404;
+        }
+
+        .instructions ul {
+            margin-bottom: 0;
+            color: #856404;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+        }
+
+        .modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            width: 90%;
+            max-width: 400px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .modal h2 {
+            margin-top: 0;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+            color: #333;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: #007bff;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #0056b3;
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #545b62;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📚 书签右键菜单测试</h1>
+        
+        <div class="test-info">
+            <strong>测试说明：</strong>这个页面用于测试书签的右键菜单功能，包括修改和删除操作。
+        </div>
+
+        <div class="instructions">
+            <h3>🔧 测试步骤：</h3>
+            <ul>
+                <li>在任意书签上右键点击</li>
+                <li>选择"修改"可以编辑书签信息</li>
+                <li>选择"删除"可以删除书签</li>
+                <li>修改功能会重新打开添加书签对话框并填充当前数据</li>
+            </ul>
+        </div>
+
+        <div class="bookmarks-grid" id="bookmarks">
+            <!-- 书签将在这里动态生成 -->
+        </div>
+    </div>
+
+    <!-- 编辑书签模态框 -->
+    <div class="modal" id="add-bookmark-modal">
+        <div class="modal-content">
+            <h2>编辑书签</h2>
+            <form id="add-bookmark-form">
+                <div class="form-group">
+                    <label for="bookmark-title">标题</label>
+                    <input type="text" id="bookmark-title" required>
+                </div>
+                <div class="form-group">
+                    <label for="bookmark-url">URL</label>
+                    <input type="url" id="bookmark-url" required>
+                </div>
+                <div class="form-group">
+                    <label for="bookmark-description">描述（可选）</label>
+                    <textarea id="bookmark-description"></textarea>
+                </div>
+                <div class="modal-buttons">
+                    <button type="button" class="btn btn-secondary" id="cancel-bookmark">取消</button>
+                    <button type="submit" class="btn btn-primary">保存</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // 模拟书签数据
+        let testBookmarks = [
+            { title: '百度', url: 'https://www.baidu.com', description: '中国最大的搜索引擎' },
+            { title: '微博', url: 'https://weibo.com', description: '中国社交媒体平台' },
+            { title: '知乎', url: 'https://www.zhihu.com', description: '知识分享社区' },
+            { title: 'Bilibili', url: 'https://www.bilibili.com', description: '年轻人的视频社区' },
+            { title: 'GitHub', url: 'https://github.com', description: '代码托管平台' },
+            { title: '淘宝', url: 'https://www.taobao.com', description: '购物网站' }
+        ];
+
+        // DOM元素
+        const bookmarksContainer = document.getElementById('bookmarks');
+        const addBookmarkModal = document.getElementById('add-bookmark-modal');
+        const addBookmarkForm = document.getElementById('add-bookmark-form');
+        const cancelBookmarkBtn = document.getElementById('cancel-bookmark');
+        const titleInput = document.getElementById('bookmark-title');
+        const urlInput = document.getElementById('bookmark-url');
+        const descriptionInput = document.getElementById('bookmark-description');
+
+        // 初始化
+        function init() {
+            renderBookmarks();
+            initModalEvents();
+        }
+
+        // 渲染书签
+        function renderBookmarks() {
+            bookmarksContainer.innerHTML = '';
+            testBookmarks.forEach((bookmark, index) => {
+                const bookmarkElement = createBookmarkElement(bookmark, index);
+                bookmarksContainer.appendChild(bookmarkElement);
+            });
+        }
+
+        // 创建书签元素
+        function createBookmarkElement(bookmark, index) {
+            const bookmarkItem = document.createElement('a');
+            bookmarkItem.href = bookmark.url;
+            bookmarkItem.className = 'bookmark-item';
+            bookmarkItem.title = bookmark.description || bookmark.title;
+            
+            const iconContainer = document.createElement('div');
+            iconContainer.className = 'bookmark-icon';
+            iconContainer.style.background = '#6c757d';
+            iconContainer.style.color = 'white';
+            iconContainer.style.display = 'flex';
+            iconContainer.style.alignItems = 'center';
+            iconContainer.style.justifyContent = 'center';
+            iconContainer.style.fontSize = '1.2rem';
+            iconContainer.style.fontWeight = 'bold';
+            iconContainer.textContent = bookmark.title.charAt(0).toUpperCase();
+            
+            const titleElement = document.createElement('div');
+            titleElement.className = 'bookmark-title';
+            titleElement.textContent = bookmark.title;
+            
+            bookmarkItem.appendChild(iconContainer);
+            bookmarkItem.appendChild(titleElement);
+            
+            // 添加右键菜单事件
+            bookmarkItem.addEventListener('contextmenu', (e) => {
+                e.preventDefault();
+                showBookmarkContextMenu(e, bookmark, index);
+            });
+            
+            return bookmarkItem;
+        }
+
+        // 显示书签右键菜单
+        function showBookmarkContextMenu(e, bookmark, index) {
+            // 移除已存在的右键菜单
+            const existingMenu = document.querySelector('.bookmark-context-menu');
+            if (existingMenu) {
+                existingMenu.remove();
+            }
+            
+            // 创建右键菜单
+            const contextMenu = document.createElement('div');
+            contextMenu.className = 'bookmark-context-menu';
+            contextMenu.style.left = `${e.clientX}px`;
+            contextMenu.style.top = `${e.clientY}px`;
+            
+            // 修改选项
+            const editOption = document.createElement('div');
+            editOption.className = 'context-menu-item';
+            editOption.textContent = '修改';
+            editOption.addEventListener('click', () => {
+                editBookmark(bookmark, index);
+                contextMenu.remove();
+            });
+            
+            // 删除选项
+            const deleteOption = document.createElement('div');
+            deleteOption.className = 'context-menu-item delete';
+            deleteOption.textContent = '删除';
+            deleteOption.addEventListener('click', () => {
+                deleteBookmark(bookmark, index);
+                contextMenu.remove();
+            });
+            
+            contextMenu.appendChild(editOption);
+            contextMenu.appendChild(deleteOption);
+            document.body.appendChild(contextMenu);
+            
+            // 点击其他地方关闭菜单
+            const closeMenu = (event) => {
+                if (!contextMenu.contains(event.target)) {
+                    contextMenu.remove();
+                    document.removeEventListener('click', closeMenu);
+                }
+            };
+            
+            setTimeout(() => {
+                document.addEventListener('click', closeMenu);
+            }, 0);
+        }
+
+        // 编辑书签
+        function editBookmark(bookmark, index) {
+            // 填充当前书签数据
+            titleInput.value = bookmark.title;
+            urlInput.value = bookmark.url;
+            descriptionInput.value = bookmark.description || '';
+            
+            // 标记为编辑模式
+            addBookmarkModal.setAttribute('data-edit-mode', 'true');
+            addBookmarkModal.setAttribute('data-edit-index', index.toString());
+            
+            // 显示模态框
+            addBookmarkModal.classList.add('active');
+        }
+
+        // 删除书签
+        function deleteBookmark(bookmark, index) {
+            if (confirm(`确定要删除书签"${bookmark.title}"吗？`)) {
+                testBookmarks.splice(index, 1);
+                renderBookmarks();
+                console.log('书签已删除:', bookmark.title);
+            }
+        }
+
+        // 初始化模态框事件
+        function initModalEvents() {
+            // 取消按钮
+            cancelBookmarkBtn.addEventListener('click', () => {
+                addBookmarkModal.classList.remove('active');
+                addBookmarkForm.reset();
+                addBookmarkModal.removeAttribute('data-edit-mode');
+                addBookmarkModal.removeAttribute('data-edit-index');
+            });
+
+            // 点击模态框外部关闭
+            addBookmarkModal.addEventListener('click', (e) => {
+                if (e.target === addBookmarkModal) {
+                    addBookmarkModal.classList.remove('active');
+                    addBookmarkForm.reset();
+                    addBookmarkModal.removeAttribute('data-edit-mode');
+                    addBookmarkModal.removeAttribute('data-edit-index');
+                }
+            });
+
+            // 表单提交
+            addBookmarkForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                
+                const title = titleInput.value.trim();
+                const url = urlInput.value.trim();
+                const description = descriptionInput.value.trim();
+                
+                if (!title || !url) {
+                    alert('请填写书签标题和URL');
+                    return;
+                }
+                
+                const isEditMode = addBookmarkModal.getAttribute('data-edit-mode') === 'true';
+                const editIndex = addBookmarkModal.getAttribute('data-edit-index');
+                
+                if (isEditMode && editIndex !== null) {
+                    // 编辑模式：更新现有书签
+                    const index = parseInt(editIndex);
+                    testBookmarks[index] = {
+                        title,
+                        url,
+                        description: description || undefined
+                    };
+                    console.log('书签已更新:', title);
+                } else {
+                    // 添加模式：创建新书签
+                    testBookmarks.push({
+                        title,
+                        url,
+                        description: description || undefined
+                    });
+                    console.log('新书签已添加:', title);
+                }
+                
+                // 重新渲染书签
+                renderBookmarks();
+                
+                // 关闭模态框
+                addBookmarkModal.classList.remove('active');
+                addBookmarkForm.reset();
+                addBookmarkModal.removeAttribute('data-edit-mode');
+                addBookmarkModal.removeAttribute('data-edit-index');
+            });
+        }
+
+        // 页面加载完成后初始化
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html> 

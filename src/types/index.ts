@@ -22,13 +22,9 @@ export interface Workspaces {
 // 搜索引擎类型
 export type SearchEngine = 'baidu' | 'google' | 'bing';
 
-// 主题类型
-export type Theme = 'light' | 'dark' | 'auto';
-
 // 扩展设置接口
 export interface ExtensionSettings {
   searchEngine: SearchEngine;
-  theme: Theme;
   workspaces: Workspaces;
   currentWorkspace: string;
 }
@@ -79,7 +75,6 @@ export type SyncStatus = 'idle' | 'syncing' | 'success' | 'error';
 export interface SyncData {
   bookmarks: Bookmark[];
   searchEngine: SearchEngine;
-  theme: Theme;
   workspaces: Workspaces;
   currentWorkspace: string;
   lastSync?: string;
@@ -89,7 +84,6 @@ export interface SyncData {
 export interface StorageData {
   bookmarks?: Bookmark[];
   searchEngine?: SearchEngine;
-  theme?: Theme;
   workspaces?: Workspaces;
   currentWorkspace?: string;
   githubSync?: GitHubSyncConfig;

@@ -1,4 +1,4 @@
-import { Bookmark, SearchEngine, Theme, StorageData, ChromeMessage, ChromeMessageResponse } from '../types/index.js';
+import { Bookmark, SearchEngine, StorageData, ChromeMessage, ChromeMessageResponse } from '../types/index.js';
 
 // 声明Chrome API类型（如果@types/chrome不可用）
 declare const chrome: any;
@@ -28,14 +28,10 @@ function initDefaultSettings(): void {
   // 默认搜索引擎
   const defaultSearchEngine: SearchEngine = 'baidu';
   
-  // 默认主题
-  const defaultTheme: Theme = 'light';
-  
   // 保存默认设置
   const defaultSettings: StorageData = {
     bookmarks: defaultBookmarks,
-    searchEngine: defaultSearchEngine,
-    theme: defaultTheme
+    searchEngine: defaultSearchEngine
   };
 
   chrome.storage.sync.set(defaultSettings, (): void => {
@@ -62,19 +58,6 @@ chrome.runtime.onMessage.addListener((
     return true; // 异步响应需要返回true
   }
   
-  if (message.action === 'getTheme') {
-    // 获取当前主题设置
-    chrome.storage.sync.get('theme', (data: StorageData): void => {
-      sendResponse({
-        success: true,
-        data: {
-          theme: data.theme || 'light'
-        }
-      });
-    });
-    return true; // 异步响应需要返回true
-  }
-
   // 如果没有匹配的action，返回错误
   sendResponse({
     success: false,

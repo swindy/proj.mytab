@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Favicon获取测试</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+      background: #f5f5f5;
+    }
+    
+    .test-container {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      margin-bottom: 20px;
+    }
+    
+    .test-item {
+      display: flex;
+      align-items: center;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      margin-bottom: 10px;
+      background: #fafafa;
+    }
+    
+    .test-icon {
+      width: 32px;
+      height: 32px;
+      margin-right: 15px;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #6c757d;
+      color: white;
+      font-weight: bold;
+      font-size: 1.2rem;
+    }
+    
+    .test-icon img {
+      width: 100%;
+      height: 100%;
+      border-radius: 4px;
+    }
+    
+    .test-info {
+      flex: 1;
+    }
+    
+    .test-title {
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+    
+    .test-url {
+      color: #666;
+      font-size: 0.9em;
+    }
+    
+    .test-status {
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 0.8em;
+      font-weight: bold;
+    }
+    
+    .status-loading {
+      background: #fff3cd;
+      color: #856404;
+    }
+    
+    .status-success {
+      background: #d4edda;
+      color: #155724;
+    }
+    
+    .status-fallback {
+      background: #f8d7da;
+      color: #721c24;
+    }
+    
+    button {
+      background: #007bff;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    
+    button:hover {
+      background: #0056b3;
+    }
+  </style>
+</head>
+<body>
+  <div class="test-container">
+    <h1>Favicon获取功能测试</h1>
+    <p>这个页面用于测试favicon获取功能，它会尝试从多个路径获取网站的favicon。如果获取失败，将显示网站名称的首字母。</p>
+    <button onclick="runTest()">开始测试</button>
+  </div>
+  
+  <div class="test-container" id="test-results" style="display: none;">
+    <h2>测试结果</h2>
+    <div id="test-list"></div>
+  </div>
+
+  <script>
+    // 简化的favicon获取函数
+    async function getWebsiteFavicon(url) {
+      const domain = new URL(url).hostname;
+      
+      const faviconPaths = [
+        `https://${domain}/favicon-32x32.png`,
+        `https://${domain}/favicon-96x96.png`,
+        `https://${domain}/favicon-192x192.png`,
+        `https://${domain}/apple-touch-icon.png`,
+        `https://${domain}/apple-touch-icon-180x180.png`,
+        `https://www.google.com/s2/favicons?domain=${domain}&sz=32`,
+        `https://${domain}/favicon.ico`
+      ];
+      
+      for (const faviconPath of faviconPaths) {
+        try {
+          const isValid = await checkImageExists(faviconPath);
+          if (isValid) {
+            return faviconPath;
+          }
+        } catch (error) {
+          continue;
+        }
+      }
+      
+      return '';
+    }
+
+    function checkImageExists(url) {
+      return new Promise((resolve) => {
+        const img = new Image();
+        img.onload = () => {
+          if (img.width >= 16 && img.height >= 16) {
+            resolve(true);
+          } else {
+            resolve(false);
+          }
+        };
+        img.onerror = () => resolve(false);
+        img.src = url;
+        setTimeout(() => resolve(false), 3000);
+      });
+    }
+
+    // 测试网站列表
+    const testSites = [
+      { title: '百度', url: 'https://www.baidu.com' },
+      { title: '微博', url: 'https://weibo.com' },
+      { title: '知乎', url: 'https://www.zhihu.com' },
+      { title: 'Bilibili', url: 'https://www.bilibili.com' },
+      { title: 'GitHub', url: 'https://github.com' },
+      { title: '淘宝', url: 'https://www.taobao.com' },
+      { title: '网易云音乐', url: 'https://music.163.com' },
+      { title: 'QQ邮箱', url: 'https://mail.qq.com' }
+    ];
+
+    async function runTest() {
+      const resultsContainer = document.getElementById('test-results');
+      const testList = document.getElementById('test-list');
+      
+      resultsContainer.style.display = 'block';
+      testList.innerHTML = '';
+      
+      for (const site of testSites) {
+        const testItem = createTestItem(site);
+        testList.appendChild(testItem);
+        
+        // 立即显示文字版本，然后异步获取favicon
+        updateTestStatus(testItem, 'loading', '立即显示文字版本');
+        
+        // 异步获取favicon
+        (async () => {
+          try {
+            const faviconUrl = await getWebsiteFavicon(site.url);
+            
+            if (faviconUrl) {
+              const iconContainer = testItem.querySelector('.test-icon');
+              iconContainer.innerHTML = `<img src="${faviconUrl}" alt="${site.title}" style="width: 100%; height: 100%; border-radius: 4px;">`;
+              updateTestStatus(testItem, 'success', `成功获取favicon: ${faviconUrl}`);
+            } else {
+              updateTestStatus(testItem, 'fallback', '保持文字备用方案');
+            }
+          } catch (error) {
+            updateTestStatus(testItem, 'fallback', `错误: ${error.message}`);
+          }
+        })();
+      }
+    }
+
+    function createTestItem(site) {
+      const item = document.createElement('div');
+      item.className = 'test-item';
+      
+      item.innerHTML = `
+        <div class="test-icon">${site.title.charAt(0).toUpperCase()}</div>
+        <div class="test-info">
+          <div class="test-title">${site.title}</div>
+          <div class="test-url">${site.url}</div>
+        </div>
+        <div class="test-status status-loading">等待中...</div>
+      `;
+      
+      return item;
+    }
+
+    function updateTestStatus(item, status, message) {
+      const statusElement = item.querySelector('.test-status');
+      statusElement.className = `test-status status-${status}`;
+      statusElement.textContent = message;
+    }
+  </script>
+</body>
+</html> 

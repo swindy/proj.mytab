@@ -47,7 +47,6 @@ type SyncStatus = 'idle' | 'syncing' | 'success' | 'error';
 interface SyncData {
   bookmarks: Bookmark[];
   searchEngine: SearchEngine;
-  theme: string;
   workspaces: Workspaces;
   currentWorkspace: string;
   lastSync?: string;
@@ -1307,15 +1306,6 @@ function initModals(): void {
     });
   });
   
-  // 主题选择功能
-  const themeOptions = document.querySelectorAll('.theme-option');
-  themeOptions.forEach((option: Element): void => {
-    option.addEventListener('click', (): void => {
-      themeOptions.forEach((opt: Element): void => opt.classList.remove('active'));
-      option.classList.add('active');
-    });
-  });
-  
   // 保存设置按钮
   if (saveSettingsBtn && settingsModal) {
     saveSettingsBtn.addEventListener('click', (): void => {
@@ -1601,7 +1591,6 @@ interface AppSettings {
   backgroundInterval: number;
   showClock: boolean;
   showDate: boolean;
-  theme: 'auto' | 'light' | 'dark';
   searchEngine: SearchEngine;
   searchSuggestions: boolean;
   openInNewTab: boolean;
@@ -1609,13 +1598,12 @@ interface AppSettings {
 
 // 加载设置数据
 function loadSettingsData(): void {
-  if (typeof chrome !== 'undefined' && chrome.storage) {
+    if (typeof chrome !== 'undefined' && chrome.storage) {
     chrome.storage.sync.get([
       'autoChangeBackground',
-      'backgroundInterval', 
+      'backgroundInterval',
       'showClock',
       'showDate',
-      'theme',
       'searchEngine',
       'searchSuggestions',
       'openInNewTab'
@@ -1640,17 +1628,6 @@ function loadSettingsData(): void {
       if (showDateCheckbox) {
         showDateCheckbox.checked = data.showDate !== false;
       }
-      
-      // 外观设置
-      const theme = data.theme || 'auto';
-      const themeOptions = document.querySelectorAll('.theme-option');
-      themeOptions.forEach((option: Element): void => {
-        const themeOption = option as HTMLElement;
-        option.classList.remove('active');
-        if (themeOption.dataset['theme'] === theme) {
-          option.classList.add('active');
-        }
-      });
       
       // 搜索设置
       const searchEngine = data.searchEngine || 'baidu';
@@ -1686,10 +1663,6 @@ function saveSettingsData(): void {
   const searchSuggestionsCheckbox = getElement<HTMLInputElement>('search-suggestions');
   const openInNewTabCheckbox = getElement<HTMLInputElement>('open-in-new-tab');
   
-  // 获取选中的主题
-  const selectedTheme = document.querySelector('.theme-option.active') as HTMLElement;
-  const theme = selectedTheme?.dataset['theme'] || 'auto';
-  
   // 获取选中的搜索引擎
   const selectedSearchEngine = document.querySelector<HTMLInputElement>('input[name="search-engine"]:checked');
   const searchEngine = selectedSearchEngine?.value || 'baidu';
@@ -1699,7 +1672,6 @@ function saveSettingsData(): void {
     backgroundInterval: parseInt(backgroundIntervalInput?.value || '30'),
     showClock: showClockCheckbox?.checked !== false,
     showDate: showDateCheckbox?.checked !== false,
-    theme: theme as 'auto' | 'light' | 'dark',
     searchEngine: searchEngine as SearchEngine,
     searchSuggestions: searchSuggestionsCheckbox?.checked !== false,
     openInNewTab: openInNewTabCheckbox?.checked !== false
@@ -1728,7 +1700,6 @@ function resetSettingsData(): void {
     backgroundInterval: 30,
     showClock: true,
     showDate: true,
-    theme: 'auto',
     searchEngine: 'baidu',
     searchSuggestions: true,
     openInNewTab: true
@@ -2130,11 +2101,10 @@ async function syncNow(): Promise<void> {
 async function getCurrentSettings(): Promise<SyncData> {
   return new Promise((resolve) => {
     if (typeof chrome !== 'undefined' && chrome.storage) {
-      chrome.storage.sync.get(['bookmarks', 'searchEngine', 'theme', 'workspaces', 'currentWorkspace'], (data: any) => {
+      chrome.storage.sync.get(['bookmarks', 'searchEngine', 'workspaces', 'currentWorkspace'], (data: any) => {
         resolve({
           bookmarks: data.bookmarks || [],
           searchEngine: data.searchEngine || 'baidu',
-          theme: data.theme || 'light',
           workspaces: data.workspaces || workspaces,
           currentWorkspace: data.currentWorkspace || currentWorkspace,
           lastSync: new Date().toISOString()
@@ -2145,7 +2115,6 @@ async function getCurrentSettings(): Promise<SyncData> {
       resolve({
         bookmarks: [],
         searchEngine: 'baidu',
-        theme: 'light',
         workspaces: workspaces,
         currentWorkspace: currentWorkspace,
         lastSync: new Date().toISOString()
@@ -2221,7 +2190,6 @@ async function syncWithGist(token: string, gistId: string, localData: SyncData):
     chrome.storage.sync.set({
       bookmarks: mergedData.bookmarks,
       searchEngine: mergedData.searchEngine,
-      theme: mergedData.theme,
       workspaces: mergedData.workspaces,
       currentWorkspace: mergedData.currentWorkspace,
       githubSync: { 

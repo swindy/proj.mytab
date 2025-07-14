@@ -35,20 +35,11 @@ document.addEventListener('DOMContentLoaded', (): void => {
   getElement<HTMLInputElement>('github-sync-enabled').addEventListener('change', toggleGitHubSync);
   getElement('test-connection').addEventListener('click', testGitHubConnection);
   getElement('sync-now').addEventListener('click', syncNow);
-  
-  // 主题选择器事件监听
-  const themeButtons = document.querySelectorAll<HTMLElement>('.theme-option');
-  themeButtons.forEach((button: HTMLElement): void => {
-    button.addEventListener('click', (): void => {
-      themeButtons.forEach((btn: HTMLElement): void => btn.classList.remove('active'));
-      button.classList.add('active');
-    });
-  });
 });
 
 // 加载设置
 function loadSettings(): void {
-  chrome.storage.sync.get(['bookmarks', 'searchEngine', 'theme', 'githubSync'], (data: StorageData): void => {
+  chrome.storage.sync.get(['bookmarks', 'searchEngine', 'githubSync'], (data: StorageData): void => {
     // 加载书签
     if (data.bookmarks) {
       renderBookmarks(data.bookmarks);
@@ -59,21 +50,6 @@ function loadSettings(): void {
       const searchEngineInput = document.querySelector<HTMLInputElement>(`input[name="search-engine"][value="${data.searchEngine}"]`);
       if (searchEngineInput) {
         searchEngineInput.checked = true;
-      }
-    }
-    
-    // 加载主题设置
-    if (data.theme) {
-      const themeButton = document.querySelector<HTMLElement>(`.theme-option[data-theme="${data.theme}"]`);
-      if (themeButton) {
-        document.querySelectorAll<HTMLElement>('.theme-option').forEach((btn: HTMLElement): void => btn.classList.remove('active'));
-        themeButton.classList.add('active');
-      }
-    } else {
-      // 默认主题
-      const defaultThemeButton = document.querySelector<HTMLElement>('.theme-option[data-theme="light"]');
-      if (defaultThemeButton) {
-        defaultThemeButton.classList.add('active');
       }
     }
     
@@ -206,12 +182,8 @@ function saveSettings(): void {
   const searchEngineInput = getElementBySelector<HTMLInputElement>('input[name="search-engine"]:checked');
   const searchEngine = searchEngineInput.value as SearchEngine;
   
-  // 获取主题设置
-  const themeElement = getElementBySelector<HTMLElement>('.theme-option.active');
-  const theme = themeElement.dataset['theme'] as Theme;
-  
   // 保存设置
-  chrome.storage.sync.set({ searchEngine, theme }, (): void => {
+  chrome.storage.sync.set({ searchEngine }, (): void => {
     // 显示保存成功提示
     const saveButton = getElement<HTMLButtonElement>('save-settings');
     const originalText = saveButton.textContent || '保存设置';
@@ -323,11 +295,10 @@ async function syncNow(): Promise<void> {
 // 获取当前设置
 function getCurrentSettings(): Promise<SyncData> {
   return new Promise((resolve) => {
-    chrome.storage.sync.get(['bookmarks', 'searchEngine', 'theme', 'workspaces', 'currentWorkspace'], (data: StorageData) => {
+    chrome.storage.sync.get(['bookmarks', 'searchEngine', 'workspaces', 'currentWorkspace'], (data: StorageData) => {
       resolve({
         bookmarks: data.bookmarks || [],
         searchEngine: data.searchEngine || 'baidu',
-        theme: data.theme || 'light',
         workspaces: data.workspaces || {},
         currentWorkspace: data.currentWorkspace || 'default',
         lastSync: new Date().toISOString()
