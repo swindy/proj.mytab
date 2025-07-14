@@ -1,3 +1,6 @@
+// 导入Octokit
+import { Octokit } from '@octokit/rest';
+
 // 本地类型定义（避免import导致的export问题）
 interface Bookmark {
   title: string;
@@ -28,6 +31,26 @@ interface SearchEngineConfig {
 interface AnimeBackground {
   url: string;
   name?: string;
+}
+
+// GitHub同步配置接口
+interface GitHubSyncConfig {
+  token: string;
+  gistId?: string;
+  enabled: boolean;
+}
+
+// 同步状态类型
+type SyncStatus = 'idle' | 'syncing' | 'success' | 'error';
+
+// 同步配置数据接口
+interface SyncData {
+  bookmarks: Bookmark[];
+  searchEngine: SearchEngine;
+  theme: string;
+  workspaces: Workspaces;
+  currentWorkspace: string;
+  lastSync?: string;
 }
 
 // 配置数据接口
@@ -103,6 +126,10 @@ document.addEventListener('DOMContentLoaded', async (): Promise<void> => {
     // 初始化模态框
     initModals();
     console.log('模态框初始化完成');
+    
+    // 初始化GitHub同步
+    initGitHubSync();
+    console.log('GitHub同步初始化完成');
     
     // 初始化底边栏图标（异步）
     initBottomBarIcons();
@@ -215,7 +242,6 @@ function initWorkspaces(): void {
 async function completeWorkspaceInit(): Promise<void> {
   updateWorkspaceList();
   await initBookmarks();
-  updateConfigStats();
 }
 
 // 获取默认工作区
@@ -1643,13 +1669,10 @@ function loadSettingsData(): void {
         openInNewTabCheckbox.checked = data.openInNewTab !== false;
       }
       
-      // 更新配置统计信息
-      updateConfigStats();
     });
   } else {
     // 本地测试环境，使用默认值
     console.log('本地测试环境，使用默认设置');
-    updateConfigStats();
   }
 }
 
@@ -1885,9 +1908,8 @@ function replaceConfiguration(configData: ConfigData): void {
   // 保存到存储
   saveConfigurationToStorage(configData, (): void => {
     // 更新UI
-    updateWorkspaceList();
-    initBookmarks();
-    updateConfigStats();
+      updateWorkspaceList();
+  initBookmarks();
     
     alert('配置导入成功！页面将刷新以应用新配置。');
     setTimeout(() => {
@@ -1932,9 +1954,8 @@ function mergeConfiguration(configData: ConfigData): void {
   // 保存到存储
   saveConfigurationToStorage(configData, (): void => {
     // 更新UI
-    updateWorkspaceList();
-    initBookmarks();
-    updateConfigStats();
+      updateWorkspaceList();
+  initBookmarks();
     
     alert('配置合并成功！');
   });
@@ -1961,25 +1982,316 @@ function saveConfigurationToStorage(configData: ConfigData, callback: () => void
   }
 }
 
-// 更新配置统计信息
-function updateConfigStats(): void {
-  const workspaceCountEl = getElement('workspace-count');
-  const bookmarkCountEl = getElement('bookmark-count');
-  const currentWorkspaceNameEl = getElement('current-workspace-name');
+// GitHub同步功能
+let currentSyncStatus: SyncStatus = 'idle';
+
+// 初始化GitHub同步功能
+function initGitHubSync(): void {
+  const syncEnabledEl = getElement<HTMLInputElement>('github-sync-enabled');
+  const testConnectionBtn = getElement<HTMLButtonElement>('test-connection');
+  const syncNowBtn = getElement<HTMLButtonElement>('sync-now');
   
-  if (workspaceCountEl) {
-    workspaceCountEl.textContent = String(Object.keys(workspaces).length);
+  if (syncEnabledEl) {
+    syncEnabledEl.addEventListener('change', toggleGitHubSync);
+    loadGitHubSyncSettings();
   }
   
-  if (bookmarkCountEl) {
-    const totalBookmarks = Object.values(workspaces).reduce((total, workspace) => {
-      return total + (workspace.bookmarks?.length || 0);
-    }, 0);
-    bookmarkCountEl.textContent = String(totalBookmarks);
+  if (testConnectionBtn) {
+    testConnectionBtn.addEventListener('click', testGitHubConnection);
   }
   
-  if (currentWorkspaceNameEl) {
-    const currentWorkspaceData = workspaces[currentWorkspace];
-    currentWorkspaceNameEl.textContent = currentWorkspaceData?.name || '未知';
+  if (syncNowBtn) {
+    syncNowBtn.addEventListener('click', syncNow);
+  }
+}
+
+// 切换GitHub同步开关
+function toggleGitHubSync(): void {
+  const syncEnabledEl = getElement<HTMLInputElement>('github-sync-enabled');
+  const syncConfigEl = getElement<HTMLElement>('github-sync-config');
+  
+  if (!syncEnabledEl || !syncConfigEl) return;
+  
+  const syncEnabled = syncEnabledEl.checked;
+  
+  if (syncEnabled) {
+    syncConfigEl.style.display = 'block';
+    loadGitHubSyncSettings();
+  } else {
+    syncConfigEl.style.display = 'none';
+    // 保存禁用状态
+    if (typeof chrome !== 'undefined' && chrome.storage) {
+      chrome.storage.sync.set({ 
+        githubSync: { enabled: false } 
+      });
+    }
+  }
+}
+
+// 加载GitHub同步设置
+function loadGitHubSyncSettings(): void {
+  if (typeof chrome !== 'undefined' && chrome.storage) {
+    chrome.storage.sync.get(['githubSync'], (data: any) => {
+      const syncConfig = data.githubSync;
+      if (syncConfig) {
+        const syncEnabledEl = getElement<HTMLInputElement>('github-sync-enabled');
+        const githubTokenEl = getElement<HTMLInputElement>('github-token');
+        const syncConfigEl = getElement<HTMLElement>('github-sync-config');
+        
+        if (syncEnabledEl) syncEnabledEl.checked = syncConfig.enabled;
+        if (githubTokenEl) githubTokenEl.value = syncConfig.token || '';
+        
+        if (syncConfig.enabled && syncConfigEl) {
+          syncConfigEl.style.display = 'block';
+          updateSyncStatus('idle', '已启用GitHub同步');
+        } else if (syncConfigEl) {
+          syncConfigEl.style.display = 'none';
+        }
+      }
+    });
+  }
+}
+
+// 测试GitHub连接
+async function testGitHubConnection(): Promise<void> {
+  const tokenInput = getElement<HTMLInputElement>('github-token');
+  if (!tokenInput) return;
+  
+  const token = tokenInput.value.trim();
+  
+  if (!token) {
+    updateSyncStatus('error', '请输入GitHub Token');
+    return;
+  }
+  
+  try {
+    updateSyncStatus('syncing', '正在测试连接...');
+    
+    // 创建Octokit实例
+    const octokit = new Octokit({
+      auth: token,
+    });
+    
+    // 测试连接
+    const response = await octokit.rest.users.getAuthenticated();
+    updateSyncStatus('success', `连接成功，用户: ${response.data.login}`);
+    
+    // 保存token
+    if (typeof chrome !== 'undefined' && chrome.storage) {
+      chrome.storage.sync.set({
+        githubSync: { token, enabled: true }
+      });
+    }
+    
+  } catch (error: any) {
+    updateSyncStatus('error', `连接失败: ${error.message}`);
+  }
+}
+
+// 立即同步
+async function syncNow(): Promise<void> {
+  const tokenInput = getElement<HTMLInputElement>('github-token');
+  if (!tokenInput) return;
+  
+  const token = tokenInput.value.trim();
+  
+  if (!token) {
+    updateSyncStatus('error', '请先设置GitHub Token');
+    return;
+  }
+  
+  try {
+    updateSyncStatus('syncing', '正在同步...');
+    
+    // 获取当前本地设置
+    const localData = await getCurrentSettings();
+    
+    // 获取或创建gist
+    const gistId = await getOrCreateGist(token);
+
+    if (!gistId) {
+      updateSyncStatus('error', '创建gist失败');
+      return;
+    }
+
+    
+    // 同步数据
+    await syncWithGist(token, gistId, localData);
+    
+    
+    updateSyncStatus('success', '同步完成');
+    
+  } catch (error: any) {
+    updateSyncStatus('error', `同步失败: ${error.message}`);
+  }
+}
+
+// 获取当前设置
+async function getCurrentSettings(): Promise<SyncData> {
+  return new Promise((resolve) => {
+    if (typeof chrome !== 'undefined' && chrome.storage) {
+      chrome.storage.sync.get(['bookmarks', 'searchEngine', 'theme', 'workspaces', 'currentWorkspace'], (data: any) => {
+        resolve({
+          bookmarks: data.bookmarks || [],
+          searchEngine: data.searchEngine || 'baidu',
+          theme: data.theme || 'light',
+          workspaces: data.workspaces || workspaces,
+          currentWorkspace: data.currentWorkspace || currentWorkspace,
+          lastSync: new Date().toISOString()
+        });
+      });
+    } else {
+      // 本地测试环境
+      resolve({
+        bookmarks: [],
+        searchEngine: 'baidu',
+        theme: 'light',
+        workspaces: workspaces,
+        currentWorkspace: currentWorkspace,
+        lastSync: new Date().toISOString()
+      });
+    }
+  });
+}
+
+// 获取或创建gist
+async function getOrCreateGist(token: string): Promise<string | null> {
+  const octokit = new Octokit({
+    auth: token,
+  });
+  
+  // 获取用户的所有gists
+  const response = await octokit.rest.gists.list();
+  const gists = response.data;
+  
+  // 查找名为mytab的gist
+  const existingGist = gists.find((gist: any) => 
+    gist.files && 'mytab-config.json' in gist.files
+  );
+  
+  if (existingGist) {
+    return existingGist.id;
+  }
+  
+  // 创建新的gist
+  const createResponse = await octokit.rest.gists.create({
+    description: 'MyTab Extension Configuration',
+    public: false,
+    files: {
+      'mytab-config.json': {
+        content: JSON.stringify({
+          bookmarks: [],
+          searchEngine: 'baidu',
+          theme: 'light',
+          workspaces: {},
+          currentWorkspace: 'default'
+        }, null, 2)
+      }
+    }
+  });
+  
+  return createResponse.data.id || null;
+}
+
+// 与gist同步
+async function syncWithGist(token: string, gistId: string, localData: SyncData): Promise<void> {
+  const octokit = new Octokit({
+    auth: token,
+  });
+  
+  // 获取gist内容
+  const gistResponse = await octokit.rest.gists.get({
+    gist_id: gistId
+  });
+  
+  const gistContent = gistResponse.data.files!['mytab-config.json']?.content;
+  let remoteData: SyncData;
+  
+  if (gistContent) {
+    remoteData = JSON.parse(gistContent);
+  } else {
+    remoteData = localData;
+  }
+  
+  // 合并本地和远程数据
+  const mergedData = mergeData(localData, remoteData);
+  
+  // 更新本地存储
+  if (typeof chrome !== 'undefined' && chrome.storage) {
+    chrome.storage.sync.set({
+      bookmarks: mergedData.bookmarks,
+      searchEngine: mergedData.searchEngine,
+      theme: mergedData.theme,
+      workspaces: mergedData.workspaces,
+      currentWorkspace: mergedData.currentWorkspace,
+      githubSync: { 
+        token, 
+        enabled: true, 
+        gistId 
+      }
+    });
+  }
+  
+  // 更新全局变量
+  workspaces = mergedData.workspaces;
+  currentWorkspace = mergedData.currentWorkspace;
+  
+  // 更新gist
+  await octokit.rest.gists.update({
+    gist_id: gistId,
+    files: {
+      'mytab-config.json': {
+        content: JSON.stringify(mergedData, null, 2)
+      }
+    }
+  });
+  
+  // 重新渲染界面
+  await completeWorkspaceInit();
+  await initBookmarks();
+  updateLastSyncTime();
+}
+
+// 合并数据
+function mergeData(localData: SyncData, remoteData: SyncData): SyncData {
+  // 简单的合并策略：使用最新的时间戳
+  const localTime = new Date(localData.lastSync || '1970-01-01').getTime();
+  const remoteTime = new Date(remoteData.lastSync || '1970-01-01').getTime();
+  
+  if (localTime > remoteTime) {
+    return { ...localData, lastSync: new Date().toISOString() };
+  } else {
+    return { ...remoteData, lastSync: new Date().toISOString() };
+  }
+}
+
+// 更新同步状态
+function updateSyncStatus(status: SyncStatus, message: string): void {
+  currentSyncStatus = status;
+  const statusElement = getElement<HTMLElement>('sync-status-text');
+  if (statusElement) {
+    statusElement.textContent = message;
+    statusElement.className = `sync-status-${status}`;
+  }
+  
+  // 更新按钮状态
+  const testButton = getElement<HTMLButtonElement>('test-connection');
+  const syncButton = getElement<HTMLButtonElement>('sync-now');
+  
+  if (status === 'syncing') {
+    if (testButton) testButton.disabled = true;
+    if (syncButton) syncButton.disabled = true;
+  } else {
+    if (testButton) testButton.disabled = false;
+    if (syncButton) syncButton.disabled = false;
+  }
+}
+
+// 更新最后同步时间
+function updateLastSyncTime(): void {
+  const lastSyncElement = getElement<HTMLElement>('last-sync-time');
+  if (lastSyncElement) {
+    const now = new Date();
+    lastSyncElement.textContent = `最后同步: ${now.toLocaleString('zh-CN')}`;
   }
 } 

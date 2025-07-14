@@ -4,6 +4,7 @@
   "version": "1.0",
   "description": "自定义新标签页扩展",
   "permissions": ["storage", "tabs"],
+  "host_permissions": ["https://api.github.com/*"],
   "content_security_policy": {
     "extension_pages": "script-src 'self'; object-src 'self'; img-src 'self' data: https:; style-src 'self' 'unsafe-inline';"
   },

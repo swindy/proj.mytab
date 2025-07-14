@@ -276,4 +276,134 @@ h2 {
   justify-content: flex-end;
   gap: 8px;
   margin-top: 20px;
+}
+
+/* GitHub同步样式 */
+.github-sync-options {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.sync-toggle-container {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.toggle-switch {
+  position: relative;
+  width: 50px;
+  height: 24px;
+  cursor: pointer;
+}
+
+.toggle-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.toggle-slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  transition: 0.4s;
+  border-radius: 12px;
+}
+
+.toggle-slider:before {
+  position: absolute;
+  content: "";
+  height: 18px;
+  width: 18px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  transition: 0.4s;
+  border-radius: 50%;
+}
+
+.toggle-switch input:checked + .toggle-slider {
+  background-color: #4285f4;
+}
+
+.toggle-switch input:checked + .toggle-slider:before {
+  transform: translateX(26px);
+}
+
+.toggle-label {
+  font-size: 0.9rem;
+  color: #333;
+}
+
+.sync-config {
+  margin-top: 16px;
+  padding: 16px;
+  background-color: #f8f9fa;
+  border-radius: 6px;
+  border: 1px solid #e9ecef;
+}
+
+.help-text {
+  margin-top: 4px;
+  font-size: 0.8rem;
+  color: #666;
+}
+
+.help-text a {
+  color: #4285f4;
+  text-decoration: none;
+}
+
+.help-text a:hover {
+  text-decoration: underline;
+}
+
+.sync-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 12px 0;
+  padding: 8px 12px;
+  background-color: #f0f0f0;
+  border-radius: 4px;
+  font-size: 0.9rem;
+}
+
+.sync-time {
+  color: #666;
+  font-size: 0.8rem;
+}
+
+.sync-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.sync-actions .btn {
+  flex: 1;
+  font-size: 0.9rem;
+  padding: 8px 12px;
+}
+
+/* 同步状态样式 */
+.sync-status-idle {
+  color: #666;
+}
+
+.sync-status-syncing {
+  color: #4285f4;
+}
+
+.sync-status-success {
+  color: #00c851;
+}
+
+.sync-status-error {
+  color: #ff4444;
 } 

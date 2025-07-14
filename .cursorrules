@@ -1,0 +1,58 @@
+# MyTab 浏览器扩展项目开发规则
+
+## 项目结构
+- `src/` - TypeScript 源代码目录
+  - `background/` - 后台脚本
+  - `newtab/` - 新标签页相关代码
+  - `popup/` - 扩展弹窗相关代码
+  - `types/` - TypeScript 类型定义
+- `dist/` - 编译后的文件目录（通过 TypeScript 编译生成）
+- `manifest.json` - 扩展清单文件
+- `package.json` - 项目依赖配置
+
+## 开发规则
+
+### 1. 代码修改规则
+- **重要**：只能修改 `src/` 目录中的 TypeScript 源代码
+- **禁止**：直接修改 `dist/` 目录中的 JavaScript 文件
+- HTML 文件位于 `dist/` 目录中，可以直接修改
+- 修改 TypeScript 代码后需要运行 `npm run build` 进行编译
+
+### 2. 文件对应关系
+- `src/newtab/newtab.ts` → `dist/newtab/newtab.js`
+- `src/popup/popup.ts` → `dist/popup/popup.js`
+- `src/background/background.ts` → `dist/background/background.js`
+
+### 3. 构建命令
+- `npm run build` - 使用 Vite 构建项目
+- `npm run watch` - 监听文件变化并自动构建
+- `npm run dev` - 开发模式（监听构建）
+- `npm run build:prod` - 生产构建
+- `npm run preview` - 预览构建结果
+
+### 4. 扩展功能
+- 新标签页替换功能
+- 书签管理和工作区支持
+- 主题切换
+- 搜索引擎选择
+- GitHub Gist 同步配置
+- 动漫背景图片切换
+
+### 5. 依赖管理
+- 使用 `@octokit/rest` 进行 GitHub API 调用
+- 通过 npm 安装依赖，Vite 处理模块打包
+- TypeScript 类型定义在 `src/types/index.ts` 中
+- Vite 自动处理代码分割和优化
+
+### 6. 开发注意事项
+- 所有 DOM 操作需要考虑元素可能不存在的情况
+- Chrome 扩展 API 调用需要检查 `chrome` 对象是否存在
+- 本地测试时需要处理 Chrome API 不可用的情况
+- 遵循 Chrome 扩展 Manifest V3 规范
+
+### 7. 代码风格
+- 使用 TypeScript 严格模式
+- 优先使用 async/await 而非 Promise.then
+- 错误处理要完整，包含 try-catch
+- 函数和变量使用描述性命名
+- 中文注释和用户界面文本 

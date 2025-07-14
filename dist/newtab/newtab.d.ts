@@ -1,3 +1,4 @@
+declare const Octokit: any;
 interface Bookmark {
     title: string;
     url: string;
@@ -22,6 +23,20 @@ interface SearchEngineConfig {
 interface AnimeBackground {
     url: string;
     name?: string;
+}
+interface GitHubSyncConfig {
+    token: string;
+    gistId?: string;
+    enabled: boolean;
+}
+type SyncStatus = 'idle' | 'syncing' | 'success' | 'error';
+interface SyncData {
+    bookmarks: Bookmark[];
+    searchEngine: SearchEngine;
+    theme: string;
+    workspaces: Workspaces;
+    currentWorkspace: string;
+    lastSync?: string;
 }
 interface ConfigData {
     workspaces: Workspaces;
@@ -88,5 +103,16 @@ declare function getSelectedImportMode(): 'replace' | 'merge';
 declare function replaceConfiguration(configData: ConfigData): void;
 declare function mergeConfiguration(configData: ConfigData): void;
 declare function saveConfigurationToStorage(configData: ConfigData, callback: () => void): void;
-declare function updateConfigStats(): void;
+declare let currentSyncStatus: SyncStatus;
+declare function initGitHubSync(): void;
+declare function toggleGitHubSync(): void;
+declare function loadGitHubSyncSettings(): void;
+declare function testGitHubConnection(): Promise<void>;
+declare function syncNow(): Promise<void>;
+declare function getCurrentSettings(): Promise<SyncData>;
+declare function getOrCreateGist(token: string): Promise<string | null>;
+declare function syncWithGist(token: string, gistId: string, localData: SyncData): Promise<void>;
+declare function mergeData(localData: SyncData, remoteData: SyncData): SyncData;
+declare function updateSyncStatus(status: SyncStatus, message: string): void;
+declare function updateLastSyncTime(): void;
 //# sourceMappingURL=newtab.d.ts.map

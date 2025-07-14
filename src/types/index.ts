@@ -65,6 +65,26 @@ export type ElementSelector = string;
 // 事件处理器类型
 export type EventHandler<T = Event> = (event: T) => void;
 
+// GitHub同步配置接口
+export interface GitHubSyncConfig {
+  token: string;
+  gistId?: string;
+  enabled: boolean;
+}
+
+// 同步状态类型
+export type SyncStatus = 'idle' | 'syncing' | 'success' | 'error';
+
+// 同步配置数据接口
+export interface SyncData {
+  bookmarks: Bookmark[];
+  searchEngine: SearchEngine;
+  theme: Theme;
+  workspaces: Workspaces;
+  currentWorkspace: string;
+  lastSync?: string;
+}
+
 // 存储数据类型
 export interface StorageData {
   bookmarks?: Bookmark[];
@@ -72,4 +92,5 @@ export interface StorageData {
   theme?: Theme;
   workspaces?: Workspaces;
   currentWorkspace?: string;
+  githubSync?: GitHubSyncConfig;
 } 

@@ -41,11 +41,26 @@ export interface AnimeBackground {
 }
 export type ElementSelector = string;
 export type EventHandler<T = Event> = (event: T) => void;
+export interface GitHubSyncConfig {
+    token: string;
+    gistId?: string;
+    enabled: boolean;
+}
+export type SyncStatus = 'idle' | 'syncing' | 'success' | 'error';
+export interface SyncData {
+    bookmarks: Bookmark[];
+    searchEngine: SearchEngine;
+    theme: Theme;
+    workspaces: Workspaces;
+    currentWorkspace: string;
+    lastSync?: string;
+}
 export interface StorageData {
     bookmarks?: Bookmark[];
     searchEngine?: SearchEngine;
     theme?: Theme;
     workspaces?: Workspaces;
     currentWorkspace?: string;
+    githubSync?: GitHubSyncConfig;
 }
 //# sourceMappingURL=index.d.ts.map
