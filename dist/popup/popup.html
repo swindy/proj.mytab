@@ -1,133 +1,49 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>MyTab 设置</title>
   <link rel="stylesheet" href="popup.css">
 </head>
+
 <body>
   <div class="popup-container">
     <div class="popup-header">
       <h1>MyTab 设置</h1>
     </div>
-    
+
     <div class="popup-content">
-      <!-- 书签管理 -->
-      <div class="section">
-        <h2>书签管理</h2>
-        <div class="bookmark-controls">
-          <button id="add-bookmark" class="btn btn-primary">添加书签</button>
+      <!-- 保存到工作区表单 -->
+      <div id="save-to-workspace-dialog" class="section">
+        <div class="form-header">
+          <h3>保存到工作区</h3>
         </div>
-        <div id="bookmark-list" class="bookmark-list">
-          <!-- 书签列表将在这里动态生成 -->
-        </div>
-      </div>
-      
-      <!-- 搜索引擎设置 -->
-      <div class="section">
-        <h2>搜索引擎</h2>
-        <div class="search-engine-options">
-          <label class="radio-option">
-            <input type="radio" name="search-engine" value="baidu" checked>
-            <span class="radio-label">百度</span>
-          </label>
-          <label class="radio-option">
-            <input type="radio" name="search-engine" value="google">
-            <span class="radio-label">Google</span>
-          </label>
-          <label class="radio-option">
-            <input type="radio" name="search-engine" value="bing">
-            <span class="radio-label">Bing</span>
-          </label>
-        </div>
-      </div>
-      
-      <!-- 主题设置 -->
-      <div class="section">
-        <h2>主题</h2>
-        <div class="theme-options">
-          <div class="theme-option" data-theme="light">
-            <div class="theme-preview light-theme"></div>
-            <span>浅色</span>
+        <form id="save-to-workspace-form">
+          <div class="form-group">
+            <label for="workspace-bookmark-title">标题</label>
+            <input type="text" id="workspace-bookmark-title" required>
           </div>
-          <div class="theme-option" data-theme="dark">
-            <div class="theme-preview dark-theme"></div>
-            <span>深色</span>
+          <div class="form-group">
+            <label for="workspace-bookmark-url">网址</label>
+            <input type="url" id="workspace-bookmark-url" required>
           </div>
-          <div class="theme-option" data-theme="auto">
-            <div class="theme-preview auto-theme"></div>
-            <span>自动</span>
+          <div class="form-group">
+            <label for="workspace-select">选择工作区</label>
+            <select id="workspace-select" required>
+              <option value="">选择工作区</option>
+            </select>
           </div>
-        </div>
-      </div>
-      
-      <!-- GitHub同步设置 -->
-      <div class="section">
-        <h2>GitHub同步</h2>
-        <div class="github-sync-options">
-          <div class="sync-toggle-container">
-            <label class="toggle-switch">
-              <input type="checkbox" id="github-sync-enabled">
-              <span class="toggle-slider"></span>
-            </label>
-            <span class="toggle-label">启用GitHub同步</span>
+          <div class="form-actions">
+            <button type="submit" class="btn btn-primary">保存到工作区</button>
           </div>
-          
-          <div id="github-sync-config" class="sync-config" style="display: none;">
-            <div class="form-group">
-              <label for="github-token">GitHub Token</label>
-              <input type="password" id="github-token" placeholder="输入GitHub Personal Access Token">
-              <div class="help-text">
-                <a href="https://github.com/settings/tokens" target="_blank">创建GitHub Token</a>
-                （需要gist权限）
-              </div>
-            </div>
-            
-            <div class="sync-status">
-              <span id="sync-status-text">未同步</span>
-              <span id="last-sync-time" class="sync-time"></span>
-            </div>
-            
-            <div class="sync-actions">
-              <button id="test-connection" class="btn btn-secondary">测试连接</button>
-              <button id="sync-now" class="btn btn-primary">立即同步</button>
-            </div>
-          </div>
-        </div>
-      </div>
-      
-      <!-- 保存按钮 -->
-      <div class="section">
-        <button id="save-settings" class="btn btn-success">保存设置</button>
+        </form>
       </div>
     </div>
   </div>
-  
-  <!-- 添加书签对话框 -->
-  <div id="add-bookmark-dialog" class="modal">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h3>添加书签</h3>
-      </div>
-      <form id="add-bookmark-form" class="modal-body">
-        <div class="form-group">
-          <label for="bookmark-title">标题</label>
-          <input type="text" id="bookmark-title" required>
-        </div>
-        <div class="form-group">
-          <label for="bookmark-url">网址</label>
-          <input type="url" id="bookmark-url" required>
-        </div>
-        <div class="modal-actions">
-          <button type="button" id="cancel-add-bookmark" class="btn btn-secondary">取消</button>
-          <button type="submit" class="btn btn-primary">添加</button>
-        </div>
-      </form>
-    </div>
-  </div>
-  
-  <script src="https://unpkg.com/octokit@3.1.2/dist/octokit.min.js"></script>
+
   <script type="module" src="popup.js"></script>
 </body>
-</html> 
+
+</html>
