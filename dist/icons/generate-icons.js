@@ -2,7 +2,7 @@
 // 运行方法：在浏览器中打开此文件，点击"生成图标"按钮
 
 document.addEventListener('DOMContentLoaded', () => {
-  const sizes = [16, 48, 128];
+  const sizes = [16, 32, 48, 128];
   
   // 创建UI
   const container = document.createElement('div');
@@ -117,7 +117,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
     const steps = [
       '对每个图标右键点击并选择"图片另存为..."',
-      '将它们保存为相应的文件名（icon16.png, icon48.png, icon128.png）',
+      '将它们保存为相应的文件名（icon16.png, icon32.png, icon48.png, icon128.png）',
       '将这些文件保存到扩展的 icons 文件夹中',
       '完成后更新 manifest.json 文件以引用这些图标'
     ];
