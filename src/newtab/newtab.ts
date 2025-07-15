@@ -250,25 +250,25 @@ function getDefaultWorkspaces(): Workspaces {
       id: 'default',
       name: '默认',
       bookmarks: [],
-      icon: '🏠'
+      icon: 'las la-home'
     },
     work: {
       id: 'work',
       name: '工作',
       bookmarks: [],
-      icon: '💼'
+      icon: 'las la-briefcase'
     },
     study: {
       id: 'study',
       name: '学习',
       bookmarks: [],
-      icon: '📚'
+      icon: 'las la-book'
     },
     entertainment: {
       id: 'entertainment',
       name: '娱乐',
       bookmarks: [],
-      icon: '🎮'
+      icon: 'las la-gamepad'
     }
   };
 }
@@ -290,7 +290,16 @@ function updateWorkspaceList(): void {
     
     const icon = document.createElement('div');
     icon.className = 'workspace-icon';
-    icon.textContent = workspace.icon || '📁';
+    
+    // 如果是 Line Awesome 图标类名，创建 i 元素
+    if (workspace.icon && workspace.icon.startsWith('las ')) {
+      const iconElement = document.createElement('i');
+      iconElement.className = workspace.icon;
+      icon.appendChild(iconElement);
+    } else {
+      // 兼容旧的 emoji 图标
+      icon.textContent = workspace.icon || '📁';
+    }
     
     const name = document.createElement('span');
     name.textContent = workspace.name;
@@ -707,19 +716,8 @@ async function getWebsiteFavicon(url: string): Promise<string> {
   // 定义favicon路径，按优先级排序
   const faviconPaths = [
     // 高分辨率favicon
-    `https://${domain}/favicon-32x32.png`,
-    `https://${domain}/favicon-96x96.png`,
-    `https://${domain}/favicon-192x192.png`,
+    `https://${domain}/favicon.ico`,
     
-    // Apple touch icon (通常质量较好)
-    `https://${domain}/apple-touch-icon.png`,
-    `https://${domain}/apple-touch-icon-180x180.png`,
-    
-    // Google favicon服务 (备用)
-    `https://www.google.com/s2/favicons?domain=${domain}&sz=32`,
-    
-    // 标准favicon (最后备用)
-    `https://${domain}/favicon.ico`
   ];
   
   // 尝试加载每个路径
@@ -795,7 +793,9 @@ async function createBookmarkElementWithLogo(bookmark: Bookmark): Promise<HTMLEl
     iconImg.alt = bookmark.title;
     iconImg.style.width = '100%';
     iconImg.style.height = '100%';
-    iconImg.style.objectFit = 'cover';
+    iconImg.style.objectFit = 'contain';
+    iconImg.style.backgroundColor = '#f8f9fa';
+    iconImg.style.borderRadius = '4px';
     iconImg.onerror = (): void => {
       // 图标加载失败时，回退到文字
       showTextIcon();
@@ -816,6 +816,10 @@ async function createBookmarkElementWithLogo(bookmark: Bookmark): Promise<HTMLEl
   const titleElement = document.createElement('div');
   titleElement.className = 'bookmark-title';
   titleElement.textContent = bookmark.title;
+  titleElement.style.maxWidth = '108px';
+  titleElement.style.overflow = 'hidden';
+  titleElement.style.textOverflow = 'ellipsis';
+  titleElement.style.whiteSpace = 'nowrap';
   
   bookmarkItem.appendChild(iconContainer);
   bookmarkItem.appendChild(titleElement);
@@ -878,6 +882,11 @@ function createBookmarkElement(bookmark: Bookmark): HTMLElement {
     const iconImg = document.createElement('img');
     iconImg.src = bookmark.icon;
     iconImg.alt = bookmark.title;
+    iconImg.style.width = '100%';
+    iconImg.style.height = '100%';
+    iconImg.style.objectFit = 'contain';
+    iconImg.style.backgroundColor = '#f8f9fa';
+    iconImg.style.borderRadius = '4px';
     iconImg.onerror = (): void => {
       // 图标加载失败时，使用文字
       iconContainer.innerHTML = '';
@@ -906,6 +915,10 @@ function createBookmarkElement(bookmark: Bookmark): HTMLElement {
   const titleElement = document.createElement('div');
   titleElement.className = 'bookmark-title';
   titleElement.textContent = bookmark.title;
+  titleElement.style.maxWidth = '108px';
+  titleElement.style.overflow = 'hidden';
+  titleElement.style.textOverflow = 'ellipsis';
+  titleElement.style.whiteSpace = 'nowrap';
   
   bookmarkItem.appendChild(iconContainer);
   bookmarkItem.appendChild(titleElement);
@@ -932,6 +945,10 @@ function createAddBookmarkButton(): HTMLElement {
   const titleElement = document.createElement('div');
   titleElement.className = 'add-bookmark-title';
   titleElement.textContent = '添加链接';
+  titleElement.style.maxWidth = '108px';
+  titleElement.style.overflow = 'hidden';
+  titleElement.style.textOverflow = 'ellipsis';
+  titleElement.style.whiteSpace = 'nowrap';
   
   addBookmarkItem.appendChild(iconContainer);
   addBookmarkItem.appendChild(titleElement);
@@ -1423,7 +1440,10 @@ async function createQuickLinkElement(link: { title: string; url: string; emoji:
     img.alt = link.title;
     img.style.width = '100%';
     img.style.height = '100%';
-    img.style.objectFit = 'cover';
+    img.style.objectFit = 'contain';
+    img.style.backgroundColor = 'rgba(255, 255, 255, 0.1)';
+    img.style.borderRadius = '50%';
+    img.style.padding = '2px';
     
     // 图片加载失败时回退到文字
     img.onerror = (): void => {

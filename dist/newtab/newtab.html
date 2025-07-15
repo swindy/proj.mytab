@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>我的新标签页</title>
+  <link rel="stylesheet" href="line-awesome.min.css">
   <link rel="stylesheet" href="newtab.css">
 </head>
 <body>
@@ -105,15 +106,83 @@
         </div>
         <div class="form-group">
           <label for="workspace-icon">选择图标</label>
-          <div class="icon-selector">
-            <span class="icon-option" data-icon="🏠">🏠</span>
-            <span class="icon-option" data-icon="💼">💼</span>
-            <span class="icon-option" data-icon="📚">📚</span>
-            <span class="icon-option" data-icon="🎮">🎮</span>
-            <span class="icon-option" data-icon="🎨">🎨</span>
-            <span class="icon-option" data-icon="🔧">🔧</span>
-            <span class="icon-option" data-icon="📊">📊</span>
-            <span class="icon-option" data-icon="🌟">🌟</span>
+          <div class="icon-selector-container">
+            <div class="icon-selector">
+              <!-- 基础图标 -->
+              <span class="icon-option" data-icon="las la-home"><i class="las la-home"></i></span>
+              <span class="icon-option" data-icon="las la-briefcase"><i class="las la-briefcase"></i></span>
+              <span class="icon-option" data-icon="las la-book"><i class="las la-book"></i></span>
+              <span class="icon-option" data-icon="las la-graduation-cap"><i class="las la-graduation-cap"></i></span>
+              <span class="icon-option" data-icon="las la-gamepad"><i class="las la-gamepad"></i></span>
+              <span class="icon-option" data-icon="las la-palette"><i class="las la-palette"></i></span>
+              
+              <!-- 工作相关 -->
+              <span class="icon-option" data-icon="las la-tools"><i class="las la-tools"></i></span>
+              <span class="icon-option" data-icon="las la-chart-bar"><i class="las la-chart-bar"></i></span>
+              <span class="icon-option" data-icon="las la-code"><i class="las la-code"></i></span>
+              <span class="icon-option" data-icon="las la-laptop-code"><i class="las la-laptop-code"></i></span>
+              <span class="icon-option" data-icon="las la-database"><i class="las la-database"></i></span>
+              <span class="icon-option" data-icon="las la-server"><i class="las la-server"></i></span>
+              
+              <!-- 生活娱乐 -->
+              <span class="icon-option" data-icon="las la-coffee"><i class="las la-coffee"></i></span>
+              <span class="icon-option" data-icon="las la-music"><i class="las la-music"></i></span>
+              <span class="icon-option" data-icon="las la-film"><i class="las la-film"></i></span>
+              <span class="icon-option" data-icon="las la-camera"><i class="las la-camera"></i></span>
+              <span class="icon-option" data-icon="las la-headphones"><i class="las la-headphones"></i></span>
+              <span class="icon-option" data-icon="las la-microphone"><i class="las la-microphone"></i></span>
+              
+              <!-- 购物金融 -->
+              <span class="icon-option" data-icon="las la-shopping-cart"><i class="las la-shopping-cart"></i></span>
+              <span class="icon-option" data-icon="las la-credit-card"><i class="las la-credit-card"></i></span>
+              <span class="icon-option" data-icon="las la-coins"><i class="las la-coins"></i></span>
+              <span class="icon-option" data-icon="las la-wallet"><i class="las la-wallet"></i></span>
+              
+              <!-- 社交通讯 -->
+              <span class="icon-option" data-icon="las la-envelope"><i class="las la-envelope"></i></span>
+              <span class="icon-option" data-icon="las la-comments"><i class="las la-comments"></i></span>
+              <span class="icon-option" data-icon="las la-phone"><i class="las la-phone"></i></span>
+              <span class="icon-option" data-icon="las la-users"><i class="las la-users"></i></span>
+              <span class="icon-option" data-icon="las la-user-friends"><i class="las la-user-friends"></i></span>
+              
+              <!-- 文档办公 -->
+              <span class="icon-option" data-icon="las la-file-alt"><i class="las la-file-alt"></i></span>
+              <span class="icon-option" data-icon="las la-folder"><i class="las la-folder"></i></span>
+              <span class="icon-option" data-icon="las la-clipboard"><i class="las la-clipboard"></i></span>
+              <span class="icon-option" data-icon="las la-calendar"><i class="las la-calendar"></i></span>
+              <span class="icon-option" data-icon="las la-tasks"><i class="las la-tasks"></i></span>
+              
+              <!-- 设置工具 -->
+              <span class="icon-option" data-icon="las la-cog"><i class="las la-cog"></i></span>
+              <span class="icon-option" data-icon="las la-wrench"><i class="las la-wrench"></i></span>
+              <span class="icon-option" data-icon="las la-sliders-h"><i class="las la-sliders-h"></i></span>
+              
+              <!-- 特殊标记 -->
+              <span class="icon-option" data-icon="las la-star"><i class="las la-star"></i></span>
+              <span class="icon-option" data-icon="las la-heart"><i class="las la-heart"></i></span>
+              <span class="icon-option" data-icon="las la-bookmark"><i class="las la-bookmark"></i></span>
+              <span class="icon-option" data-icon="las la-flag"><i class="las la-flag"></i></span>
+              <span class="icon-option" data-icon="las la-trophy"><i class="las la-trophy"></i></span>
+              <span class="icon-option" data-icon="las la-award"><i class="las la-award"></i></span>
+              
+              <!-- 运动健康 -->
+              <span class="icon-option" data-icon="las la-dumbbell"><i class="las la-dumbbell"></i></span>
+              <span class="icon-option" data-icon="las la-running"><i class="las la-running"></i></span>
+              <span class="icon-option" data-icon="las la-heartbeat"><i class="las la-heartbeat"></i></span>
+              <span class="icon-option" data-icon="las la-bicycle"><i class="las la-bicycle"></i></span>
+              
+              <!-- 旅行交通 -->
+              <span class="icon-option" data-icon="las la-plane"><i class="las la-plane"></i></span>
+              <span class="icon-option" data-icon="las la-car"><i class="las la-car"></i></span>
+              <span class="icon-option" data-icon="las la-map-marked-alt"><i class="las la-map-marked-alt"></i></span>
+              <span class="icon-option" data-icon="las la-globe"><i class="las la-globe"></i></span>
+              
+              <!-- 安全网络 -->
+              <span class="icon-option" data-icon="las la-shield-alt"><i class="las la-shield-alt"></i></span>
+              <span class="icon-option" data-icon="las la-lock"><i class="las la-lock"></i></span>
+              <span class="icon-option" data-icon="las la-wifi"><i class="las la-wifi"></i></span>
+              <span class="icon-option" data-icon="las la-cloud"><i class="las la-cloud"></i></span>
+            </div>
           </div>
         </div>
         <div class="modal-buttons">
