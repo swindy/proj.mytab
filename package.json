@@ -8,7 +8,8 @@
     "watch": "vite build --watch",
     "dev": "npm run watch",
     "build:prod": "npm run build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "public": "node scripts/package.js"
   },
   "keywords": [
     "browser-extension",
@@ -22,6 +23,7 @@
   "devDependencies": {
     "@types/chrome": "^0.0.246",
     "@types/node": "^24.0.13",
+    "archiver": "^7.0.1",
     "typescript": "^5.0.0",
     "vite": "^6.3.5"
   },
