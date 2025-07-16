@@ -1,0 +1,3355 @@
+{
+  "metadata": {
+    "source": "Line Awesome (All Icons)",
+    "totalIcons": 1115,
+    "generatedAt": "2025-07-16T08:11:21.544Z",
+    "description": "所有Line Awesome图标，仅包含class字段"
+  },
+  "allIcons": [
+    {
+      "class": "lab la-500px"
+    },
+    {
+      "class": "lab la-accessible-icon"
+    },
+    {
+      "class": "lab la-accusoft"
+    },
+    {
+      "class": "las la-address-book"
+    },
+    {
+      "class": "las la-address-card"
+    },
+    {
+      "class": "las la-adjust"
+    },
+    {
+      "class": "lab la-adn"
+    },
+    {
+      "class": "lab la-adobe"
+    },
+    {
+      "class": "lab la-adversal"
+    },
+    {
+      "class": "lab la-affiliatetheme"
+    },
+    {
+      "class": "lab la-airbnb"
+    },
+    {
+      "class": "lab la-algolia"
+    },
+    {
+      "class": "las la-allergies"
+    },
+    {
+      "class": "lab la-amazon"
+    },
+    {
+      "class": "las la-ambulance"
+    },
+    {
+      "class": "las la-american-sign-language-interpreting"
+    },
+    {
+      "class": "lab la-amilia"
+    },
+    {
+      "class": "las la-anchor"
+    },
+    {
+      "class": "lab la-android"
+    },
+    {
+      "class": "lab la-angellist"
+    },
+    {
+      "class": "las la-angle-double-down"
+    },
+    {
+      "class": "las la-angle-double-left"
+    },
+    {
+      "class": "las la-angle-double-right"
+    },
+    {
+      "class": "las la-angle-double-up"
+    },
+    {
+      "class": "las la-angle-down"
+    },
+    {
+      "class": "las la-angle-left"
+    },
+    {
+      "class": "las la-angle-right"
+    },
+    {
+      "class": "las la-angle-up"
+    },
+    {
+      "class": "lab la-angrycreative"
+    },
+    {
+      "class": "lab la-angular"
+    },
+    {
+      "class": "lab la-app-store"
+    },
+    {
+      "class": "lab la-app-store-ios"
+    },
+    {
+      "class": "lab la-apper"
+    },
+    {
+      "class": "lab la-apple"
+    },
+    {
+      "class": "las la-apple-alt"
+    },
+    {
+      "class": "las la-archive"
+    },
+    {
+      "class": "las la-archway"
+    },
+    {
+      "class": "las la-arrow-alt-circle-down"
+    },
+    {
+      "class": "las la-arrow-alt-circle-left"
+    },
+    {
+      "class": "las la-arrow-alt-circle-right"
+    },
+    {
+      "class": "las la-arrow-alt-circle-up"
+    },
+    {
+      "class": "las la-arrow-circle-down"
+    },
+    {
+      "class": "las la-arrow-circle-left"
+    },
+    {
+      "class": "las la-arrow-circle-right"
+    },
+    {
+      "class": "las la-arrow-circle-up"
+    },
+    {
+      "class": "las la-arrow-down"
+    },
+    {
+      "class": "las la-arrow-left"
+    },
+    {
+      "class": "las la-arrow-right"
+    },
+    {
+      "class": "las la-arrow-up"
+    },
+    {
+      "class": "las la-arrows-alt"
+    },
+    {
+      "class": "las la-arrows-alt-h"
+    },
+    {
+      "class": "las la-arrows-alt-v"
+    },
+    {
+      "class": "lab la-artstation"
+    },
+    {
+      "class": "las la-assistive-listening-systems"
+    },
+    {
+      "class": "lab la-asymmetrik"
+    },
+    {
+      "class": "las la-at"
+    },
+    {
+      "class": "las la-atlas"
+    },
+    {
+      "class": "lab la-atlassian"
+    },
+    {
+      "class": "lab la-audible"
+    },
+    {
+      "class": "las la-audio-description"
+    },
+    {
+      "class": "lab la-autoprefixer"
+    },
+    {
+      "class": "lab la-avianex"
+    },
+    {
+      "class": "lab la-aviato"
+    },
+    {
+      "class": "las la-award"
+    },
+    {
+      "class": "lab la-aws"
+    },
+    {
+      "class": "las la-baby"
+    },
+    {
+      "class": "las la-baby-carriage"
+    },
+    {
+      "class": "las la-backward"
+    },
+    {
+      "class": "las la-bacon"
+    },
+    {
+      "class": "las la-balance-scale"
+    },
+    {
+      "class": "las la-balance-scale-left"
+    },
+    {
+      "class": "las la-balance-scale-right"
+    },
+    {
+      "class": "las la-ban"
+    },
+    {
+      "class": "las la-band-aid"
+    },
+    {
+      "class": "lab la-bandcamp"
+    },
+    {
+      "class": "las la-barcode"
+    },
+    {
+      "class": "las la-bars"
+    },
+    {
+      "class": "las la-baseball-ball"
+    },
+    {
+      "class": "las la-basketball-ball"
+    },
+    {
+      "class": "las la-bath"
+    },
+    {
+      "class": "lab la-battle-net"
+    },
+    {
+      "class": "las la-bed"
+    },
+    {
+      "class": "las la-beer"
+    },
+    {
+      "class": "lab la-behance"
+    },
+    {
+      "class": "lab la-behance-square"
+    },
+    {
+      "class": "las la-bell"
+    },
+    {
+      "class": "las la-bell-slash"
+    },
+    {
+      "class": "las la-bezier-curve"
+    },
+    {
+      "class": "las la-bicycle"
+    },
+    {
+      "class": "las la-biking"
+    },
+    {
+      "class": "lab la-bimobject"
+    },
+    {
+      "class": "las la-binoculars"
+    },
+    {
+      "class": "las la-biohazard"
+    },
+    {
+      "class": "las la-birthday-cake"
+    },
+    {
+      "class": "lab la-bitbucket"
+    },
+    {
+      "class": "lab la-bitcoin"
+    },
+    {
+      "class": "lab la-bity"
+    },
+    {
+      "class": "lab la-black-tie"
+    },
+    {
+      "class": "lab la-blackberry"
+    },
+    {
+      "class": "las la-blender"
+    },
+    {
+      "class": "las la-blind"
+    },
+    {
+      "class": "las la-blog"
+    },
+    {
+      "class": "lab la-blogger"
+    },
+    {
+      "class": "lab la-blogger-b"
+    },
+    {
+      "class": "lab la-bluetooth"
+    },
+    {
+      "class": "lab la-bluetooth-b"
+    },
+    {
+      "class": "las la-bolt"
+    },
+    {
+      "class": "las la-bomb"
+    },
+    {
+      "class": "las la-bone"
+    },
+    {
+      "class": "las la-bong"
+    },
+    {
+      "class": "las la-book"
+    },
+    {
+      "class": "las la-book-dead"
+    },
+    {
+      "class": "las la-book-medical"
+    },
+    {
+      "class": "las la-bookmark"
+    },
+    {
+      "class": "lab la-bootstrap"
+    },
+    {
+      "class": "las la-bowling-ball"
+    },
+    {
+      "class": "las la-braille"
+    },
+    {
+      "class": "las la-brain"
+    },
+    {
+      "class": "las la-bread-slice"
+    },
+    {
+      "class": "las la-briefcase"
+    },
+    {
+      "class": "las la-briefcase-medical"
+    },
+    {
+      "class": "las la-broadcast-tower"
+    },
+    {
+      "class": "las la-brush"
+    },
+    {
+      "class": "lab la-btc"
+    },
+    {
+      "class": "lab la-buffer"
+    },
+    {
+      "class": "las la-bug"
+    },
+    {
+      "class": "las la-building"
+    },
+    {
+      "class": "las la-bullhorn"
+    },
+    {
+      "class": "las la-bullseye"
+    },
+    {
+      "class": "las la-burn"
+    },
+    {
+      "class": "lab la-buromobelexperte"
+    },
+    {
+      "class": "las la-bus"
+    },
+    {
+      "class": "las la-bus-alt"
+    },
+    {
+      "class": "las la-business-time"
+    },
+    {
+      "class": "lab la-buy-n-large"
+    },
+    {
+      "class": "lab la-buysellads"
+    },
+    {
+      "class": "las la-calculator"
+    },
+    {
+      "class": "las la-calendar"
+    },
+    {
+      "class": "las la-calendar-alt"
+    },
+    {
+      "class": "las la-calendar-check"
+    },
+    {
+      "class": "las la-calendar-minus"
+    },
+    {
+      "class": "las la-calendar-plus"
+    },
+    {
+      "class": "las la-calendar-times"
+    },
+    {
+      "class": "las la-camera"
+    },
+    {
+      "class": "las la-camera-retro"
+    },
+    {
+      "class": "las la-campground"
+    },
+    {
+      "class": "lab la-canadian-maple-leaf"
+    },
+    {
+      "class": "las la-candy-cane"
+    },
+    {
+      "class": "las la-cannabis"
+    },
+    {
+      "class": "las la-capsules"
+    },
+    {
+      "class": "las la-car"
+    },
+    {
+      "class": "las la-caret-down"
+    },
+    {
+      "class": "las la-caret-left"
+    },
+    {
+      "class": "las la-caret-right"
+    },
+    {
+      "class": "las la-caret-square-down"
+    },
+    {
+      "class": "las la-caret-square-left"
+    },
+    {
+      "class": "las la-caret-square-right"
+    },
+    {
+      "class": "las la-caret-square-up"
+    },
+    {
+      "class": "las la-caret-up"
+    },
+    {
+      "class": "las la-carrot"
+    },
+    {
+      "class": "las la-cart-arrow-down"
+    },
+    {
+      "class": "las la-cat"
+    },
+    {
+      "class": "lab la-centercode"
+    },
+    {
+      "class": "lab la-centos"
+    },
+    {
+      "class": "las la-certificate"
+    },
+    {
+      "class": "las la-chalkboard"
+    },
+    {
+      "class": "las la-chalkboard-teacher"
+    },
+    {
+      "class": "las la-chart-area"
+    },
+    {
+      "class": "las la-chart-bar"
+    },
+    {
+      "class": "las la-chart-line"
+    },
+    {
+      "class": "las la-chart-pie"
+    },
+    {
+      "class": "las la-check"
+    },
+    {
+      "class": "las la-check-circle"
+    },
+    {
+      "class": "las la-check-double"
+    },
+    {
+      "class": "las la-check-square"
+    },
+    {
+      "class": "las la-cheese"
+    },
+    {
+      "class": "las la-chess"
+    },
+    {
+      "class": "las la-chess-bishop"
+    },
+    {
+      "class": "las la-chess-board"
+    },
+    {
+      "class": "las la-chess-king"
+    },
+    {
+      "class": "las la-chess-knight"
+    },
+    {
+      "class": "las la-chess-pawn"
+    },
+    {
+      "class": "las la-chess-queen"
+    },
+    {
+      "class": "las la-chess-rook"
+    },
+    {
+      "class": "las la-chevron-circle-down"
+    },
+    {
+      "class": "las la-chevron-circle-left"
+    },
+    {
+      "class": "las la-chevron-circle-right"
+    },
+    {
+      "class": "las la-chevron-circle-up"
+    },
+    {
+      "class": "las la-chevron-down"
+    },
+    {
+      "class": "las la-chevron-left"
+    },
+    {
+      "class": "las la-chevron-right"
+    },
+    {
+      "class": "las la-chevron-up"
+    },
+    {
+      "class": "las la-child"
+    },
+    {
+      "class": "lab la-chrome"
+    },
+    {
+      "class": "lab la-chromecast"
+    },
+    {
+      "class": "las la-church"
+    },
+    {
+      "class": "las la-circle"
+    },
+    {
+      "class": "las la-city"
+    },
+    {
+      "class": "las la-clinic-medical"
+    },
+    {
+      "class": "las la-clipboard"
+    },
+    {
+      "class": "las la-clock"
+    },
+    {
+      "class": "las la-clone"
+    },
+    {
+      "class": "las la-closed-captioning"
+    },
+    {
+      "class": "las la-cloud"
+    },
+    {
+      "class": "las la-cloud-download-alt"
+    },
+    {
+      "class": "las la-cloud-meatball"
+    },
+    {
+      "class": "las la-cloud-moon"
+    },
+    {
+      "class": "las la-cloud-moon-rain"
+    },
+    {
+      "class": "las la-cloud-rain"
+    },
+    {
+      "class": "las la-cloud-showers-heavy"
+    },
+    {
+      "class": "las la-cloud-sun"
+    },
+    {
+      "class": "las la-cloud-sun-rain"
+    },
+    {
+      "class": "las la-cloud-upload-alt"
+    },
+    {
+      "class": "lab la-cloudscale"
+    },
+    {
+      "class": "lab la-cloudsmith"
+    },
+    {
+      "class": "lab la-cloudversify"
+    },
+    {
+      "class": "las la-cocktail"
+    },
+    {
+      "class": "lab la-codepen"
+    },
+    {
+      "class": "lab la-codiepie"
+    },
+    {
+      "class": "las la-coffee"
+    },
+    {
+      "class": "las la-cog"
+    },
+    {
+      "class": "las la-cogs"
+    },
+    {
+      "class": "las la-columns"
+    },
+    {
+      "class": "las la-comment"
+    },
+    {
+      "class": "las la-comment-alt"
+    },
+    {
+      "class": "las la-comment-medical"
+    },
+    {
+      "class": "las la-comments"
+    },
+    {
+      "class": "las la-compass"
+    },
+    {
+      "class": "las la-compress"
+    },
+    {
+      "class": "las la-compress-arrows-alt"
+    },
+    {
+      "class": "las la-concierge-bell"
+    },
+    {
+      "class": "lab la-confluence"
+    },
+    {
+      "class": "lab la-connectdevelop"
+    },
+    {
+      "class": "lab la-contao"
+    },
+    {
+      "class": "las la-cookie"
+    },
+    {
+      "class": "las la-cookie-bite"
+    },
+    {
+      "class": "las la-copy"
+    },
+    {
+      "class": "las la-copyright"
+    },
+    {
+      "class": "lab la-cotton-bureau"
+    },
+    {
+      "class": "lab la-cpanel"
+    },
+    {
+      "class": "lab la-creative-commons"
+    },
+    {
+      "class": "lab la-creative-commons-by"
+    },
+    {
+      "class": "lab la-creative-commons-nc"
+    },
+    {
+      "class": "lab la-creative-commons-nc-eu"
+    },
+    {
+      "class": "lab la-creative-commons-nc-jp"
+    },
+    {
+      "class": "lab la-creative-commons-nd"
+    },
+    {
+      "class": "lab la-creative-commons-pd"
+    },
+    {
+      "class": "lab la-creative-commons-pd-alt"
+    },
+    {
+      "class": "lab la-creative-commons-remix"
+    },
+    {
+      "class": "lab la-creative-commons-sa"
+    },
+    {
+      "class": "lab la-creative-commons-sampling"
+    },
+    {
+      "class": "lab la-creative-commons-sampling-plus"
+    },
+    {
+      "class": "lab la-creative-commons-share"
+    },
+    {
+      "class": "lab la-creative-commons-zero"
+    },
+    {
+      "class": "las la-crop"
+    },
+    {
+      "class": "las la-crop-alt"
+    },
+    {
+      "class": "las la-crosshairs"
+    },
+    {
+      "class": "las la-crow"
+    },
+    {
+      "class": "las la-crutch"
+    },
+    {
+      "class": "lab la-css3"
+    },
+    {
+      "class": "lab la-css3-alt"
+    },
+    {
+      "class": "las la-cube"
+    },
+    {
+      "class": "las la-cubes"
+    },
+    {
+      "class": "las la-cut"
+    },
+    {
+      "class": "lab la-cuttlefish"
+    },
+    {
+      "class": "lab la-dashcube"
+    },
+    {
+      "class": "las la-database"
+    },
+    {
+      "class": "las la-deaf"
+    },
+    {
+      "class": "lab la-delicious"
+    },
+    {
+      "class": "lab la-deploydog"
+    },
+    {
+      "class": "lab la-deskpro"
+    },
+    {
+      "class": "las la-desktop"
+    },
+    {
+      "class": "lab la-dev"
+    },
+    {
+      "class": "lab la-deviantart"
+    },
+    {
+      "class": "lab la-dhl"
+    },
+    {
+      "class": "las la-diagnoses"
+    },
+    {
+      "class": "lab la-diaspora"
+    },
+    {
+      "class": "las la-dice"
+    },
+    {
+      "class": "las la-dice-d20"
+    },
+    {
+      "class": "las la-dice-d6"
+    },
+    {
+      "class": "las la-dice-five"
+    },
+    {
+      "class": "las la-dice-four"
+    },
+    {
+      "class": "las la-dice-one"
+    },
+    {
+      "class": "las la-dice-six"
+    },
+    {
+      "class": "las la-dice-three"
+    },
+    {
+      "class": "las la-dice-two"
+    },
+    {
+      "class": "lab la-digg"
+    },
+    {
+      "class": "lab la-digital-ocean"
+    },
+    {
+      "class": "las la-digital-tachograph"
+    },
+    {
+      "class": "lab la-discord"
+    },
+    {
+      "class": "lab la-discourse"
+    },
+    {
+      "class": "las la-dna"
+    },
+    {
+      "class": "lab la-dochub"
+    },
+    {
+      "class": "lab la-docker"
+    },
+    {
+      "class": "las la-dog"
+    },
+    {
+      "class": "las la-dollar-sign"
+    },
+    {
+      "class": "las la-door-closed"
+    },
+    {
+      "class": "las la-door-open"
+    },
+    {
+      "class": "las la-dot-circle"
+    },
+    {
+      "class": "las la-dove"
+    },
+    {
+      "class": "las la-download"
+    },
+    {
+      "class": "lab la-draft2digital"
+    },
+    {
+      "class": "las la-drafting-compass"
+    },
+    {
+      "class": "las la-dragon"
+    },
+    {
+      "class": "las la-draw-polygon"
+    },
+    {
+      "class": "lab la-dribbble"
+    },
+    {
+      "class": "lab la-dribbble-square"
+    },
+    {
+      "class": "lab la-dropbox"
+    },
+    {
+      "class": "las la-drum"
+    },
+    {
+      "class": "las la-drum-steelpan"
+    },
+    {
+      "class": "las la-drumstick-bite"
+    },
+    {
+      "class": "lab la-drupal"
+    },
+    {
+      "class": "las la-dumbbell"
+    },
+    {
+      "class": "las la-dungeon"
+    },
+    {
+      "class": "lab la-dyalog"
+    },
+    {
+      "class": "lab la-earlybirds"
+    },
+    {
+      "class": "lab la-ebay"
+    },
+    {
+      "class": "lab la-edge"
+    },
+    {
+      "class": "las la-edit"
+    },
+    {
+      "class": "las la-egg"
+    },
+    {
+      "class": "las la-eject"
+    },
+    {
+      "class": "lab la-elementor"
+    },
+    {
+      "class": "las la-ellipsis-h"
+    },
+    {
+      "class": "las la-ellipsis-v"
+    },
+    {
+      "class": "lab la-ello"
+    },
+    {
+      "class": "lab la-ember"
+    },
+    {
+      "class": "lab la-empire"
+    },
+    {
+      "class": "las la-envelope"
+    },
+    {
+      "class": "las la-envelope-open"
+    },
+    {
+      "class": "las la-envelope-square"
+    },
+    {
+      "class": "lab la-envira"
+    },
+    {
+      "class": "las la-eraser"
+    },
+    {
+      "class": "lab la-erlang"
+    },
+    {
+      "class": "lab la-ethereum"
+    },
+    {
+      "class": "las la-ethernet"
+    },
+    {
+      "class": "lab la-etsy"
+    },
+    {
+      "class": "las la-euro-sign"
+    },
+    {
+      "class": "lab la-evernote"
+    },
+    {
+      "class": "las la-exchange-alt"
+    },
+    {
+      "class": "las la-exclamation"
+    },
+    {
+      "class": "las la-exclamation-circle"
+    },
+    {
+      "class": "las la-exclamation-triangle"
+    },
+    {
+      "class": "las la-expand"
+    },
+    {
+      "class": "las la-expand-arrows-alt"
+    },
+    {
+      "class": "lab la-expeditedssl"
+    },
+    {
+      "class": "las la-external-link-alt"
+    },
+    {
+      "class": "las la-external-link-square-alt"
+    },
+    {
+      "class": "las la-eye"
+    },
+    {
+      "class": "las la-eye-dropper"
+    },
+    {
+      "class": "las la-eye-slash"
+    },
+    {
+      "class": "lab la-facebook"
+    },
+    {
+      "class": "lab la-facebook-f"
+    },
+    {
+      "class": "lab la-facebook-messenger"
+    },
+    {
+      "class": "lab la-facebook-square"
+    },
+    {
+      "class": "las la-fast-backward"
+    },
+    {
+      "class": "las la-fast-forward"
+    },
+    {
+      "class": "las la-fax"
+    },
+    {
+      "class": "las la-feather"
+    },
+    {
+      "class": "las la-feather-alt"
+    },
+    {
+      "class": "lab la-fedex"
+    },
+    {
+      "class": "lab la-fedora"
+    },
+    {
+      "class": "las la-female"
+    },
+    {
+      "class": "las la-fighter-jet"
+    },
+    {
+      "class": "lab la-figma"
+    },
+    {
+      "class": "las la-file"
+    },
+    {
+      "class": "las la-file-alt"
+    },
+    {
+      "class": "las la-file-audio"
+    },
+    {
+      "class": "las la-file-download"
+    },
+    {
+      "class": "las la-file-export"
+    },
+    {
+      "class": "las la-file-import"
+    },
+    {
+      "class": "las la-file-medical"
+    },
+    {
+      "class": "las la-file-medical-alt"
+    },
+    {
+      "class": "las la-file-prescription"
+    },
+    {
+      "class": "las la-file-upload"
+    },
+    {
+      "class": "las la-file-video"
+    },
+    {
+      "class": "las la-fill"
+    },
+    {
+      "class": "las la-fill-drip"
+    },
+    {
+      "class": "las la-film"
+    },
+    {
+      "class": "las la-filter"
+    },
+    {
+      "class": "las la-fingerprint"
+    },
+    {
+      "class": "las la-fire"
+    },
+    {
+      "class": "las la-fire-alt"
+    },
+    {
+      "class": "las la-fire-extinguisher"
+    },
+    {
+      "class": "lab la-firefox"
+    },
+    {
+      "class": "las la-first-aid"
+    },
+    {
+      "class": "lab la-first-order"
+    },
+    {
+      "class": "lab la-first-order-alt"
+    },
+    {
+      "class": "lab la-firstdraft"
+    },
+    {
+      "class": "las la-fish"
+    },
+    {
+      "class": "las la-flag"
+    },
+    {
+      "class": "las la-flag-checkered"
+    },
+    {
+      "class": "las la-flask"
+    },
+    {
+      "class": "lab la-flickr"
+    },
+    {
+      "class": "lab la-flipboard"
+    },
+    {
+      "class": "lab la-fly"
+    },
+    {
+      "class": "las la-folder"
+    },
+    {
+      "class": "las la-folder-minus"
+    },
+    {
+      "class": "las la-folder-open"
+    },
+    {
+      "class": "las la-folder-plus"
+    },
+    {
+      "class": "lab la-font-awesome"
+    },
+    {
+      "class": "lab la-font-awesome-alt"
+    },
+    {
+      "class": "lab la-font-awesome-flag"
+    },
+    {
+      "class": "lab la-fonticons"
+    },
+    {
+      "class": "lab la-fonticons-fi"
+    },
+    {
+      "class": "las la-football-ball"
+    },
+    {
+      "class": "lab la-fort-awesome"
+    },
+    {
+      "class": "lab la-fort-awesome-alt"
+    },
+    {
+      "class": "lab la-forumbee"
+    },
+    {
+      "class": "las la-forward"
+    },
+    {
+      "class": "lab la-foursquare"
+    },
+    {
+      "class": "lab la-free-code-camp"
+    },
+    {
+      "class": "lab la-freebsd"
+    },
+    {
+      "class": "las la-frog"
+    },
+    {
+      "class": "las la-frown"
+    },
+    {
+      "class": "lab la-fulcrum"
+    },
+    {
+      "class": "las la-futbol"
+    },
+    {
+      "class": "las la-gamepad"
+    },
+    {
+      "class": "las la-gavel"
+    },
+    {
+      "class": "las la-gem"
+    },
+    {
+      "class": "lab la-get-pocket"
+    },
+    {
+      "class": "lab la-gg"
+    },
+    {
+      "class": "lab la-gg-circle"
+    },
+    {
+      "class": "las la-ghost"
+    },
+    {
+      "class": "las la-gift"
+    },
+    {
+      "class": "las la-gifts"
+    },
+    {
+      "class": "lab la-git"
+    },
+    {
+      "class": "lab la-git-alt"
+    },
+    {
+      "class": "lab la-git-square"
+    },
+    {
+      "class": "lab la-github"
+    },
+    {
+      "class": "lab la-github-alt"
+    },
+    {
+      "class": "lab la-github-square"
+    },
+    {
+      "class": "lab la-gitkraken"
+    },
+    {
+      "class": "lab la-gitlab"
+    },
+    {
+      "class": "lab la-gitter"
+    },
+    {
+      "class": "las la-glass-cheers"
+    },
+    {
+      "class": "las la-glass-martini"
+    },
+    {
+      "class": "las la-glass-martini-alt"
+    },
+    {
+      "class": "las la-glass-whiskey"
+    },
+    {
+      "class": "las la-glasses"
+    },
+    {
+      "class": "lab la-glide"
+    },
+    {
+      "class": "lab la-glide-g"
+    },
+    {
+      "class": "las la-globe"
+    },
+    {
+      "class": "las la-globe-africa"
+    },
+    {
+      "class": "las la-globe-americas"
+    },
+    {
+      "class": "las la-globe-asia"
+    },
+    {
+      "class": "las la-globe-europe"
+    },
+    {
+      "class": "lab la-gofore"
+    },
+    {
+      "class": "las la-golf-ball"
+    },
+    {
+      "class": "lab la-goodreads"
+    },
+    {
+      "class": "lab la-goodreads-g"
+    },
+    {
+      "class": "lab la-google"
+    },
+    {
+      "class": "lab la-google-drive"
+    },
+    {
+      "class": "lab la-google-play"
+    },
+    {
+      "class": "lab la-google-plus"
+    },
+    {
+      "class": "lab la-google-plus-g"
+    },
+    {
+      "class": "lab la-google-plus-square"
+    },
+    {
+      "class": "las la-gopuram"
+    },
+    {
+      "class": "las la-graduation-cap"
+    },
+    {
+      "class": "lab la-gratipay"
+    },
+    {
+      "class": "lab la-grav"
+    },
+    {
+      "class": "las la-grip-horizontal"
+    },
+    {
+      "class": "las la-grip-lines"
+    },
+    {
+      "class": "las la-grip-lines-vertical"
+    },
+    {
+      "class": "las la-grip-vertical"
+    },
+    {
+      "class": "lab la-gripfire"
+    },
+    {
+      "class": "lab la-grunt"
+    },
+    {
+      "class": "las la-guitar"
+    },
+    {
+      "class": "lab la-gulp"
+    },
+    {
+      "class": "las la-h-square"
+    },
+    {
+      "class": "lab la-hacker-news"
+    },
+    {
+      "class": "lab la-hacker-news-square"
+    },
+    {
+      "class": "lab la-hackerrank"
+    },
+    {
+      "class": "las la-hamburger"
+    },
+    {
+      "class": "las la-hand-point-down"
+    },
+    {
+      "class": "las la-hand-point-left"
+    },
+    {
+      "class": "las la-hand-point-right"
+    },
+    {
+      "class": "las la-hand-point-up"
+    },
+    {
+      "class": "las la-hand-pointer"
+    },
+    {
+      "class": "las la-hashtag"
+    },
+    {
+      "class": "las la-hat-wizard"
+    },
+    {
+      "class": "las la-hdd"
+    },
+    {
+      "class": "las la-headphones"
+    },
+    {
+      "class": "las la-headphones-alt"
+    },
+    {
+      "class": "las la-headset"
+    },
+    {
+      "class": "las la-heart"
+    },
+    {
+      "class": "las la-heart-broken"
+    },
+    {
+      "class": "las la-heartbeat"
+    },
+    {
+      "class": "las la-helicopter"
+    },
+    {
+      "class": "las la-highlighter"
+    },
+    {
+      "class": "las la-hiking"
+    },
+    {
+      "class": "las la-hippo"
+    },
+    {
+      "class": "lab la-hips"
+    },
+    {
+      "class": "lab la-hire-a-helper"
+    },
+    {
+      "class": "las la-history"
+    },
+    {
+      "class": "las la-hockey-puck"
+    },
+    {
+      "class": "las la-holly-berry"
+    },
+    {
+      "class": "las la-home"
+    },
+    {
+      "class": "lab la-hooli"
+    },
+    {
+      "class": "lab la-hornbill"
+    },
+    {
+      "class": "las la-horse"
+    },
+    {
+      "class": "las la-horse-head"
+    },
+    {
+      "class": "las la-hospital"
+    },
+    {
+      "class": "las la-hospital-alt"
+    },
+    {
+      "class": "las la-hospital-symbol"
+    },
+    {
+      "class": "las la-hot-tub"
+    },
+    {
+      "class": "las la-hotdog"
+    },
+    {
+      "class": "las la-hotel"
+    },
+    {
+      "class": "lab la-hotjar"
+    },
+    {
+      "class": "las la-hourglass"
+    },
+    {
+      "class": "las la-hourglass-end"
+    },
+    {
+      "class": "las la-hourglass-half"
+    },
+    {
+      "class": "las la-hourglass-start"
+    },
+    {
+      "class": "las la-house-damage"
+    },
+    {
+      "class": "lab la-houzz"
+    },
+    {
+      "class": "las la-hryvnia"
+    },
+    {
+      "class": "lab la-html5"
+    },
+    {
+      "class": "lab la-hubspot"
+    },
+    {
+      "class": "las la-i-cursor"
+    },
+    {
+      "class": "las la-ice-cream"
+    },
+    {
+      "class": "las la-icons"
+    },
+    {
+      "class": "las la-id-badge"
+    },
+    {
+      "class": "las la-id-card"
+    },
+    {
+      "class": "las la-id-card-alt"
+    },
+    {
+      "class": "las la-igloo"
+    },
+    {
+      "class": "las la-image"
+    },
+    {
+      "class": "las la-images"
+    },
+    {
+      "class": "lab la-imdb"
+    },
+    {
+      "class": "las la-inbox"
+    },
+    {
+      "class": "las la-industry"
+    },
+    {
+      "class": "las la-info"
+    },
+    {
+      "class": "las la-info-circle"
+    },
+    {
+      "class": "lab la-instagram"
+    },
+    {
+      "class": "lab la-intercom"
+    },
+    {
+      "class": "lab la-internet-explorer"
+    },
+    {
+      "class": "lab la-invision"
+    },
+    {
+      "class": "lab la-ioxhost"
+    },
+    {
+      "class": "lab la-itch-io"
+    },
+    {
+      "class": "lab la-itunes"
+    },
+    {
+      "class": "lab la-itunes-note"
+    },
+    {
+      "class": "lab la-java"
+    },
+    {
+      "class": "lab la-jenkins"
+    },
+    {
+      "class": "lab la-jira"
+    },
+    {
+      "class": "lab la-joget"
+    },
+    {
+      "class": "las la-joint"
+    },
+    {
+      "class": "lab la-joomla"
+    },
+    {
+      "class": "lab la-js"
+    },
+    {
+      "class": "lab la-js-square"
+    },
+    {
+      "class": "lab la-jsfiddle"
+    },
+    {
+      "class": "las la-kaaba"
+    },
+    {
+      "class": "lab la-kaggle"
+    },
+    {
+      "class": "las la-key"
+    },
+    {
+      "class": "lab la-keybase"
+    },
+    {
+      "class": "las la-keyboard"
+    },
+    {
+      "class": "lab la-keycdn"
+    },
+    {
+      "class": "lab la-kickstarter"
+    },
+    {
+      "class": "lab la-kickstarter-k"
+    },
+    {
+      "class": "las la-kiwi-bird"
+    },
+    {
+      "class": "lab la-korvue"
+    },
+    {
+      "class": "las la-landmark"
+    },
+    {
+      "class": "las la-language"
+    },
+    {
+      "class": "las la-laptop"
+    },
+    {
+      "class": "las la-laptop-medical"
+    },
+    {
+      "class": "lab la-laravel"
+    },
+    {
+      "class": "lab la-lastfm"
+    },
+    {
+      "class": "lab la-lastfm-square"
+    },
+    {
+      "class": "las la-layer-group"
+    },
+    {
+      "class": "las la-leaf"
+    },
+    {
+      "class": "lab la-leanpub"
+    },
+    {
+      "class": "las la-lemon"
+    },
+    {
+      "class": "lab la-less"
+    },
+    {
+      "class": "las la-level-down-alt"
+    },
+    {
+      "class": "las la-level-up-alt"
+    },
+    {
+      "class": "las la-life-ring"
+    },
+    {
+      "class": "las la-lightbulb"
+    },
+    {
+      "class": "lab la-line"
+    },
+    {
+      "class": "lab la-linkedin"
+    },
+    {
+      "class": "lab la-linkedin-in"
+    },
+    {
+      "class": "lab la-linode"
+    },
+    {
+      "class": "lab la-linux"
+    },
+    {
+      "class": "las la-lira-sign"
+    },
+    {
+      "class": "las la-location-arrow"
+    },
+    {
+      "class": "las la-lock"
+    },
+    {
+      "class": "las la-lock-open"
+    },
+    {
+      "class": "las la-long-arrow-alt-down"
+    },
+    {
+      "class": "las la-long-arrow-alt-left"
+    },
+    {
+      "class": "las la-long-arrow-alt-right"
+    },
+    {
+      "class": "las la-long-arrow-alt-up"
+    },
+    {
+      "class": "las la-low-vision"
+    },
+    {
+      "class": "las la-luggage-cart"
+    },
+    {
+      "class": "lab la-lyft"
+    },
+    {
+      "class": "lab la-magento"
+    },
+    {
+      "class": "las la-magic"
+    },
+    {
+      "class": "las la-magnet"
+    },
+    {
+      "class": "lab la-mailchimp"
+    },
+    {
+      "class": "las la-male"
+    },
+    {
+      "class": "lab la-mandalorian"
+    },
+    {
+      "class": "las la-map"
+    },
+    {
+      "class": "las la-map-marked"
+    },
+    {
+      "class": "las la-map-marked-alt"
+    },
+    {
+      "class": "las la-map-marker"
+    },
+    {
+      "class": "las la-map-marker-alt"
+    },
+    {
+      "class": "las la-map-pin"
+    },
+    {
+      "class": "las la-map-signs"
+    },
+    {
+      "class": "lab la-markdown"
+    },
+    {
+      "class": "las la-marker"
+    },
+    {
+      "class": "lab la-mastodon"
+    },
+    {
+      "class": "lab la-maxcdn"
+    },
+    {
+      "class": "lab la-mdb"
+    },
+    {
+      "class": "las la-medal"
+    },
+    {
+      "class": "lab la-medapps"
+    },
+    {
+      "class": "lab la-medium"
+    },
+    {
+      "class": "lab la-medium-m"
+    },
+    {
+      "class": "las la-medkit"
+    },
+    {
+      "class": "lab la-medrt"
+    },
+    {
+      "class": "lab la-meetup"
+    },
+    {
+      "class": "lab la-megaport"
+    },
+    {
+      "class": "las la-meh"
+    },
+    {
+      "class": "las la-memory"
+    },
+    {
+      "class": "lab la-mendeley"
+    },
+    {
+      "class": "las la-meteor"
+    },
+    {
+      "class": "las la-microchip"
+    },
+    {
+      "class": "las la-microphone"
+    },
+    {
+      "class": "las la-microphone-alt"
+    },
+    {
+      "class": "las la-microphone-alt-slash"
+    },
+    {
+      "class": "las la-microphone-slash"
+    },
+    {
+      "class": "las la-microscope"
+    },
+    {
+      "class": "lab la-microsoft"
+    },
+    {
+      "class": "las la-minus"
+    },
+    {
+      "class": "las la-minus-circle"
+    },
+    {
+      "class": "las la-minus-square"
+    },
+    {
+      "class": "las la-mitten"
+    },
+    {
+      "class": "lab la-mix"
+    },
+    {
+      "class": "lab la-mixcloud"
+    },
+    {
+      "class": "lab la-mizuni"
+    },
+    {
+      "class": "las la-mobile"
+    },
+    {
+      "class": "las la-mobile-alt"
+    },
+    {
+      "class": "lab la-modx"
+    },
+    {
+      "class": "lab la-monero"
+    },
+    {
+      "class": "las la-money-bill"
+    },
+    {
+      "class": "las la-money-bill-alt"
+    },
+    {
+      "class": "las la-money-bill-wave"
+    },
+    {
+      "class": "las la-money-bill-wave-alt"
+    },
+    {
+      "class": "las la-money-check"
+    },
+    {
+      "class": "las la-money-check-alt"
+    },
+    {
+      "class": "las la-monument"
+    },
+    {
+      "class": "las la-moon"
+    },
+    {
+      "class": "las la-mortar-pestle"
+    },
+    {
+      "class": "las la-mosque"
+    },
+    {
+      "class": "las la-motorcycle"
+    },
+    {
+      "class": "las la-mouse"
+    },
+    {
+      "class": "las la-mouse-pointer"
+    },
+    {
+      "class": "las la-mug-hot"
+    },
+    {
+      "class": "las la-music"
+    },
+    {
+      "class": "lab la-napster"
+    },
+    {
+      "class": "lab la-neos"
+    },
+    {
+      "class": "las la-newspaper"
+    },
+    {
+      "class": "lab la-nimblr"
+    },
+    {
+      "class": "lab la-node"
+    },
+    {
+      "class": "lab la-node-js"
+    },
+    {
+      "class": "las la-notes-medical"
+    },
+    {
+      "class": "lab la-npm"
+    },
+    {
+      "class": "lab la-ns8"
+    },
+    {
+      "class": "lab la-nutritionix"
+    },
+    {
+      "class": "las la-object-group"
+    },
+    {
+      "class": "las la-object-ungroup"
+    },
+    {
+      "class": "lab la-odnoklassniki"
+    },
+    {
+      "class": "lab la-odnoklassniki-square"
+    },
+    {
+      "class": "lab la-opencart"
+    },
+    {
+      "class": "lab la-openid"
+    },
+    {
+      "class": "lab la-opera"
+    },
+    {
+      "class": "lab la-optin-monster"
+    },
+    {
+      "class": "lab la-orcid"
+    },
+    {
+      "class": "lab la-osi"
+    },
+    {
+      "class": "las la-otter"
+    },
+    {
+      "class": "lab la-page4"
+    },
+    {
+      "class": "lab la-pagelines"
+    },
+    {
+      "class": "las la-pager"
+    },
+    {
+      "class": "las la-paint-brush"
+    },
+    {
+      "class": "las la-paint-roller"
+    },
+    {
+      "class": "las la-palette"
+    },
+    {
+      "class": "lab la-palfed"
+    },
+    {
+      "class": "las la-paper-plane"
+    },
+    {
+      "class": "las la-paperclip"
+    },
+    {
+      "class": "las la-passport"
+    },
+    {
+      "class": "las la-paste"
+    },
+    {
+      "class": "lab la-patreon"
+    },
+    {
+      "class": "las la-pause"
+    },
+    {
+      "class": "las la-pause-circle"
+    },
+    {
+      "class": "las la-paw"
+    },
+    {
+      "class": "las la-pen"
+    },
+    {
+      "class": "las la-pen-alt"
+    },
+    {
+      "class": "las la-pen-fancy"
+    },
+    {
+      "class": "las la-pen-nib"
+    },
+    {
+      "class": "las la-pen-square"
+    },
+    {
+      "class": "las la-pencil-alt"
+    },
+    {
+      "class": "las la-pencil-ruler"
+    },
+    {
+      "class": "las la-people-carry"
+    },
+    {
+      "class": "las la-pepper-hot"
+    },
+    {
+      "class": "las la-percent"
+    },
+    {
+      "class": "lab la-periscope"
+    },
+    {
+      "class": "las la-person-booth"
+    },
+    {
+      "class": "lab la-phabricator"
+    },
+    {
+      "class": "lab la-phoenix-framework"
+    },
+    {
+      "class": "lab la-phoenix-squadron"
+    },
+    {
+      "class": "las la-phone"
+    },
+    {
+      "class": "las la-phone-alt"
+    },
+    {
+      "class": "las la-phone-slash"
+    },
+    {
+      "class": "las la-phone-square"
+    },
+    {
+      "class": "las la-phone-square-alt"
+    },
+    {
+      "class": "las la-phone-volume"
+    },
+    {
+      "class": "las la-photo-video"
+    },
+    {
+      "class": "lab la-php"
+    },
+    {
+      "class": "lab la-pied-piper"
+    },
+    {
+      "class": "lab la-pied-piper-alt"
+    },
+    {
+      "class": "lab la-pied-piper-hat"
+    },
+    {
+      "class": "lab la-pied-piper-pp"
+    },
+    {
+      "class": "las la-pills"
+    },
+    {
+      "class": "lab la-pinterest"
+    },
+    {
+      "class": "lab la-pinterest-p"
+    },
+    {
+      "class": "lab la-pinterest-square"
+    },
+    {
+      "class": "las la-pizza-slice"
+    },
+    {
+      "class": "las la-place-of-worship"
+    },
+    {
+      "class": "las la-plane"
+    },
+    {
+      "class": "las la-plane-arrival"
+    },
+    {
+      "class": "las la-plane-departure"
+    },
+    {
+      "class": "las la-play"
+    },
+    {
+      "class": "las la-play-circle"
+    },
+    {
+      "class": "las la-playstation"
+    },
+    {
+      "class": "las la-plug"
+    },
+    {
+      "class": "las la-plus"
+    },
+    {
+      "class": "las la-plus-circle"
+    },
+    {
+      "class": "las la-plus-square"
+    },
+    {
+      "class": "las la-podcast"
+    },
+    {
+      "class": "las la-poo"
+    },
+    {
+      "class": "las la-poo-storm"
+    },
+    {
+      "class": "las la-poop"
+    },
+    {
+      "class": "las la-portrait"
+    },
+    {
+      "class": "las la-pound-sign"
+    },
+    {
+      "class": "las la-power-off"
+    },
+    {
+      "class": "las la-pray"
+    },
+    {
+      "class": "las la-prescription"
+    },
+    {
+      "class": "las la-prescription-bottle"
+    },
+    {
+      "class": "las la-prescription-bottle-alt"
+    },
+    {
+      "class": "las la-print"
+    },
+    {
+      "class": "las la-procedures"
+    },
+    {
+      "class": "lab la-product-hunt"
+    },
+    {
+      "class": "las la-project-diagram"
+    },
+    {
+      "class": "lab la-pushed"
+    },
+    {
+      "class": "las la-puzzle-piece"
+    },
+    {
+      "class": "lab la-python"
+    },
+    {
+      "class": "lab la-qq"
+    },
+    {
+      "class": "las la-qrcode"
+    },
+    {
+      "class": "las la-question"
+    },
+    {
+      "class": "las la-question-circle"
+    },
+    {
+      "class": "las la-quidditch"
+    },
+    {
+      "class": "lab la-quinscape"
+    },
+    {
+      "class": "lab la-quora"
+    },
+    {
+      "class": "las la-quote-left"
+    },
+    {
+      "class": "las la-quote-right"
+    },
+    {
+      "class": "lab la-r-project"
+    },
+    {
+      "class": "las la-radiation"
+    },
+    {
+      "class": "las la-radiation-alt"
+    },
+    {
+      "class": "las la-rainbow"
+    },
+    {
+      "class": "las la-random"
+    },
+    {
+      "class": "lab la-raspberry-pi"
+    },
+    {
+      "class": "lab la-ravelry"
+    },
+    {
+      "class": "lab la-react"
+    },
+    {
+      "class": "lab la-reacteurope"
+    },
+    {
+      "class": "lab la-readme"
+    },
+    {
+      "class": "lab la-rebel"
+    },
+    {
+      "class": "las la-record-vinyl"
+    },
+    {
+      "class": "las la-recycle"
+    },
+    {
+      "class": "lab la-red-river"
+    },
+    {
+      "class": "lab la-reddit"
+    },
+    {
+      "class": "lab la-reddit-alien"
+    },
+    {
+      "class": "lab la-reddit-square"
+    },
+    {
+      "class": "lab la-redhat"
+    },
+    {
+      "class": "las la-redo"
+    },
+    {
+      "class": "las la-redo-alt"
+    },
+    {
+      "class": "las la-registered"
+    },
+    {
+      "class": "lab la-renren"
+    },
+    {
+      "class": "las la-reply"
+    },
+    {
+      "class": "las la-reply-all"
+    },
+    {
+      "class": "lab la-replyd"
+    },
+    {
+      "class": "lab la-researchgate"
+    },
+    {
+      "class": "lab la-resolving"
+    },
+    {
+      "class": "las la-restroom"
+    },
+    {
+      "class": "las la-retweet"
+    },
+    {
+      "class": "lab la-rev"
+    },
+    {
+      "class": "las la-ring"
+    },
+    {
+      "class": "las la-road"
+    },
+    {
+      "class": "las la-rocket"
+    },
+    {
+      "class": "lab la-rocketchat"
+    },
+    {
+      "class": "lab la-rockrms"
+    },
+    {
+      "class": "las la-rss"
+    },
+    {
+      "class": "las la-rss-square"
+    },
+    {
+      "class": "las la-ruble-sign"
+    },
+    {
+      "class": "las la-ruler-combined"
+    },
+    {
+      "class": "las la-ruler-horizontal"
+    },
+    {
+      "class": "las la-ruler-vertical"
+    },
+    {
+      "class": "las la-running"
+    },
+    {
+      "class": "las la-rupee-sign"
+    },
+    {
+      "class": "lab la-safari"
+    },
+    {
+      "class": "lab la-salesforce"
+    },
+    {
+      "class": "lab la-sass"
+    },
+    {
+      "class": "las la-satellite"
+    },
+    {
+      "class": "las la-satellite-dish"
+    },
+    {
+      "class": "las la-save"
+    },
+    {
+      "class": "lab la-schlix"
+    },
+    {
+      "class": "las la-school"
+    },
+    {
+      "class": "las la-screwdriver"
+    },
+    {
+      "class": "lab la-scribd"
+    },
+    {
+      "class": "las la-scroll"
+    },
+    {
+      "class": "las la-sd-card"
+    },
+    {
+      "class": "las la-search"
+    },
+    {
+      "class": "las la-search-minus"
+    },
+    {
+      "class": "las la-search-plus"
+    },
+    {
+      "class": "lab la-searchengin"
+    },
+    {
+      "class": "las la-seedling"
+    },
+    {
+      "class": "lab la-sellcast"
+    },
+    {
+      "class": "lab la-sellsy"
+    },
+    {
+      "class": "las la-server"
+    },
+    {
+      "class": "lab la-servicestack"
+    },
+    {
+      "class": "las la-share"
+    },
+    {
+      "class": "las la-share-alt"
+    },
+    {
+      "class": "las la-share-alt-square"
+    },
+    {
+      "class": "las la-share-square"
+    },
+    {
+      "class": "las la-shekel-sign"
+    },
+    {
+      "class": "las la-shield-alt"
+    },
+    {
+      "class": "lab la-shirtsinbulk"
+    },
+    {
+      "class": "las la-shopping-bag"
+    },
+    {
+      "class": "las la-shopping-basket"
+    },
+    {
+      "class": "las la-shopping-cart"
+    },
+    {
+      "class": "lab la-shopware"
+    },
+    {
+      "class": "las la-shower"
+    },
+    {
+      "class": "las la-shuttle-van"
+    },
+    {
+      "class": "las la-sign-in-alt"
+    },
+    {
+      "class": "las la-sign-language"
+    },
+    {
+      "class": "las la-sign-out-alt"
+    },
+    {
+      "class": "las la-signal"
+    },
+    {
+      "class": "las la-sim-card"
+    },
+    {
+      "class": "lab la-simplybuilt"
+    },
+    {
+      "class": "lab la-sistrix"
+    },
+    {
+      "class": "las la-sitemap"
+    },
+    {
+      "class": "lab la-sith"
+    },
+    {
+      "class": "las la-skating"
+    },
+    {
+      "class": "lab la-sketch"
+    },
+    {
+      "class": "las la-skiing"
+    },
+    {
+      "class": "las la-skiing-nordic"
+    },
+    {
+      "class": "las la-skull-crossbones"
+    },
+    {
+      "class": "lab la-skyatlas"
+    },
+    {
+      "class": "lab la-skype"
+    },
+    {
+      "class": "lab la-slack"
+    },
+    {
+      "class": "lab la-slack-hash"
+    },
+    {
+      "class": "las la-sleigh"
+    },
+    {
+      "class": "las la-sliders-h"
+    },
+    {
+      "class": "lab la-slideshare"
+    },
+    {
+      "class": "las la-smile"
+    },
+    {
+      "class": "las la-smog"
+    },
+    {
+      "class": "las la-smoking"
+    },
+    {
+      "class": "las la-smoking-ban"
+    },
+    {
+      "class": "lab la-snapchat"
+    },
+    {
+      "class": "lab la-snapchat-ghost"
+    },
+    {
+      "class": "lab la-snapchat-square"
+    },
+    {
+      "class": "las la-snowboarding"
+    },
+    {
+      "class": "las la-snowflake"
+    },
+    {
+      "class": "las la-snowplow"
+    },
+    {
+      "class": "las la-socks"
+    },
+    {
+      "class": "las la-sort"
+    },
+    {
+      "class": "las la-sort-alpha-down"
+    },
+    {
+      "class": "las la-sort-alpha-down-alt"
+    },
+    {
+      "class": "las la-sort-alpha-up"
+    },
+    {
+      "class": "las la-sort-alpha-up-alt"
+    },
+    {
+      "class": "las la-sort-amount-down"
+    },
+    {
+      "class": "las la-sort-amount-down-alt"
+    },
+    {
+      "class": "las la-sort-amount-up"
+    },
+    {
+      "class": "las la-sort-amount-up-alt"
+    },
+    {
+      "class": "las la-sort-down"
+    },
+    {
+      "class": "las la-sort-numeric-down"
+    },
+    {
+      "class": "las la-sort-numeric-down-alt"
+    },
+    {
+      "class": "las la-sort-numeric-up"
+    },
+    {
+      "class": "las la-sort-numeric-up-alt"
+    },
+    {
+      "class": "las la-sort-up"
+    },
+    {
+      "class": "lab la-soundcloud"
+    },
+    {
+      "class": "lab la-sourcetree"
+    },
+    {
+      "class": "las la-spa"
+    },
+    {
+      "class": "las la-space-shuttle"
+    },
+    {
+      "class": "lab la-speakap"
+    },
+    {
+      "class": "lab la-speaker-deck"
+    },
+    {
+      "class": "las la-spider"
+    },
+    {
+      "class": "las la-splotch"
+    },
+    {
+      "class": "lab la-spotify"
+    },
+    {
+      "class": "las la-spray-can"
+    },
+    {
+      "class": "lab la-squarespace"
+    },
+    {
+      "class": "lab la-stack-exchange"
+    },
+    {
+      "class": "lab la-stack-overflow"
+    },
+    {
+      "class": "lab la-stackpath"
+    },
+    {
+      "class": "las la-stamp"
+    },
+    {
+      "class": "las la-star"
+    },
+    {
+      "class": "las la-star-half"
+    },
+    {
+      "class": "las la-star-of-life"
+    },
+    {
+      "class": "lab la-staylinked"
+    },
+    {
+      "class": "lab la-steam"
+    },
+    {
+      "class": "lab la-steam-square"
+    },
+    {
+      "class": "lab la-steam-symbol"
+    },
+    {
+      "class": "las la-step-backward"
+    },
+    {
+      "class": "las la-step-forward"
+    },
+    {
+      "class": "las la-stethoscope"
+    },
+    {
+      "class": "lab la-sticker-mule"
+    },
+    {
+      "class": "las la-sticky-note"
+    },
+    {
+      "class": "las la-stop"
+    },
+    {
+      "class": "las la-stop-circle"
+    },
+    {
+      "class": "las la-stopwatch"
+    },
+    {
+      "class": "las la-store"
+    },
+    {
+      "class": "las la-store-alt"
+    },
+    {
+      "class": "lab la-strava"
+    },
+    {
+      "class": "las la-stream"
+    },
+    {
+      "class": "las la-street-view"
+    },
+    {
+      "class": "las la-stroopwafel"
+    },
+    {
+      "class": "lab la-studiovinari"
+    },
+    {
+      "class": "lab la-stumbleupon"
+    },
+    {
+      "class": "lab la-stumbleupon-circle"
+    },
+    {
+      "class": "las la-subway"
+    },
+    {
+      "class": "las la-suitcase"
+    },
+    {
+      "class": "las la-suitcase-rolling"
+    },
+    {
+      "class": "las la-sun"
+    },
+    {
+      "class": "lab la-superpowers"
+    },
+    {
+      "class": "lab la-supple"
+    },
+    {
+      "class": "lab la-suse"
+    },
+    {
+      "class": "las la-swatchbook"
+    },
+    {
+      "class": "lab la-swift"
+    },
+    {
+      "class": "las la-swimmer"
+    },
+    {
+      "class": "las la-swimming-pool"
+    },
+    {
+      "class": "lab la-symfony"
+    },
+    {
+      "class": "las la-synagogue"
+    },
+    {
+      "class": "las la-sync"
+    },
+    {
+      "class": "las la-sync-alt"
+    },
+    {
+      "class": "las la-syringe"
+    },
+    {
+      "class": "las la-table"
+    },
+    {
+      "class": "las la-table-tennis"
+    },
+    {
+      "class": "las la-tablet"
+    },
+    {
+      "class": "las la-tablet-alt"
+    },
+    {
+      "class": "las la-tablets"
+    },
+    {
+      "class": "las la-tachometer-alt"
+    },
+    {
+      "class": "las la-tag"
+    },
+    {
+      "class": "las la-tags"
+    },
+    {
+      "class": "las la-tasks"
+    },
+    {
+      "class": "las la-taxi"
+    },
+    {
+      "class": "lab la-teamspeak"
+    },
+    {
+      "class": "las la-teeth"
+    },
+    {
+      "class": "las la-teeth-open"
+    },
+    {
+      "class": "lab la-telegram"
+    },
+    {
+      "class": "lab la-telegram-plane"
+    },
+    {
+      "class": "las la-temperature-high"
+    },
+    {
+      "class": "las la-temperature-low"
+    },
+    {
+      "class": "lab la-tencent-weibo"
+    },
+    {
+      "class": "las la-tenge"
+    },
+    {
+      "class": "las la-text-height"
+    },
+    {
+      "class": "las la-text-width"
+    },
+    {
+      "class": "lab la-the-red-yeti"
+    },
+    {
+      "class": "lab la-themeco"
+    },
+    {
+      "class": "lab la-themeisle"
+    },
+    {
+      "class": "las la-thermometer"
+    },
+    {
+      "class": "lab la-think-peaks"
+    },
+    {
+      "class": "las la-thumbs-down"
+    },
+    {
+      "class": "las la-thumbs-up"
+    },
+    {
+      "class": "las la-thumbtack"
+    },
+    {
+      "class": "las la-ticket-alt"
+    },
+    {
+      "class": "las la-times"
+    },
+    {
+      "class": "las la-times-circle"
+    },
+    {
+      "class": "las la-tint"
+    },
+    {
+      "class": "las la-tint-slash"
+    },
+    {
+      "class": "las la-toggle-off"
+    },
+    {
+      "class": "las la-toggle-on"
+    },
+    {
+      "class": "las la-toilet"
+    },
+    {
+      "class": "las la-toolbox"
+    },
+    {
+      "class": "las la-tools"
+    },
+    {
+      "class": "las la-tooth"
+    },
+    {
+      "class": "las la-torii-gate"
+    },
+    {
+      "class": "lab la-trade-federation"
+    },
+    {
+      "class": "las la-trademark"
+    },
+    {
+      "class": "las la-train"
+    },
+    {
+      "class": "las la-tram"
+    },
+    {
+      "class": "las la-trash"
+    },
+    {
+      "class": "las la-trash-alt"
+    },
+    {
+      "class": "las la-trash-restore"
+    },
+    {
+      "class": "las la-trash-restore-alt"
+    },
+    {
+      "class": "las la-tree"
+    },
+    {
+      "class": "lab la-trello"
+    },
+    {
+      "class": "lab la-tripadvisor"
+    },
+    {
+      "class": "las la-trophy"
+    },
+    {
+      "class": "las la-truck"
+    },
+    {
+      "class": "las la-tty"
+    },
+    {
+      "class": "lab la-tumblr"
+    },
+    {
+      "class": "lab la-tumblr-square"
+    },
+    {
+      "class": "las la-tv"
+    },
+    {
+      "class": "lab la-twitch"
+    },
+    {
+      "class": "lab la-twitter"
+    },
+    {
+      "class": "lab la-twitter-square"
+    },
+    {
+      "class": "lab la-typo3"
+    },
+    {
+      "class": "lab la-uber"
+    },
+    {
+      "class": "lab la-ubuntu"
+    },
+    {
+      "class": "lab la-uikit"
+    },
+    {
+      "class": "lab la-umbraco"
+    },
+    {
+      "class": "las la-umbrella"
+    },
+    {
+      "class": "las la-umbrella-beach"
+    },
+    {
+      "class": "las la-undo"
+    },
+    {
+      "class": "las la-undo-alt"
+    },
+    {
+      "class": "lab la-uniregistry"
+    },
+    {
+      "class": "las la-universal-access"
+    },
+    {
+      "class": "las la-university"
+    },
+    {
+      "class": "las la-unlock"
+    },
+    {
+      "class": "las la-unlock-alt"
+    },
+    {
+      "class": "lab la-untappd"
+    },
+    {
+      "class": "las la-upload"
+    },
+    {
+      "class": "lab la-ups"
+    },
+    {
+      "class": "lab la-usb"
+    },
+    {
+      "class": "las la-user"
+    },
+    {
+      "class": "las la-user-alt"
+    },
+    {
+      "class": "las la-user-alt-slash"
+    },
+    {
+      "class": "las la-user-astronaut"
+    },
+    {
+      "class": "las la-user-check"
+    },
+    {
+      "class": "las la-user-circle"
+    },
+    {
+      "class": "las la-user-clock"
+    },
+    {
+      "class": "las la-user-cog"
+    },
+    {
+      "class": "las la-user-edit"
+    },
+    {
+      "class": "las la-user-friends"
+    },
+    {
+      "class": "las la-user-graduate"
+    },
+    {
+      "class": "las la-user-injured"
+    },
+    {
+      "class": "las la-user-lock"
+    },
+    {
+      "class": "las la-user-md"
+    },
+    {
+      "class": "las la-user-minus"
+    },
+    {
+      "class": "las la-user-ninja"
+    },
+    {
+      "class": "las la-user-nurse"
+    },
+    {
+      "class": "las la-user-plus"
+    },
+    {
+      "class": "las la-user-secret"
+    },
+    {
+      "class": "las la-user-shield"
+    },
+    {
+      "class": "las la-user-slash"
+    },
+    {
+      "class": "las la-user-tag"
+    },
+    {
+      "class": "las la-user-tie"
+    },
+    {
+      "class": "las la-user-times"
+    },
+    {
+      "class": "las la-users"
+    },
+    {
+      "class": "las la-users-cog"
+    },
+    {
+      "class": "lab la-usps"
+    },
+    {
+      "class": "lab la-ussunnah"
+    },
+    {
+      "class": "las la-utensil-spoon"
+    },
+    {
+      "class": "las la-utensils"
+    },
+    {
+      "class": "lab la-vaadin"
+    },
+    {
+      "class": "las la-vector-square"
+    },
+    {
+      "class": "lab la-viacoin"
+    },
+    {
+      "class": "lab la-viadeo"
+    },
+    {
+      "class": "lab la-viadeo-square"
+    },
+    {
+      "class": "las la-vial"
+    },
+    {
+      "class": "las la-vials"
+    },
+    {
+      "class": "lab la-viber"
+    },
+    {
+      "class": "las la-video"
+    },
+    {
+      "class": "las la-vihara"
+    },
+    {
+      "class": "lab la-vimeo"
+    },
+    {
+      "class": "lab la-vimeo-square"
+    },
+    {
+      "class": "lab la-vimeo-v"
+    },
+    {
+      "class": "lab la-vine"
+    },
+    {
+      "class": "lab la-vk"
+    },
+    {
+      "class": "lab la-vnv"
+    },
+    {
+      "class": "las la-voicemail"
+    },
+    {
+      "class": "las la-volleyball-ball"
+    },
+    {
+      "class": "las la-volume-down"
+    },
+    {
+      "class": "las la-volume-mute"
+    },
+    {
+      "class": "las la-volume-off"
+    },
+    {
+      "class": "las la-volume-up"
+    },
+    {
+      "class": "lab la-vuejs"
+    },
+    {
+      "class": "las la-walking"
+    },
+    {
+      "class": "las la-wallet"
+    },
+    {
+      "class": "las la-warehouse"
+    },
+    {
+      "class": "las la-water"
+    },
+    {
+      "class": "lab la-waze"
+    },
+    {
+      "class": "lab la-weebly"
+    },
+    {
+      "class": "lab la-weibo"
+    },
+    {
+      "class": "las la-weight"
+    },
+    {
+      "class": "lab la-weixin"
+    },
+    {
+      "class": "lab la-whatsapp"
+    },
+    {
+      "class": "lab la-whatsapp-square"
+    },
+    {
+      "class": "las la-wheelchair"
+    },
+    {
+      "class": "lab la-whmcs"
+    },
+    {
+      "class": "las la-wifi"
+    },
+    {
+      "class": "lab la-wikipedia-w"
+    },
+    {
+      "class": "las la-wind"
+    },
+    {
+      "class": "lab la-windows"
+    },
+    {
+      "class": "las la-wine-glass"
+    },
+    {
+      "class": "las la-wine-glass-alt"
+    },
+    {
+      "class": "lab la-wix"
+    },
+    {
+      "class": "lab la-wolf-pack-battalion"
+    },
+    {
+      "class": "las la-won-sign"
+    },
+    {
+      "class": "lab la-wordpress"
+    },
+    {
+      "class": "lab la-wordpress-simple"
+    },
+    {
+      "class": "lab la-wpbeginner"
+    },
+    {
+      "class": "lab la-wpexplorer"
+    },
+    {
+      "class": "lab la-wpforms"
+    },
+    {
+      "class": "lab la-wpressr"
+    },
+    {
+      "class": "las la-wrench"
+    },
+    {
+      "class": "las la-x-ray"
+    },
+    {
+      "class": "lab la-xbox"
+    },
+    {
+      "class": "lab la-xing"
+    },
+    {
+      "class": "lab la-xing-square"
+    },
+    {
+      "class": "lab la-y-combinator"
+    },
+    {
+      "class": "lab la-yahoo"
+    },
+    {
+      "class": "lab la-yammer"
+    },
+    {
+      "class": "lab la-yandex"
+    },
+    {
+      "class": "lab la-yandex-international"
+    },
+    {
+      "class": "lab la-yarn"
+    },
+    {
+      "class": "lab la-yelp"
+    },
+    {
+      "class": "las la-yen-sign"
+    },
+    {
+      "class": "lab la-yoast"
+    },
+    {
+      "class": "lab la-youtube"
+    },
+    {
+      "class": "lab la-youtube-square"
+    },
+    {
+      "class": "lab la-zhihu"
+    }
+  ]
+}

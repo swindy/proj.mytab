@@ -2,68 +2,102 @@ const fs = require('fs');
 const path = require('path');
 const archiver = require('archiver');
 
-// 读取package.json获取版本号
-const packageJsonPath = path.join(__dirname, '..', 'package.json');
-const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf8'));
-const version = packageJson.version;
+/**
+ * 打包扩展为ZIP文件
+ */
+function packageExtension() {
+  const distDir = path.join(__dirname, '../dist');
+  const outputDir = path.join(__dirname, '..');
+  const timestamp = new Date().toISOString().replace(/[:.]/g, '-').slice(0, 19);
+  const outputPath = path.join(outputDir, `mytab-extension-v1.0.0-${timestamp}.zip`);
 
-// 生成时间戳
-const now = new Date();
-const timestamp = now.toISOString()
-  .replace(/[-:]/g, '')
-  .replace(/\.\d{3}Z$/, '')
-  .replace('T', '-');
+  return new Promise((resolve, reject) => {
+    // 创建输出流
+    const output = fs.createWriteStream(outputPath);
+    const archive = archiver('zip', {
+      zlib: { level: 9 } // 最高压缩级别
+    });
 
-// 生成文件名
-const fileName = `mytab-extension-v${version}-${timestamp}.zip`;
-const outputPath = path.join(__dirname, '..', fileName);
+    output.on('close', () => {
+      console.log(`✅ 扩展已打包: ${path.basename(outputPath)}`);
+      console.log(`📦 文件大小: ${(archive.pointer() / 1024 / 1024).toFixed(2)} MB`);
+      resolve(outputPath);
+    });
 
-// 检查dist目录是否存在
-const distPath = path.join(__dirname, '..', 'dist');
-if (!fs.existsSync(distPath)) {
-  console.error('错误: dist目录不存在，请先运行 npm run build');
-  process.exit(1);
+    archive.on('error', (err) => {
+      reject(err);
+    });
+
+    // 连接输出流
+    archive.pipe(output);
+
+    // 添加dist目录中的所有文件
+    archive.directory(distDir, false);
+
+    // 完成打包
+    archive.finalize();
+  });
 }
 
-// 创建压缩文件
-const output = fs.createWriteStream(outputPath);
-const archive = archiver('zip', {
-  zlib: { level: 9 } // 设置压缩级别
-});
+/**
+ * 完整的构建和打包流程
+ */
+async function buildAndPackage() {
+  try {
+    console.log('🚀 开始完整构建流程...\n');
 
-// 监听事件
-output.on('close', function() {
-  const sizeInMB = (archive.pointer() / 1024 / 1024).toFixed(2);
-  console.log(`✅ 打包完成: ${fileName}`);
-  console.log(`📦 文件大小: ${sizeInMB} MB`);
-  console.log(`📍 文件位置: ${outputPath}`);
-});
+    // 1. 提取Line Awesome图标
+    console.log('1️⃣ 提取Line Awesome图标...');
+    const { extractLineAwesomeIcons } = require('./extract-line-awesome-icons');
+    await extractLineAwesomeIcons();
+    console.log('');
 
-output.on('end', function() {
-  console.log('数据传输完成');
-});
+    // 2. 生成图标选择器数据
+    console.log('2️⃣ 生成图标选择器数据...');
+    const { generateIconSelectorData } = require('./generate-icon-selector-data');
+    await generateIconSelectorData();
+    console.log('');
 
-archive.on('warning', function(err) {
-  if (err.code === 'ENOENT') {
-    console.warn('警告:', err);
-  } else {
-    throw err;
+    // 3. 更新TypeScript文件
+    console.log('3️⃣ 更新TypeScript文件...');
+    const { updateIconSelectorData } = require('./update-icon-selector');
+    await updateIconSelectorData();
+    console.log('');
+
+    // 4. 构建项目
+    console.log('4️⃣ 构建项目...');
+    const { execSync } = require('child_process');
+    execSync('npm run build', { stdio: 'inherit' });
+    console.log('');
+
+    // 5. 打包扩展
+    console.log('5️⃣ 打包扩展...');
+    const packagePath = await packageExtension();
+    console.log('');
+
+    console.log('🎉 构建流程完成！');
+    console.log(`📦 扩展包: ${path.basename(packagePath)}`);
+
+  } catch (error) {
+    console.error('❌ 构建流程失败:', error.message);
+    process.exit(1);
   }
-});
+}
 
-archive.on('error', function(err) {
-  console.error('打包错误:', err);
-  process.exit(1);
-});
+// 如果直接运行此脚本
+if (require.main === module) {
+  const args = process.argv.slice(2);
+  
+  if (args.includes('--package-only')) {
+    // 仅打包
+    packageExtension().catch(error => {
+      console.error('打包失败:', error);
+      process.exit(1);
+    });
+  } else {
+    // 完整构建流程
+    buildAndPackage();
+  }
+}
 
-// 连接输出流
-archive.pipe(output);
-
-console.log(`🚀 开始打包 dist 目录...`);
-console.log(`📦 输出文件: ${fileName}`);
-
-// 添加dist目录中的所有文件
-archive.directory(distPath, false);
-
-// 完成压缩
-archive.finalize(); 
+module.exports = { packageExtension, buildAndPackage };

@@ -5,6 +5,12 @@
   "description": "自定义新标签页扩展",
   "permissions": ["storage", "tabs"],
   "host_permissions": ["https://api.github.com/*"],
+  "web_accessible_resources": [
+    {
+      "resources": ["icon-selector-data.json"],
+      "matches": ["<all_urls>"]
+    }
+  ],
   "content_security_policy": {
     "extension_pages": "script-src 'self'; object-src 'self'; img-src 'self' data: https:; style-src 'self' 'unsafe-inline';"
   },

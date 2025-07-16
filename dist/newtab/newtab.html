@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,22 +8,23 @@
   <link rel="stylesheet" href="line-awesome.min.css">
   <link rel="stylesheet" href="newtab.css">
 </head>
+
 <body>
   <!-- 动漫背景 -->
   <div class="anime-background" id="anime-bg-1"></div>
   <div class="anime-background" id="anime-bg-2" style="opacity: 0;"></div>
   <div class="background-overlay"></div>
-  
+
   <!-- 侧边栏 -->
   <div class="sidebar" id="sidebar">
     <div class="sidebar-header">
       <h3>工作区</h3>
     </div>
-    
+
     <div class="workspace-list" id="workspace-list">
       <!-- 工作区项目将通过JavaScript动态生成 -->
     </div>
-    
+
     <div class="sidebar-footer">
       <button class="add-workspace-btn" id="add-workspace">
         <span>+</span> 添加工作区
@@ -42,12 +44,12 @@
           </form>
         </div>
       </header>
-      
+
       <div class="clock-container">
         <div id="clock"></div>
         <div id="date"></div>
       </div>
-      
+
       <div class="quick-links">
         <div id="bookmarks" class="bookmarks-container">
           <!-- 添加按钮将通过JavaScript动态添加到这里 -->
@@ -84,7 +86,7 @@
         <img src="https://mail.qq.com/favicon.ico" alt="QQ邮箱">
       </a>
     </div>
-    
+
     <div class="bottom-bar-controls">
       <button class="bg-switch-btn" id="bg-switch-btn" title="切换背景">
         🎨
@@ -106,82 +108,16 @@
         </div>
         <div class="form-group">
           <label for="workspace-icon">选择图标</label>
-          <div class="icon-selector-container">
-            <div class="icon-selector">
-              <!-- 基础图标 -->
-              <span class="icon-option" data-icon="las la-home"><i class="las la-home"></i></span>
-              <span class="icon-option" data-icon="las la-briefcase"><i class="las la-briefcase"></i></span>
-              <span class="icon-option" data-icon="las la-book"><i class="las la-book"></i></span>
-              <span class="icon-option" data-icon="las la-graduation-cap"><i class="las la-graduation-cap"></i></span>
-              <span class="icon-option" data-icon="las la-gamepad"><i class="las la-gamepad"></i></span>
-              <span class="icon-option" data-icon="las la-palette"><i class="las la-palette"></i></span>
-              
-              <!-- 工作相关 -->
-              <span class="icon-option" data-icon="las la-tools"><i class="las la-tools"></i></span>
-              <span class="icon-option" data-icon="las la-chart-bar"><i class="las la-chart-bar"></i></span>
-              <span class="icon-option" data-icon="las la-code"><i class="las la-code"></i></span>
-              <span class="icon-option" data-icon="las la-laptop-code"><i class="las la-laptop-code"></i></span>
-              <span class="icon-option" data-icon="las la-database"><i class="las la-database"></i></span>
-              <span class="icon-option" data-icon="las la-server"><i class="las la-server"></i></span>
-              
-              <!-- 生活娱乐 -->
-              <span class="icon-option" data-icon="las la-coffee"><i class="las la-coffee"></i></span>
-              <span class="icon-option" data-icon="las la-music"><i class="las la-music"></i></span>
-              <span class="icon-option" data-icon="las la-film"><i class="las la-film"></i></span>
-              <span class="icon-option" data-icon="las la-camera"><i class="las la-camera"></i></span>
-              <span class="icon-option" data-icon="las la-headphones"><i class="las la-headphones"></i></span>
-              <span class="icon-option" data-icon="las la-microphone"><i class="las la-microphone"></i></span>
-              
-              <!-- 购物金融 -->
-              <span class="icon-option" data-icon="las la-shopping-cart"><i class="las la-shopping-cart"></i></span>
-              <span class="icon-option" data-icon="las la-credit-card"><i class="las la-credit-card"></i></span>
-              <span class="icon-option" data-icon="las la-coins"><i class="las la-coins"></i></span>
-              <span class="icon-option" data-icon="las la-wallet"><i class="las la-wallet"></i></span>
-              
-              <!-- 社交通讯 -->
-              <span class="icon-option" data-icon="las la-envelope"><i class="las la-envelope"></i></span>
-              <span class="icon-option" data-icon="las la-comments"><i class="las la-comments"></i></span>
-              <span class="icon-option" data-icon="las la-phone"><i class="las la-phone"></i></span>
-              <span class="icon-option" data-icon="las la-users"><i class="las la-users"></i></span>
-              <span class="icon-option" data-icon="las la-user-friends"><i class="las la-user-friends"></i></span>
-              
-              <!-- 文档办公 -->
-              <span class="icon-option" data-icon="las la-file-alt"><i class="las la-file-alt"></i></span>
-              <span class="icon-option" data-icon="las la-folder"><i class="las la-folder"></i></span>
-              <span class="icon-option" data-icon="las la-clipboard"><i class="las la-clipboard"></i></span>
-              <span class="icon-option" data-icon="las la-calendar"><i class="las la-calendar"></i></span>
-              <span class="icon-option" data-icon="las la-tasks"><i class="las la-tasks"></i></span>
-              
-              <!-- 设置工具 -->
-              <span class="icon-option" data-icon="las la-cog"><i class="las la-cog"></i></span>
-              <span class="icon-option" data-icon="las la-wrench"><i class="las la-wrench"></i></span>
-              <span class="icon-option" data-icon="las la-sliders-h"><i class="las la-sliders-h"></i></span>
-              
-              <!-- 特殊标记 -->
-              <span class="icon-option" data-icon="las la-star"><i class="las la-star"></i></span>
-              <span class="icon-option" data-icon="las la-heart"><i class="las la-heart"></i></span>
-              <span class="icon-option" data-icon="las la-bookmark"><i class="las la-bookmark"></i></span>
-              <span class="icon-option" data-icon="las la-flag"><i class="las la-flag"></i></span>
-              <span class="icon-option" data-icon="las la-trophy"><i class="las la-trophy"></i></span>
-              <span class="icon-option" data-icon="las la-award"><i class="las la-award"></i></span>
-              
-              <!-- 运动健康 -->
-              <span class="icon-option" data-icon="las la-dumbbell"><i class="las la-dumbbell"></i></span>
-              <span class="icon-option" data-icon="las la-running"><i class="las la-running"></i></span>
-              <span class="icon-option" data-icon="las la-heartbeat"><i class="las la-heartbeat"></i></span>
-              <span class="icon-option" data-icon="las la-bicycle"><i class="las la-bicycle"></i></span>
-              
-              <!-- 旅行交通 -->
-              <span class="icon-option" data-icon="las la-plane"><i class="las la-plane"></i></span>
-              <span class="icon-option" data-icon="las la-car"><i class="las la-car"></i></span>
-              <span class="icon-option" data-icon="las la-map-marked-alt"><i class="las la-map-marked-alt"></i></span>
-              <span class="icon-option" data-icon="las la-globe"><i class="las la-globe"></i></span>
-              
-              <!-- 安全网络 -->
-              <span class="icon-option" data-icon="las la-shield-alt"><i class="las la-shield-alt"></i></span>
-              <span class="icon-option" data-icon="las la-lock"><i class="las la-lock"></i></span>
-              <span class="icon-option" data-icon="las la-wifi"><i class="las la-wifi"></i></span>
-              <span class="icon-option" data-icon="las la-cloud"><i class="las la-cloud"></i></span>
+          <div class="icon-selector-wrapper">        
+            <!-- 图标选择器容器 -->
+            <div class="icon-selector-container">
+              <div class="icon-selector" id="icon-selector">
+                <!-- 图标将通过JavaScript动态生成 -->
+              </div>
+              <div class="icon-loading" id="icon-loading" style="display: none;">
+                <i class="las la-spinner la-spin"></i>
+                <span>加载图标中...</span>
+              </div>
             </div>
           </div>
         </div>
@@ -233,38 +169,38 @@
         <button class="tab-btn" data-tab="config">配置</button>
         <button class="tab-btn" data-tab="about">关于</button>
       </div>
-      
+
       <div class="settings-content">
         <!-- 常规设置 -->
         <div class="tab-content active" id="general-tab">
           <div class="form-group">
             <label>
-              <input type="checkbox" id="auto-change-background"> 
+              <input type="checkbox" id="auto-change-background">
               自动切换背景
             </label>
             <small>每30秒自动切换背景图片</small>
           </div>
-          
+
           <div class="form-group">
             <label for="background-interval">背景切换间隔（秒）</label>
             <input type="number" id="background-interval" min="10" max="300" value="30">
           </div>
-          
+
           <div class="form-group">
             <label>
-              <input type="checkbox" id="show-clock"> 
+              <input type="checkbox" id="show-clock">
               显示时钟
             </label>
           </div>
-          
+
           <div class="form-group">
             <label>
-              <input type="checkbox" id="show-date"> 
+              <input type="checkbox" id="show-date">
               显示日期
             </label>
           </div>
         </div>
-        
+
         <!-- 搜索设置 -->
         <div class="tab-content" id="search-tab">
           <div class="form-group">
@@ -293,22 +229,22 @@
               </label>
             </div>
           </div>
-          
+
           <div class="form-group">
             <label>
-              <input type="checkbox" id="search-suggestions"> 
+              <input type="checkbox" id="search-suggestions">
               显示搜索建议
             </label>
           </div>
-          
+
           <div class="form-group">
             <label>
-              <input type="checkbox" id="open-in-new-tab"> 
+              <input type="checkbox" id="open-in-new-tab">
               在新标签页中打开搜索结果
             </label>
           </div>
         </div>
-        
+
         <!-- 配置管理 -->
         <div class="tab-content" id="config-tab">
           <div class="config-section">
@@ -319,11 +255,11 @@
               导出配置
             </button>
           </div>
-          
+
           <div class="config-section">
             <h4>导入配置</h4>
             <p class="config-description">从文件导入工作区和书签配置</p>
-            
+
             <div class="import-options">
               <label class="import-option">
                 <input type="radio" name="import-mode" value="replace" checked>
@@ -335,7 +271,7 @@
                   </span>
                 </span>
               </label>
-              
+
               <label class="import-option">
                 <input type="radio" name="import-mode" value="merge">
                 <span class="option-label">
@@ -347,7 +283,7 @@
                 </span>
               </label>
             </div>
-            
+
             <div class="import-controls">
               <input type="file" id="import-file" accept=".json" style="display: none;">
               <button type="button" id="import-config" class="config-btn import-btn">
@@ -356,7 +292,7 @@
               </button>
             </div>
           </div>
-          
+
           <div class="config-section">
             <h4>GitHub同步</h4>
             <div class="github-sync-section">
@@ -367,7 +303,7 @@
                 </label>
                 <span class="toggle-label">启用GitHub同步</span>
               </div>
-              
+
               <div id="github-sync-config" class="sync-config" style="display: none;">
                 <div class="config-input-group">
                   <label for="github-token">GitHub Token</label>
@@ -377,14 +313,14 @@
                     （需要gist权限）
                   </div>
                 </div>
-                
+
                 <div class="sync-status-container">
                   <div class="sync-status">
                     <span id="sync-status-text">未同步</span>
                     <span id="last-sync-time" class="sync-time"></span>
                   </div>
                 </div>
-                
+
                 <div class="sync-actions">
                   <button id="test-connection" class="config-btn secondary-btn">测试连接</button>
                   <button id="sync-now" class="config-btn primary-btn">立即同步</button>
@@ -393,7 +329,7 @@
             </div>
           </div>
         </div>
-        
+
         <!-- 关于页面 -->
         <div class="tab-content" id="about-tab">
           <div class="about-info">
@@ -403,20 +339,20 @@
             <p class="description">
               一个简洁美观的浏览器新标签页扩展，支持工作区管理、书签收藏、背景切换等功能。
             </p>
-            
+
             <div class="links">
               <a href="#" class="link-btn">使用帮助</a>
               <a href="#" class="link-btn">反馈建议</a>
               <a href="#" class="link-btn">开源地址</a>
             </div>
-            
+
             <div class="copyright">
               <p>© 2024 MyTab. All rights reserved.</p>
             </div>
           </div>
         </div>
       </div>
-      
+
       <div class="modal-buttons">
         <button type="button" id="reset-settings">重置设置</button>
         <button type="button" id="cancel-settings">取消</button>
@@ -427,4 +363,5 @@
 
   <script type="module" src="newtab.js"></script>
 </body>
-</html> 
+
+</html>

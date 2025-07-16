@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>图标选择器测试</title>
+  <link rel="stylesheet" href="dist/newtab/line-awesome.min.css">
+  <style>
+    body {
+      font-family: 'Microsoft YaHei', sans-serif;
+      padding: 20px;
+      background: #f5f5f5;
+    }
+    
+    .test-container {
+      max-width: 600px;
+      margin: 0 auto;
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+    
+    h1 {
+      text-align: center;
+      color: #333;
+      margin-bottom: 30px;
+    }
+    
+    .form-group {
+      margin-bottom: 20px;
+    }
+    
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 500;
+      color: #333;
+    }
+    
+    .form-group input {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      font-size: 1rem;
+    }
+    
+    .selected-icon-display {
+      margin-top: 20px;
+      padding: 15px;
+      background: #f8f9fa;
+      border-radius: 8px;
+      text-align: center;
+    }
+    
+    .selected-icon-display i {
+      font-size: 2rem;
+      color: #4285f4;
+      margin-right: 10px;
+    }
+    
+    .test-buttons {
+      margin-top: 20px;
+      text-align: center;
+    }
+    
+    .test-btn {
+      padding: 10px 20px;
+      margin: 0 10px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: all 0.2s;
+    }
+    
+    .test-btn.primary {
+      background: #4285f4;
+      color: white;
+    }
+    
+    .test-btn.primary:hover {
+      background: #3367d6;
+    }
+    
+    .test-btn.secondary {
+      background: #f0f2f5;
+      color: #333;
+    }
+    
+    .test-btn.secondary:hover {
+      background: #e0e2e5;
+    }
+  </style>
+  <!-- 引入图标选择器的CSS -->
+  <link rel="stylesheet" href="dist/newtab/newtab.css">
+</head>
+<body>
+  <div class="test-container">
+    <h1>🎨 图标选择器测试</h1>
+    
+    <div class="form-group">
+      <label for="test-name">工作区名称</label>
+      <input type="text" id="test-name" placeholder="输入工作区名称" value="测试工作区">
+    </div>
+    
+    <div class="form-group">
+      <label for="workspace-icon">选择图标</label>
+      <div class="icon-selector-wrapper">
+        <!-- 搜索框 -->
+        <div class="icon-search-container">
+          <input type="text" id="icon-search" placeholder="搜索图标..." class="icon-search-input">
+        </div>
+        
+        <!-- 图标选择器容器 -->
+        <div class="icon-selector-container">
+          <div class="icon-selector" id="icon-selector">
+            <!-- 图标将通过JavaScript动态生成 -->
+          </div>
+          <div class="icon-loading" id="icon-loading" style="display: none;">
+            <i class="las la-spinner la-spin"></i>
+            <span>加载图标中...</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="selected-icon-display" id="selected-display">
+      <div>当前选中的图标：</div>
+      <div id="selected-icon-info">
+        <i class="las la-home"></i>
+        <span>首页 (las la-home)</span>
+      </div>
+    </div>
+    
+    <div class="test-buttons">
+      <button class="test-btn secondary" onclick="clearSelection()">清除选择</button>
+      <button class="test-btn primary" onclick="getSelectedIcon()">获取选中图标</button>
+    </div>
+  </div>
+
+  <script>
+    // 从JSON文件加载图标数据
+    let iconCategories = {};
+    let allIcons = [];
+    
+    // 加载图标数据
+    async function loadIconData() {
+      try {
+        const response = await fetch('dist/icons/icon-selector-data.json');
+        if (response.ok) {
+          const iconSelectorData = await response.json();
+          iconCategories = iconSelectorData.categories;
+          allIcons = iconSelectorData.allIcons;
+          console.log(`✅ 成功加载图标数据: ${iconSelectorData.metadata.totalIcons} 个图标`);
+          return true;
+        } else {
+          console.warn('⚠️ 无法加载图标数据文件');
+          return false;
+        }
+      } catch (error) {
+        console.error('❌ 加载图标数据失败:', error);
+        return false;
+      }
+    }
+    
+    // 使用默认图标数据（作为后备方案）
+    const defaultIconCategories = {
+      popular: [
+        { name: '首页', class: 'las la-home', category: 'popular', keywords: ['home', '首页', '主页'] },
+        { name: '工作', class: 'las la-briefcase', category: 'popular', keywords: ['work', '工作', '公文包'] },
+        { name: '学习', class: 'las la-book', category: 'popular', keywords: ['book', '学习', '书本'] },
+        { name: '游戏', class: 'las la-gamepad', category: 'popular', keywords: ['game', '游戏', '娱乐'] },
+        { name: '设置', class: 'las la-cog', category: 'popular', keywords: ['settings', '设置', '齿轮'] },
+        { name: '收藏', class: 'las la-star', category: 'popular', keywords: ['star', '收藏', '星星'] },
+        { name: '文件夹', class: 'las la-folder', category: 'popular', keywords: ['folder', '文件夹', '目录'] },
+        { name: '用户', class: 'las la-user', category: 'popular', keywords: ['user', '用户', '个人'] },
+        { name: '邮件', class: 'las la-envelope', category: 'popular', keywords: ['email', '邮件', '信封'] },
+        { name: '搜索', class: 'las la-search', category: 'popular', keywords: ['search', '搜索', '查找'] },
+        { name: '心形', class: 'las la-heart', category: 'popular', keywords: ['heart', '心形', '喜欢'] },
+        { name: '标签', class: 'las la-tag', category: 'popular', keywords: ['tag', '标签', '标记'] }
+      ],
+      work: [
+        { name: '工作', class: 'las la-briefcase', category: 'work', keywords: ['briefcase', '工作', '公文包'] },
+        { name: '图表', class: 'las la-chart-bar', category: 'work', keywords: ['chart', '图表', '统计'] },
+        { name: '代码', class: 'las la-code', category: 'work', keywords: ['code', '代码', '编程'] },
+        { name: '笔记本电脑', class: 'las la-laptop-code', category: 'work', keywords: ['laptop', '笔记本', '电脑'] },
+        { name: '数据库', class: 'las la-database', category: 'work', keywords: ['database', '数据库', '存储'] },
+        { name: '服务器', class: 'las la-server', category: 'work', keywords: ['server', '服务器', '主机'] },
+        { name: '工具', class: 'las la-tools', category: 'work', keywords: ['tools', '工具', '维修'] },
+        { name: '扳手', class: 'las la-wrench', category: 'work', keywords: ['wrench', '扳手', '修理'] },
+        { name: '任务', class: 'las la-tasks', category: 'work', keywords: ['tasks', '任务', '清单'] },
+        { name: '日历', class: 'las la-calendar', category: 'work', keywords: ['calendar', '日历', '时间'] },
+        { name: '剪贴板', class: 'las la-clipboard', category: 'work', keywords: ['clipboard', '剪贴板', '记录'] },
+        { name: '文档', class: 'las la-file-alt', category: 'work', keywords: ['file', '文档', '文件'] }
+      ],
+      life: [
+        { name: '咖啡', class: 'las la-coffee', category: 'life', keywords: ['coffee', '咖啡', '饮品'] },
+        { name: '音乐', class: 'las la-music', category: 'life', keywords: ['music', '音乐', '声音'] },
+        { name: '电影', class: 'las la-film', category: 'life', keywords: ['film', '电影', '视频'] },
+        { name: '相机', class: 'las la-camera', category: 'life', keywords: ['camera', '相机', '拍照'] },
+        { name: '耳机', class: 'las la-headphones', category: 'life', keywords: ['headphones', '耳机', '音频'] },
+        { name: '麦克风', class: 'las la-microphone', category: 'life', keywords: ['microphone', '麦克风', '录音'] },
+        { name: '购物车', class: 'las la-shopping-cart', category: 'life', keywords: ['shopping', '购物', '购买'] },
+        { name: '信用卡', class: 'las la-credit-card', category: 'life', keywords: ['credit', '信用卡', '支付'] },
+        { name: '硬币', class: 'las la-coins', category: 'life', keywords: ['coins', '硬币', '金钱'] },
+        { name: '钱包', class: 'las la-wallet', category: 'life', keywords: ['wallet', '钱包', '财务'] },
+        { name: '飞机', class: 'las la-plane', category: 'life', keywords: ['plane', '飞机', '旅行'] },
+        { name: '汽车', class: 'las la-car', category: 'life', keywords: ['car', '汽车', '交通'] }
+      ],
+      social: [
+        { name: '邮件', class: 'las la-envelope', category: 'social', keywords: ['envelope', '邮件', '信封'] },
+        { name: '评论', class: 'las la-comments', category: 'social', keywords: ['comments', '评论', '对话'] },
+        { name: '电话', class: 'las la-phone', category: 'social', keywords: ['phone', '电话', '通话'] },
+        { name: '用户组', class: 'las la-users', category: 'social', keywords: ['users', '用户组', '团队'] },
+        { name: '朋友', class: 'las la-user-friends', category: 'social', keywords: ['friends', '朋友', '社交'] },
+        { name: '分享', class: 'las la-share', category: 'social', keywords: ['share', '分享', '传播'] },
+        { name: '消息', class: 'las la-comment', category: 'social', keywords: ['comment', '消息', '留言'] },
+        { name: '铃铛', class: 'las la-bell', category: 'social', keywords: ['bell', '铃铛', '通知'] },
+        { name: '拇指向上', class: 'las la-thumbs-up', category: 'social', keywords: ['thumbs-up', '点赞', '喜欢'] },
+        { name: '握手', class: 'las la-handshake', category: 'social', keywords: ['handshake', '握手', '合作'] },
+        { name: '全球', class: 'las la-globe', category: 'social', keywords: ['globe', '全球', '世界'] },
+        { name: '网络', class: 'las la-wifi', category: 'social', keywords: ['wifi', '网络', '连接'] }
+      ],
+      tech: [
+        { name: '代码', class: 'las la-code', category: 'tech', keywords: ['code', '代码', '编程'] },
+        { name: '终端', class: 'las la-terminal', category: 'tech', keywords: ['terminal', '终端', '命令行'] },
+        { name: '数据库', class: 'las la-database', category: 'tech', keywords: ['database', '数据库', '存储'] },
+        { name: '服务器', class: 'las la-server', category: 'tech', keywords: ['server', '服务器', '主机'] },
+        { name: '云', class: 'las la-cloud', category: 'tech', keywords: ['cloud', '云', '云计算'] },
+        { name: '盾牌', class: 'las la-shield-alt', category: 'tech', keywords: ['shield', '盾牌', '安全'] },
+        { name: '锁', class: 'las la-lock', category: 'tech', keywords: ['lock', '锁', '加密'] },
+        { name: 'WiFi', class: 'las la-wifi', category: 'tech', keywords: ['wifi', '无线', '网络'] },
+        { name: '移动设备', class: 'las la-mobile-alt', category: 'tech', keywords: ['mobile', '移动', '手机'] },
+        { name: '桌面', class: 'las la-desktop', category: 'tech', keywords: ['desktop', '桌面', '电脑'] },
+        { name: '硬盘', class: 'las la-hdd', category: 'tech', keywords: ['hdd', '硬盘', '存储'] },
+        { name: '内存', class: 'las la-memory', category: 'tech', keywords: ['memory', '内存', '芯片'] }
+      ]
+    };
+
+    const allIcons = [
+      ...iconCategories.popular,
+      ...iconCategories.work,
+      ...iconCategories.life,
+      ...iconCategories.social,
+      ...iconCategories.tech,
+      { name: '毕业帽', class: 'las la-graduation-cap', category: 'work', keywords: ['graduation', '毕业', '教育'] },
+      { name: '调色板', class: 'las la-palette', category: 'life', keywords: ['palette', '调色板', '艺术'] },
+      { name: '地图', class: 'las la-map-marked-alt', category: 'life', keywords: ['map', '地图', '位置'] },
+      { name: '奖杯', class: 'las la-trophy', category: 'popular', keywords: ['trophy', '奖杯', '成就'] },
+      { name: '奖章', class: 'las la-award', category: 'popular', keywords: ['award', '奖章', '荣誉'] },
+      { name: '哑铃', class: 'las la-dumbbell', category: 'life', keywords: ['dumbbell', '哑铃', '健身'] },
+      { name: '跑步', class: 'las la-running', category: 'life', keywords: ['running', '跑步', '运动'] },
+      { name: '心跳', class: 'las la-heartbeat', category: 'life', keywords: ['heartbeat', '心跳', '健康'] },
+      { name: '自行车', class: 'las la-bicycle', category: 'life', keywords: ['bicycle', '自行车', '骑行'] },
+      { name: '书签', class: 'las la-bookmark', category: 'popular', keywords: ['bookmark', '书签', '收藏'] },
+      { name: '旗帜', class: 'las la-flag', category: 'popular', keywords: ['flag', '旗帜', '标记'] },
+      { name: '滑块', class: 'las la-sliders-h', category: 'tech', keywords: ['sliders', '滑块', '调节'] }
+    ];
+
+    let currentCategory = 'popular';
+    let currentSearchTerm = '';
+
+    // 初始化
+    document.addEventListener('DOMContentLoaded', async function() {
+      await initIconSelector();
+    });
+
+    async function initIconSelector() {
+      const iconSearchInput = document.getElementById('icon-search');
+      
+      // 首先尝试加载JSON数据
+      const loaded = await loadIconData();
+      if (!loaded) {
+        // 如果加载失败，使用默认数据
+        iconCategories = defaultIconCategories;
+        allIcons = Object.values(defaultIconCategories).flat();
+        console.log('🔄 使用默认图标数据');
+      }
+      
+      // 直接显示所有图标
+      renderIconsFromList(allIcons);
+      
+      // 搜索功能
+      if (iconSearchInput) {
+        iconSearchInput.addEventListener('input', function(e) {
+          const searchTerm = e.target.value.trim().toLowerCase();
+          
+          if (searchTerm) {
+            const filteredIcons = allIcons.filter(icon => 
+              icon.name.toLowerCase().includes(searchTerm) ||
+              icon.keywords.some(keyword => keyword.toLowerCase().includes(searchTerm))
+            );
+            renderIconsFromList(filteredIcons);
+          } else {
+            renderIconsFromList(allIcons);
+          }
+        });
+      }
+    }
+
+    function renderIcons(category) {
+      if (category === 'all') {
+        renderIconsFromList(allIcons);
+      } else if (iconCategories[category]) {
+        renderIconsFromList(iconCategories[category]);
+      }
+    }
+
+    function renderIconsFromList(icons) {
+      const iconSelector = document.getElementById('icon-selector');
+      const iconLoading = document.getElementById('icon-loading');
+      
+      if (!iconSelector) return;
+      
+      if (iconLoading) {
+        iconLoading.style.display = 'flex';
+      }
+      iconSelector.innerHTML = '';
+      
+      setTimeout(function() {
+        if (icons.length === 0) {
+          iconSelector.innerHTML = `
+            <div class="no-icons-found">
+              <i class="las la-search"></i>
+              <p>未找到匹配的图标</p>
+            </div>
+          `;
+        } else {
+          icons.forEach(function(icon, index) {
+            const iconOption = document.createElement('span');
+            iconOption.className = 'icon-option';
+            iconOption.dataset.icon = icon.class;
+            iconOption.title = icon.name;
+            iconOption.style.animationDelay = (index * 0.02) + 's';
+            
+            const iconElement = document.createElement('i');
+            iconElement.className = icon.class;
+            iconOption.appendChild(iconElement);
+            
+            iconOption.addEventListener('click', function() {
+              document.querySelectorAll('.icon-option.selected').forEach(opt => {
+                opt.classList.remove('selected');
+              });
+              
+              iconOption.classList.add('selected');
+              updateSelectedDisplay(icon);
+            });
+            
+            iconSelector.appendChild(iconOption);
+          });
+        }
+        
+        if (iconLoading) {
+          iconLoading.style.display = 'none';
+        }
+      }, 100);
+    }
+
+    function updateSelectedDisplay(icon) {
+      const selectedIconInfo = document.getElementById('selected-icon-info');
+      if (selectedIconInfo) {
+        selectedIconInfo.innerHTML = `
+          <i class="${icon.class}"></i>
+          <span>${icon.name} (${icon.class})</span>
+        `;
+      }
+    }
+
+    function clearSelection() {
+      document.querySelectorAll('.icon-option.selected').forEach(opt => {
+        opt.classList.remove('selected');
+      });
+      
+      const selectedIconInfo = document.getElementById('selected-icon-info');
+      if (selectedIconInfo) {
+        selectedIconInfo.innerHTML = '<span>未选择图标</span>';
+      }
+    }
+
+    function getSelectedIcon() {
+      const selected = document.querySelector('.icon-option.selected');
+      if (selected) {
+        const iconClass = selected.dataset.icon;
+        const iconName = selected.title;
+        alert(`选中的图标：${iconName}\n类名：${iconClass}`);
+      } else {
+        alert('请先选择一个图标');
+      }
+    }
+  </script>
+</body>
+</html>
