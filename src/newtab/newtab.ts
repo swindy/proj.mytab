@@ -296,15 +296,9 @@ function updateWorkspaceList(): void {
     const icon = document.createElement('div');
     icon.className = 'workspace-icon';
 
-    // 如果是 Line Awesome 图标类名，创建 i 元素
-    if (workspace.icon && workspace.icon.startsWith('las ')) {
-      const iconElement = document.createElement('i');
-      iconElement.className = workspace.icon;
-      icon.appendChild(iconElement);
-    } else {
-      // 兼容旧的 emoji 图标
-      icon.textContent = workspace.icon || '📁';
-    }
+    const iconElement = document.createElement('i');
+    iconElement.className = workspace.icon || 'las la-home';
+    icon.appendChild(iconElement);
 
     const name = document.createElement('span');
     name.textContent = workspace.name;
