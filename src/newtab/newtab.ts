@@ -775,13 +775,10 @@ async function createBookmarkElementWithLogo(bookmark: Bookmark): Promise<HTMLEl
   // 先显示文字版本
   function showTextIcon(): void {
     iconContainer.innerHTML = '';
-    iconContainer.style.background = '#6c757d';
-    iconContainer.style.color = 'white';
+    iconContainer.className = 'bookmark-icon letter-icon';
     iconContainer.style.display = 'flex';
     iconContainer.style.alignItems = 'center';
     iconContainer.style.justifyContent = 'center';
-    iconContainer.style.fontSize = '1.2rem';
-    iconContainer.style.fontWeight = 'bold';
     iconContainer.textContent = bookmark.title.charAt(0).toUpperCase();
   }
 
@@ -790,11 +787,6 @@ async function createBookmarkElementWithLogo(bookmark: Bookmark): Promise<HTMLEl
     const iconImg = document.createElement('img');
     iconImg.src = iconUrl;
     iconImg.alt = bookmark.title;
-    iconImg.style.width = '100%';
-    iconImg.style.height = '100%';
-    iconImg.style.objectFit = 'contain';
-    iconImg.style.backgroundColor = '#f8f9fa';
-    iconImg.style.borderRadius = '4px';
     iconImg.onerror = (): void => {
       // 图标加载失败时，回退到文字
       showTextIcon();
@@ -802,10 +794,7 @@ async function createBookmarkElementWithLogo(bookmark: Bookmark): Promise<HTMLEl
 
     // 清除文字样式，显示图片
     iconContainer.innerHTML = '';
-    iconContainer.style.background = '';
-    iconContainer.style.color = '';
-    iconContainer.style.fontSize = '';
-    iconContainer.style.fontWeight = '';
+    iconContainer.className = 'bookmark-icon';
     iconContainer.appendChild(iconImg);
   }
 
@@ -881,33 +870,23 @@ function createBookmarkElement(bookmark: Bookmark): HTMLElement {
     const iconImg = document.createElement('img');
     iconImg.src = bookmark.icon;
     iconImg.alt = bookmark.title;
-    iconImg.style.width = '100%';
-    iconImg.style.height = '100%';
-    iconImg.style.objectFit = 'contain';
-    iconImg.style.backgroundColor = '#f8f9fa';
-    iconImg.style.borderRadius = '4px';
     iconImg.onerror = (): void => {
       // 图标加载失败时，使用文字
       iconContainer.innerHTML = '';
-      iconContainer.style.background = '#6c757d';
-      iconContainer.style.color = 'white';
+      iconContainer.className = 'bookmark-icon letter-icon';
       iconContainer.style.display = 'flex';
       iconContainer.style.alignItems = 'center';
       iconContainer.style.justifyContent = 'center';
-      iconContainer.style.fontSize = '1.2rem';
-      iconContainer.style.fontWeight = 'bold';
       iconContainer.textContent = bookmark.title.charAt(0).toUpperCase();
     };
+    iconContainer.className = 'bookmark-icon';
     iconContainer.appendChild(iconImg);
   } else {
     // 使用文字
-    iconContainer.style.background = '#6c757d';
-    iconContainer.style.color = 'white';
+    iconContainer.className = 'bookmark-icon letter-icon';
     iconContainer.style.display = 'flex';
     iconContainer.style.alignItems = 'center';
     iconContainer.style.justifyContent = 'center';
-    iconContainer.style.fontSize = '1.2rem';
-    iconContainer.style.fontWeight = 'bold';
     iconContainer.textContent = bookmark.title.charAt(0).toUpperCase();
   }
 

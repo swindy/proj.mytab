@@ -232,26 +232,32 @@ header h1 {
   margin-bottom: 2rem;
 }
 
-/* 添加书签按钮样式 - iOS风格，与书签图标一致 */
+/* 添加书签按钮样式 - iOS风格优化版 */
 .add-bookmark-item {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 1rem;
-  border-radius: 16px;
-  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  padding: 1.2rem;
+  border-radius: 22px;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   text-decoration: none;
   color: white;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
   position: relative;
   overflow: hidden;
   cursor: pointer;
   opacity: 0;
-  transform: translateY(20px) scale(0.9);
-  animation: bookmarkFadeIn 0.6s ease-out forwards;
+  transform: translateY(30px) scale(0.85);
+  animation: bookmarkFadeIn 0.8s ease-out forwards;
   width: 140px;
   box-sizing: border-box;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.12),
+    0 4px 16px rgba(0, 0, 0, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
 }
 
 .add-bookmark-item::before {
@@ -261,9 +267,12 @@ header h1 {
   left: 0;
   right: 0;
   bottom: 0;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.02));
+  background: linear-gradient(135deg, 
+    rgba(255, 255, 255, 0.15), 
+    rgba(255, 255, 255, 0.05));
   opacity: 0;
-  transition: opacity 0.3s ease;
+  transition: opacity 0.4s ease;
+  border-radius: 22px;
 }
 
 .add-bookmark-item:hover::before {
@@ -271,13 +280,18 @@ header h1 {
 }
 
 .add-bookmark-item:hover {
-  background: rgba(255, 255, 255, 0.1);
-  transform: translateY(-8px) scale(1.05);
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+  background: rgba(255, 255, 255, 0.12);
+  transform: translateY(-12px) scale(1.08);
+  box-shadow: 
+    0 20px 60px rgba(0, 0, 0, 0.25),
+    0 10px 30px rgba(0, 0, 0, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  border-color: rgba(255, 255, 255, 0.25);
 }
 
 .add-bookmark-item:active {
-  transform: translateY(-6px) scale(1.02);
+  transform: translateY(-8px) scale(1.04);
+  transition: all 0.15s ease;
 }
 
 .add-bookmark-item:hover .add-bookmark-icon {
@@ -288,26 +302,33 @@ header h1 {
     inset 0 1px 0 rgba(255, 255, 255, 0.3);
 }
 
-/* 添加按钮图标容器 */
+/* 添加按钮图标容器 - iOS风格优化 */
 .add-bookmark-icon {
-  width: 64px;
-  height: 64px;
-  margin-bottom: 0.8rem;
-  border-radius: 16px;
+  width: 68px;
+  height: 68px;
+  margin-bottom: 1rem;
+  border-radius: 18px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
+  background: linear-gradient(135deg, 
+    #ff6b6b 0%, 
+    #ff8e8e 25%,
+    #ffa8a8 50%,
+    #ffb3d9 75%,
+    #ffc0cb 100%);
   box-shadow: 
+    0 8px 25px rgba(255, 107, 107, 0.4),
     0 4px 12px rgba(0, 0, 0, 0.15),
-    0 2px 4px rgba(0, 0, 0, 0.1),
-    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    inset 0 2px 0 rgba(255, 255, 255, 0.3),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.1);
   position: relative;
   overflow: hidden;
-  transition: all 0.3s ease;
-  font-size: 2rem;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  font-size: 2.2rem;
   color: white;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
+  font-weight: 300;
 }
 
 .add-bookmark-icon::before {
@@ -316,53 +337,74 @@ header h1 {
   top: 0;
   left: 0;
   right: 0;
-  height: 50%;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0.1) 100%);
-  border-radius: 16px 16px 0 0;
+  height: 60%;
+  background: linear-gradient(180deg, 
+    rgba(255, 255, 255, 0.4) 0%, 
+    rgba(255, 255, 255, 0.15) 70%,
+    rgba(255, 255, 255, 0) 100%);
+  border-radius: 18px 18px 0 0;
+  z-index: 1;
+}
+
+.add-bookmark-item:hover .add-bookmark-icon {
+  transform: scale(1.15) rotateZ(5deg);
+  box-shadow: 
+    0 12px 35px rgba(255, 107, 107, 0.5),
+    0 6px 16px rgba(0, 0, 0, 0.2),
+    inset 0 2px 0 rgba(255, 255, 255, 0.4),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.15);
 }
 
 .add-bookmark-title {
-  font-size: 0.85rem;
+  font-size: 0.9rem;
   text-align: center;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   width: 100%;
-  max-width: 108px;
-  font-weight: 500;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  max-width: 120px;
+  font-weight: 600;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
   position: relative;
   z-index: 1;
-  line-height: 1.2;
+  line-height: 1.3;
+  letter-spacing: 0.5px;
 }
 
 .bookmarks-container {
   display: grid;
   grid-template-columns: repeat(auto-fill, 140px);
-  gap: 1.5rem;
-  padding: 1rem 0;
+  gap: 1.8rem;
+  padding: 1.5rem 0;
   justify-content: center;
   justify-items: center;
+  perspective: 1000px;
 }
 
 .bookmark-item {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 1rem;
-  border-radius: 16px;
-  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  padding: 1.2rem;
+  border-radius: 22px;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   text-decoration: none;
   color: white;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
   position: relative;
   overflow: hidden;
   opacity: 0;
-  transform: translateY(20px) scale(0.9);
-  animation: bookmarkFadeIn 0.6s ease-out forwards;
+  transform: translateY(30px) scale(0.85);
+  animation: bookmarkFadeIn 0.8s ease-out forwards;
   width: 140px;
   box-sizing: border-box;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.12),
+    0 4px 16px rgba(0, 0, 0, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
 }
 
 /* 为每个书签添加延迟动画 */
@@ -380,14 +422,17 @@ header h1 {
 @keyframes bookmarkFadeIn {
   0% {
     opacity: 0;
-    transform: translateY(20px) scale(0.9);
+    transform: translateY(30px) scale(0.85) rotateY(15deg);
   }
   60% {
-    transform: translateY(-5px) scale(1.02);
+    transform: translateY(-8px) scale(1.03) rotateY(-2deg);
+  }
+  80% {
+    transform: translateY(2px) scale(0.98) rotateY(1deg);
   }
   100% {
     opacity: 1;
-    transform: translateY(0) scale(1);
+    transform: translateY(0) scale(1) rotateY(0deg);
   }
 }
 
@@ -398,9 +443,12 @@ header h1 {
   left: 0;
   right: 0;
   bottom: 0;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.02));
+  background: linear-gradient(135deg, 
+    rgba(255, 255, 255, 0.15), 
+    rgba(255, 255, 255, 0.05));
   opacity: 0;
-  transition: opacity 0.3s ease;
+  transition: opacity 0.4s ease;
+  border-radius: 22px;
 }
 
 .bookmark-item:hover::before {
@@ -408,32 +456,43 @@ header h1 {
 }
 
 .bookmark-item:hover {
-  background: rgba(255, 255, 255, 0.1);
-  transform: translateY(-8px) scale(1.05);
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+  background: rgba(255, 255, 255, 0.12);
+  transform: translateY(-12px) scale(1.08);
+  box-shadow: 
+    0 20px 60px rgba(0, 0, 0, 0.25),
+    0 10px 30px rgba(0, 0, 0, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  border-color: rgba(255, 255, 255, 0.25);
 }
 
 .bookmark-item:active {
-  transform: translateY(-6px) scale(1.02);
+  transform: translateY(-8px) scale(1.04);
+  transition: all 0.15s ease;
 }
 
-/* iOS风格图标容器 */
+/* iOS风格图标容器 - 深度优化 */
 .bookmark-icon {
-  width: 64px;
-  height: 64px;
-  margin-bottom: 0.8rem;
-  border-radius: 16px;
+  width: 68px;
+  height: 68px;
+  margin-bottom: 1rem;
+  border-radius: 18px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, 
+    #667eea 0%, 
+    #5a6fd8 25%,
+    #4f60c6 50%,
+    #764ba2 75%,
+    #8e5db6 100%);
   box-shadow: 
+    0 8px 25px rgba(102, 126, 234, 0.4),
     0 4px 12px rgba(0, 0, 0, 0.15),
-    0 2px 4px rgba(0, 0, 0, 0.1),
-    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    inset 0 2px 0 rgba(255, 255, 255, 0.3),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.1);
   position: relative;
   overflow: hidden;
-  transition: all 0.3s ease;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 .bookmark-icon::before {
@@ -442,55 +501,73 @@ header h1 {
   top: 0;
   left: 0;
   right: 0;
-  height: 50%;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0.1) 100%);
-  border-radius: 16px 16px 0 0;
+  height: 60%;
+  background: linear-gradient(180deg, 
+    rgba(255, 255, 255, 0.4) 0%, 
+    rgba(255, 255, 255, 0.15) 70%,
+    rgba(255, 255, 255, 0) 100%);
+  border-radius: 18px 18px 0 0;
+  z-index: 1;
 }
 
 .bookmark-item:hover .bookmark-icon {
-  transform: scale(1.1);
+  transform: scale(1.15) rotateZ(-3deg);
   box-shadow: 
-    0 8px 20px rgba(0, 0, 0, 0.25),
-    0 4px 8px rgba(0, 0, 0, 0.15),
-    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    0 12px 35px rgba(102, 126, 234, 0.5),
+    0 6px 16px rgba(0, 0, 0, 0.2),
+    inset 0 2px 0 rgba(255, 255, 255, 0.4),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.15);
 }
 
 .bookmark-icon img {
-  width: 40px;
-  height: 40px;
-  border-radius: 8px;
+  width: 42px;
+  height: 42px;
+  border-radius: 10px;
   position: relative;
-  z-index: 1;
-  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.2));
+  z-index: 2;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.25));
+  transition: all 0.3s ease;
 }
 
-/* 首字母图标样式 */
+/* 首字母图标样式 - iOS风格优化 */
 .bookmark-icon.letter-icon {
-  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+  background: linear-gradient(135deg, 
+    #4facfe 0%, 
+    #00d4ff 25%,
+    #00b8e6 50%,
+    #009bd3 75%,
+    #00f2fe 100%);
   color: white;
-  font-size: 1.8rem;
+  font-size: 2rem;
   font-weight: 700;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
   letter-spacing: -0.5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .bookmark-icon.letter-icon::before {
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0.1) 100%);
+  background: linear-gradient(180deg, 
+    rgba(255, 255, 255, 0.45) 0%, 
+    rgba(255, 255, 255, 0.2) 70%,
+    rgba(255, 255, 255, 0) 100%);
 }
 
 .bookmark-title {
-  font-size: 0.85rem;
+  font-size: 0.9rem;
   text-align: center;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   width: 100%;
-  max-width: 108px;
-  font-weight: 500;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  max-width: 120px;
+  font-weight: 600;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
   position: relative;
   z-index: 1;
-  line-height: 1.2;
+  line-height: 1.3;
+  letter-spacing: 0.5px;
 }
 
 .search-container {
