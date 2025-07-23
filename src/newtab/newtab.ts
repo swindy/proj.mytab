@@ -2212,15 +2212,98 @@ async function syncWithGist(token: string, gistId: string, localData: SyncData):
 
 // 合并数据
 function mergeData(localData: SyncData, remoteData: SyncData): SyncData {
-  // 简单的合并策略：使用最新的时间戳
+  // 判断哪个数据更新（用于非数组字段的选择）
   const localTime = new Date(localData.lastSync || '1970-01-01').getTime();
   const remoteTime = new Date(remoteData.lastSync || '1970-01-01').getTime();
+  const useLocalForNonArrays = localTime > remoteTime;
 
-  if (localTime > remoteTime) {
-    return { ...localData, lastSync: new Date().toISOString() };
-  } else {
-    return { ...remoteData, lastSync: new Date().toISOString() };
-  }
+  // 1. 合并书签数组并去重（基于URL）
+  const allBookmarks = [...localData.bookmarks, ...remoteData.bookmarks];
+  const bookmarkUrlSet = new Set<string>();
+  const mergedBookmarks: Bookmark[] = [];
+  
+  allBookmarks.forEach((bookmark: Bookmark) => {
+    if (!bookmarkUrlSet.has(bookmark.url)) {
+      bookmarkUrlSet.add(bookmark.url);
+      mergedBookmarks.push(bookmark);
+    }
+  });
+
+  // 2. 合并工作区并去重
+  const mergedWorkspaces: Workspaces = {};
+  
+  // 先添加本地工作区
+  Object.keys(localData.workspaces).forEach((workspaceId: string) => {
+    const localWorkspace = localData.workspaces[workspaceId];
+    if (localWorkspace) {
+      const workspaceToAdd: Workspace = { 
+        id: localWorkspace.id,
+        name: localWorkspace.name,
+        bookmarks: [...localWorkspace.bookmarks]
+      };
+      if (localWorkspace.icon) {
+        workspaceToAdd.icon = localWorkspace.icon;
+      }
+      mergedWorkspaces[workspaceId] = workspaceToAdd;
+    }
+  });
+  
+  // 然后合并远程工作区
+  Object.keys(remoteData.workspaces).forEach((workspaceId: string) => {
+    const remoteWorkspace = remoteData.workspaces[workspaceId];
+    
+    if (!remoteWorkspace) {
+      return; // 跳过undefined的工作区
+    }
+    
+    if (mergedWorkspaces[workspaceId]) {
+      // 工作区已存在，合并书签并去重
+      const existingBookmarks = mergedWorkspaces[workspaceId].bookmarks;
+      const remoteBookmarks = remoteWorkspace.bookmarks;
+      
+      const allWorkspaceBookmarks = [...existingBookmarks, ...remoteBookmarks];
+      const workspaceBookmarkUrlSet = new Set<string>();
+      const mergedWorkspaceBookmarks: Bookmark[] = [];
+      
+      allWorkspaceBookmarks.forEach((bookmark: Bookmark) => {
+        if (!workspaceBookmarkUrlSet.has(bookmark.url)) {
+          workspaceBookmarkUrlSet.add(bookmark.url);
+          mergedWorkspaceBookmarks.push(bookmark);
+        }
+      });
+      
+      // 更新工作区书签，保留最新的名称和图标
+      mergedWorkspaces[workspaceId].bookmarks = mergedWorkspaceBookmarks;
+      if (remoteTime > localTime) {
+        mergedWorkspaces[workspaceId].name = remoteWorkspace.name;
+        if (remoteWorkspace.icon) {
+          mergedWorkspaces[workspaceId].icon = remoteWorkspace.icon;
+        }
+      }
+          } else {
+        // 工作区不存在，直接添加
+        const newWorkspace: Workspace = {
+          id: remoteWorkspace.id,
+          name: remoteWorkspace.name,
+          bookmarks: [...remoteWorkspace.bookmarks]
+        };
+        if (remoteWorkspace.icon) {
+          newWorkspace.icon = remoteWorkspace.icon;
+        }
+        mergedWorkspaces[workspaceId] = newWorkspace;
+      }
+  });
+
+  // 3. 其他字段使用最新数据
+  const mergedData: SyncData = {
+    bookmarks: mergedBookmarks,
+    searchEngine: useLocalForNonArrays ? localData.searchEngine : remoteData.searchEngine,
+    workspaces: mergedWorkspaces,
+    currentWorkspace: useLocalForNonArrays ? localData.currentWorkspace : remoteData.currentWorkspace,
+    lastSync: new Date().toISOString()
+  };
+
+  return mergedData;
 }
 
 // 更新同步状态
