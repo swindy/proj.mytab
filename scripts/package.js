@@ -46,31 +46,13 @@ async function buildAndPackage() {
   try {
     console.log('🚀 开始完整构建流程...\n');
 
-    // 1. 提取Line Awesome图标
-    console.log('1️⃣ 提取Line Awesome图标...');
-    const { extractLineAwesomeIcons } = require('./extract-line-awesome-icons');
-    await extractLineAwesomeIcons();
-    console.log('');
-
-    // 2. 生成图标选择器数据
-    console.log('2️⃣ 生成图标选择器数据...');
-    const { generateIconSelectorData } = require('./generate-icon-selector-data');
-    await generateIconSelectorData();
-    console.log('');
-
-    // 3. 更新TypeScript文件
-    console.log('3️⃣ 更新TypeScript文件...');
-    const { updateIconSelectorData } = require('./update-icon-selector');
-    await updateIconSelectorData();
-    console.log('');
-
-    // 4. 构建项目
+    // 1. 构建项目
     console.log('4️⃣ 构建项目...');
     const { execSync } = require('child_process');
     execSync('npm run build', { stdio: 'inherit' });
     console.log('');
 
-    // 5. 打包扩展
+    // 2. 打包扩展
     console.log('5️⃣ 打包扩展...');
     const packagePath = await packageExtension();
     console.log('');
